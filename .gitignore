@@ -1,4 +1,14 @@
-/bootstrap/compiled.php
-.env.*.php
-.env.php
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
 .env
+/bootstrap/compiled.php
+/build/logs
+/build/coverage
+/app/tests/_log
+composer.phar
+/.idea
+/_ide_helper.php
+/app/config/packages
+/public/packages
