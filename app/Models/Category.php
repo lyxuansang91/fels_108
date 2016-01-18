@@ -19,11 +19,4 @@ class Category extends Model
      * @var array
      */
     protected $fillable = ['name', 'content', 'count_words'];
-
-    public static function getAllCategory()
-    {
-    	$categories = Category::all();
-
-    	return $categories; 
-    }
 }

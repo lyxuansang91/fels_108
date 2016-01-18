@@ -19,11 +19,4 @@ class Word extends Model
      * @var array
      */
     protected $fillable = ['category_id', 'word'];
-
-    public static function getAllWord()
-    {
-    	$words = Word::all();
-
-    	return $words; 
-    }
 }

@@ -41,7 +41,7 @@
             		<div class="form-group">
               			<label for="inputEmail3" class="col-sm-2 control-label">Role</label>
               			<div class="col-sm-10">
-                			{!! Form::select('role', [ROLE_USER=>'Member', ROLE_ADMIN=>'Admin'], ROLE_USER, ['class'=>'form-control']) !!}
+                			{!! Form::select('role', get_roles_array(), \App\Models\User::ROLE_USER, ['class'=>'form-control']) !!}
               			</div>
             		</div>
           		</div><!-- /.box-body -->

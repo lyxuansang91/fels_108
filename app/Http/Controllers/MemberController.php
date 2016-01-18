@@ -7,11 +7,28 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Word;
-use App\Models\Category;
+use App\Repositories\UserRepositoryInterface as UserRepository;
+use App\Repositories\WordRepositoryInterface as WordRepository;
+use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class MemberController extends Controller
 {
+    protected $userRepo;
+
+    protected $wordRepo;
+
+    protected $categoryRepo;
+
+    public function __construct(
+        UserRepository $userRepo,
+        WordRepository $wordRepo,
+        CategoryRepository $categoryRepo
+    ) {
+        $this->userRepo = $userRepo;
+        $this->wordRepo = $wordRepo;
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +67,7 @@ class MemberController extends Controller
 
             return \Redirect::route('member.create')->with(['errors'=>$errors]);
         }
-        User::createAnUser($request);
+        $this->userRepo->create($request->all());
 
         return redirect()->route('index')->withMessages('User already created');
     }
@@ -84,7 +101,7 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\Request $request, $id)
     {
         //
     }

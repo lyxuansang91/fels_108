@@ -10,6 +10,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+
+
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
@@ -43,20 +45,6 @@ class User extends Model implements AuthenticatableContract,
                                 'password_confirm'  => 'required|same:password',
                                 'role'              => 'required',
                                 ];
-
-    public static function getAllUser()
-    {
-        $users = User::all();
-
-        return $users;
-    }
-
-    public static function createAnUser($input)
-    {
-        $user = new User;
-        $user->email = $input->email;
-        $user->password = $input->password;
-        $user->role = $input->role;
-        $user->save();
-    }
+    const ROLE_USER = 2;
+    const ROLE_ADMIN = 1;
 }
