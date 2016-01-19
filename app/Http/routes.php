@@ -11,13 +11,18 @@
 |
 */
 
-Route::group(['prefix' => 'admin'], function () {
-	
-    Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
+Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
-    Route::get('/members/create', ['as'=>'member.create', 'uses'=>'MemberController@create']);
+    Route::get('/login', ['as'=>'admin.login.index', 'uses'=>'SessionController@index']);
 
-    Route::post('/members/create', ['as'=>'member.store', 'uses'=>'MemberController@store']);
+    Route::post('/login', ['as'=>'admin.login.store', 'uses'=>'SessionController@store']);
 
-    Route::get('/members/list', ['as'=>'member.index', 'uses'=>'MemberController@index']);
+    Route::get('/logout', ['as'=>'admin.logout.index', 'uses'=>'SessionController@destroy']);
+
+    Route::group(['middleware' => 'auth.admin'], function () {
+    
+        Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
+
+        Route::resource('/members', 'MemberController');
+    });
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
@@ -36,7 +36,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $users = User::getAllUser();
+        $users = $this->userRepo->all();
 
         return view('admin.listMember')->with(['users'=>$users]);
     }
