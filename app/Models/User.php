@@ -39,12 +39,16 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public static $ruleAddUser = [
-                                'email'             => 'required|email|unique:users,email',
-                                'password'          => 'required|min:8',
-                                'password_confirm'  => 'required|same:password',
-                                'role'              => 'required',
-                                ];
     const ROLE_USER = 2;
     const ROLE_ADMIN = 1;
+
+
+    /**
+     * Mutator for auto hash password
+     * @param String $data
+     */
+    public function setPasswordAttribute($data)
+    {
+        $this->attributes['password'] = \Hash::make($data);
+    }
 }
