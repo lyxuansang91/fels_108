@@ -8,25 +8,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface as UserRepository;
-use App\Repositories\WordRepositoryInterface as WordRepository;
-use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class MemberController extends Controller
 {
     protected $userRepo;
 
-    protected $wordRepo;
-
-    protected $categoryRepo;
-
-    public function __construct(
-        UserRepository $userRepo,
-        WordRepository $wordRepo,
-        CategoryRepository $categoryRepo
-    ) {
+    public function __construct( UserRepository $userRepo )
+    {
         $this->userRepo = $userRepo;
-        $this->wordRepo = $wordRepo;
-        $this->categoryRepo = $categoryRepo;
     }
 
     /**
@@ -36,9 +25,9 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepo->all();
+        $users = $this->userRepo->getListMember();
 
-        return view('admin.listMember')->with(['users'=>$users]);
+        return view('admin.member.listMember')->with(['users'=>$users]);
     }
 
     /**
@@ -49,7 +38,7 @@ class MemberController extends Controller
     public function create()
     {
         
-        return view('admin.addMember');
+        return view('admin.member.addMember');
     }
 
     /**
@@ -60,16 +49,16 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $rule = User::$ruleAddUser;
+        $rule = $this->userRepo->ruleAddUser;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return \Redirect::route('member.create')->with(['errors'=>$errors]);
+            return redirect()->route('admin.members.create')->with(['errors'=>$errors]);
         }
         $this->userRepo->create($request->all());
 
-        return redirect()->route('index')->withMessages('User already created');
+        return redirect()->route('admin.members.index')->withMessages('User already created');
     }
 
     /**
@@ -91,7 +80,9 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->userRepo->findOrFail($id);
+
+        return view('admin.member.editMember')->with(['user'=>$user]);
     }
 
     /**
@@ -101,9 +92,19 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(\Request $request, $id)
+    public function update(Request $request, $id)
     {
-        //
+        $rule = $this->userRepo->ruleUpdate;
+        $rule['email'] .= ',' . $id;
+        $validation = \Validator::make($request->all(), $rule);
+        if($validation->fails()) {
+            $errors = $validation->messages();
+
+            return \Redirect::route('admin.members.edit', $id)->with(['errors'=>$errors]);
+        }
+        $this->userRepo->updateProfile($id, $request->all());
+
+        return redirect()->route('admin.members.index');
     }
 
     /**
@@ -114,6 +115,8 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->userRepo->delete($id);
+
+        return redirect()->route('admin.members.index');
     }
 }
