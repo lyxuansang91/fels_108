@@ -17,8 +17,8 @@ class CategoryRepository extends Repository implements CategoryRepositoryInterfa
 	{
 		$categories = $this->model->all();
 		$cateArray = array();
-		foreach ($categories as $key => $value) {
-			$cateArray[$key] = $value->name;
+		foreach ($categories as $category) {
+			$cateArray[$category->id] = $category->name;
 		}
 
 		return $cateArray;

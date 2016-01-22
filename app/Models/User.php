@@ -41,6 +41,7 @@ class User extends Model implements AuthenticatableContract,
 
     const ROLE_USER = 2;
     const ROLE_ADMIN = 1;
+    const PER_PAGE = 10;
 
 
     /**

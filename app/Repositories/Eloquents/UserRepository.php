@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquents;
  
 use App\Repositories\UserRepositoryInterface;
 use Exception;
+use \App\Models\User;
 
 class UserRepository extends Repository implements UserRepositoryInterface
 {
@@ -58,7 +59,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     public function getListMember()
     {
-        $users = $this->model->where('role', '=', \App\Models\User::ROLE_USER)->orderBy('created_at', 'desc')->get();
+        $users = $this->model->where('role', '=', User::ROLE_USER)->orderBy('created_at', 'desc')->paginate(User::PER_PAGE);
 
         return $users;
     }

@@ -19,4 +19,9 @@ class Word extends Model
      * @var array
      */
     protected $fillable = ['category_id', 'word'];
+
+    public function trans_word()
+    {
+        return $this->hasOne('App\Models\TransWord');
+    }
 }

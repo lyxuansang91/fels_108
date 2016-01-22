@@ -33,6 +33,7 @@
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
+                                {!! $users->render() !!}
                             </tbody>
                             @else
                                 List Member is empty
