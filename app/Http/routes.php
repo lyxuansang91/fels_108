@@ -24,5 +24,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::get('/', ['as'=>'index', 'uses'=>'HomeController@index']);
 
         Route::resource('/members', 'MemberController');
+        
+        Route::resource('/words', 'WordController');
+
+        Route::resource('/categories', 'CategoryController');
     });
 });
