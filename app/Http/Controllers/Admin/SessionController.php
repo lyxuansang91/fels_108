@@ -53,7 +53,7 @@ class SessionController extends Controller
         $auth = \Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if($auth) {
             
-            return redirect()->route('index');
+            return redirect()->route('admin.index');
         } else {
             
             return redirect()->route('admin.login.index')->withMessages('Email or Password is incorrect'); 

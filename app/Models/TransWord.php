@@ -4,26 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Word extends Model
+class TransWord extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'words';
+    protected $table = 'trans_words';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['category_id', 'word'];
+    protected $fillable = ['word_id', 'trans_word'];
 
-    const WORD_PER_PAGE = 10;
-
-    public function trans_word()
+    public function word()
     {
-        return $this->hasOne('App\Models\TransWord');
+        return $this->hasOne('words');
     }
 }

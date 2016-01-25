@@ -18,6 +18,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     ];
 
     public $ruleAddUser = [
+        'name' => 'required',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8',
         'password_confirm' => 'required|same:password',
