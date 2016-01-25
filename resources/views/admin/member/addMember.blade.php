@@ -26,7 +26,7 @@
                             {!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Input Email']) !!}
                         </div>
                     </div>
-                <div class="form-group">
+                    <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
                             {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Input name']) !!}
