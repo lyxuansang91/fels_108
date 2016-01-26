@@ -18,7 +18,6 @@ class UserRepository extends Repository implements UserRepositoryInterface
     ];
 
     public $ruleAddUser = [
-        'name' => 'required',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8',
         'password_confirm' => 'required|same:password',
@@ -29,6 +28,13 @@ class UserRepository extends Repository implements UserRepositoryInterface
         'email' => 'required|email|unique:users,email',
         'name' => 'required',
         'role' => 'required'
+    ];
+
+    public $ruleCreate = [
+        'name' => 'required',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8',
+        'password_confirm' => 'required|same:password',
     ];
 
     public function updateProfile($id, $data)
@@ -72,5 +78,12 @@ class UserRepository extends Repository implements UserRepositoryInterface
         }
 
         return $this->model->create($data);
+    }
+
+    public function registerUser($data)
+    {
+        $data['role'] = User::ROLE_USER;
+
+        $this->model->create($data);
     }
 }
