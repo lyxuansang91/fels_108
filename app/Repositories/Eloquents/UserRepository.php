@@ -44,7 +44,6 @@ class UserRepository extends Repository implements UserRepositoryInterface
             $file = $data['avatar'];
             $name = $file->getClientOriginalName();
             $file->move(public_path().'/images/avatar', $name);
-            // dd($name);    
             $user->avatar = '/images/avatar/' . $name;
         }
         $user->name = $data['name'];

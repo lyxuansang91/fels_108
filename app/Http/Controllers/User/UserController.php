@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepositoryInterface as UserRepository;
@@ -25,8 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        return view('user.register');
+        //
     }
 
     /**
@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.register');
     }
 
     /**
@@ -53,7 +53,7 @@ class UserController extends Controller
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return redirect()->route('user.register.index')->with(['errors'=>$errors]);
+            return redirect()->route('user.profile.create')->with(['errors' => $errors]);
         }
         $this->userRepo->registerUser($request->all());
 
@@ -68,7 +68,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = $this->userRepo->findOrFail($id);
+        // dd(count($user->follow));
+        
+        return view('user.profile.showProfile')->with(['user' => $user]);
     }
 
     /**
@@ -79,7 +82,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(\Auth::id() != $id) {
+            return redirect()->route('user.index');
+        }
+
+        $user = $this->userRepo->findOrFail($id);
+
+        return view('user.profile.editProfile')->with(['user' => $user]);
     }
 
     /**
@@ -91,7 +100,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rule = $this->userRepo->ruleUpdate;
+        $rule['email'] .= ',' . $id;
+        unset($rule['role']);
+        $validation = \Validator::make($request->all(), $rule);
+        if($validation->fails()) {
+            $errors = $validation->messages();
+
+            return \Redirect::route('user.profile.edit', $id)->with(['errors' => $errors]);
+        }
+        $data = $request->all();
+        $data['role'] = User::ROLE_USER;
+        $this->userRepo->updateProfile($id, $data);
+
+        return redirect()->route('user.profile.show', $id);
     }
 
     /**
