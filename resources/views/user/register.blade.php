@@ -24,7 +24,7 @@
     <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="../../index2.html"><b>E</b>Learning</a>
+            <a href="{!! route('user.index') !!}"><b>E</b>Learning</a>
         </div>
 
         <div class="register-box-body">
