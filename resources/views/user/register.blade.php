@@ -38,7 +38,7 @@
                     @endforeach
                 </div>
             @endif
-            {!! Form::open(['route'=>'user.profile.store']) !!}
+            {!! Form::open(['route'=>'user.profiles.store']) !!}
             <div class="form-group has-feedback">
                 {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Full name']) !!}
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>

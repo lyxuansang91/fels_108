@@ -59,7 +59,7 @@
                             {!! Form::submit('Sign In', ['class'=>'btn btn-primary btn-block btn-flat']) !!}
                         </div><!-- /.col -->
                     </div>
-                    <a href="{!! route('user.profile.create') !!}" class="text-center">Register a new membership</a>
+                    <a href="{!! route('user.profiles.create') !!}" class="text-center">Register a new membership</a>
                 {!! Form::close() !!}
             </div><!-- /.login-box-body -->
         </div><!-- /.login-box -->

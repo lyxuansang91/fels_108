@@ -19,5 +19,17 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\CategoryRepositoryInterface', function() {
             return new \App\Repositories\Eloquents\CategoryRepository(\App\Models\Category::class);
         });
+
+        $this->app->bind('App\Repositories\FollowRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\FollowRepository(\App\Models\Follow::class);
+        });
+
+        $this->app->bind('App\Repositories\LessonRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\LessonRepository(\App\Models\Lesson::class);
+        });
+
+        $this->app->bind('App\Repositories\LessonWordRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\LessonWordRepository(\App\Models\LessonWord::class);
+        });
     }
 }

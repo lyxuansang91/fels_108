@@ -43,6 +43,10 @@ class User extends Model implements AuthenticatableContract,
     const ROLE_ADMIN = 1;
     const PER_PAGE = 10;
 
+    public function userWords()
+    {
+        return $this->hasMany('App\Models\UserWord');
+    }
 
     /**
      * Mutator for auto hash password
@@ -51,5 +55,10 @@ class User extends Model implements AuthenticatableContract,
     public function setPasswordAttribute($data)
     {
         $this->attributes['password'] = \Hash::make($data);
+    }
+
+    public function follows()
+    {
+        return $this->hasMany('App\Models\Follow', 'followee_id');
     }
 }

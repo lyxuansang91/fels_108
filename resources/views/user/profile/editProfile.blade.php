@@ -8,14 +8,14 @@
             <div class="box box-info">
                 <ol class="breadcrumb">
                     <li><a href="{!! route('user.index') !!}"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li><a href="{!! route('user.profile.show', \Auth::id()) !!}">Profile</a></li>
+                    <li><a href="{!! route('user.profiles.show', \Auth::id()) !!}">Profile</a></li>
                     <li class="active">Update Profile</li>
                 </ol>
                 <div class="box-header with-border">
                     <h2 class="box-title">Update profile</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                {!! Form::open(['route'=>['user.profile.update', $user->id], 'method'=>'put', 'class'=>'form-horizontal', 'files'=>true]) !!}
+                {!! Form::open(['route'=>['user.profiles.update', $user->id], 'method'=>'put', 'class'=>'form-horizontal', 'files'=>true]) !!}
                     <div class="box-body">
                         @if(count($errors) > 0)
                         <div class="alert alert-danger alert-dismissable">

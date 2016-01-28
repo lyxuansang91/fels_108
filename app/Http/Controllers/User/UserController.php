@@ -53,7 +53,7 @@ class UserController extends Controller
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return redirect()->route('user.profile.create')->with(['errors' => $errors]);
+            return redirect()->route('user.profiles.create')->with(['errors' => $errors]);
         }
         $this->userRepo->registerUser($request->all());
 
@@ -85,9 +85,8 @@ class UserController extends Controller
         if(\Auth::id() != $id) {
             return redirect()->route('user.index');
         }
-
         $user = $this->userRepo->findOrFail($id);
-
+        
         return view('user.profile.editProfile')->with(['user' => $user]);
     }
 
@@ -107,13 +106,13 @@ class UserController extends Controller
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return \Redirect::route('user.profile.edit', $id)->with(['errors' => $errors]);
+            return redirect()->route('user.profiles.edit', $id)->with(['errors' => $errors]);
         }
         $data = $request->all();
         $data['role'] = User::ROLE_USER;
         $this->userRepo->updateProfile($id, $data);
 
-        return redirect()->route('user.profile.show', $id);
+        return redirect()->route('user.profiles.show', $id);
     }
 
     /**
