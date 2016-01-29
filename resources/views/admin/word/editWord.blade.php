@@ -34,7 +34,7 @@
                         {!! Form::text('word', $word->word, ['class'=>'form-control', 'placeholder'=>'Word']) !!}
                     </div>
                     <div class="col-xs-4">
-                        {!! Form::text('trans_word', $word->trans_word->trans_word, ['class'=>'form-control', 'placeholder'=>'Translate word']) !!}
+                        {!! Form::text('trans_word', $word->transWord->trans_word, ['class'=>'form-control', 'placeholder'=>'Translate word']) !!}
                     </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer">

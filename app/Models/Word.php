@@ -21,9 +21,22 @@ class Word extends Model
     protected $fillable = ['category_id', 'word'];
 
     const WORD_PER_PAGE = 10;
+    const LEARNED = 1;
+    const NOT_LEARNED = 0;
+    const ALL_WORD = 2;
 
-    public function trans_word()
+    public function transWord()
     {
         return $this->hasOne('App\Models\TransWord');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'user_word', 'word_id', 'user_id');
+    }
+
+    public function userWords()
+    {
+        return $this->hasMany('App\Models\UserWord');
     }
 }

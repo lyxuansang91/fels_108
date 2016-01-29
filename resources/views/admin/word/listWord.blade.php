@@ -81,7 +81,7 @@
                                         @foreach($words[$key] as $word)
                                                 <tr>
                                                     <td>{{{ $word->word }}}</td>
-                                                    <td>{{{ $word->trans_word->trans_word }}}</td>
+                                                    <td>{{{ $word->transWord->trans_word }}}</td>
                                                     <td><a href="{!! route('admin.words.edit', $word->id) !!}" class="btn btn-primary">Edit</a></td>
                                                     {!! Form::open(['route' => ['admin.words.destroy', $word->id], 'method' => 'delete']) !!}
                                                     <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
@@ -100,7 +100,7 @@
                                         @foreach($words[$key] as $word)
                                                 <tr>
                                                     <td>{{{ $word->word }}}</td>
-                                                    <td>{{{ $word->trans_word->trans_word }}}</td>
+                                                    <td>{{{ $word->transWord->trans_word }}}</td>
                                                     <td><a href="{!! route('admin.words.edit', $word->id) !!}" class="btn btn-primary">Edit</a></td>
                                                     {!! Form::open(['route' => ['admin.words.destroy', $word->id], 'method' => 'delete']) !!}
                                                     <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>

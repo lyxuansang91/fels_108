@@ -6,6 +6,7 @@ use App\Repositories\WordRepositoryInterface;
 use Exception;
 use App\Models\TransWord;
 use App\Models\Word;
+use App\Models\UserWord;
 use App\Repositories\Eloquents\CategoryRepository;
 
 class WordRepository extends Repository implements WordRepositoryInterface
@@ -27,8 +28,8 @@ class WordRepository extends Repository implements WordRepositoryInterface
      */
     public function getAllWord()
     {
-        if(\Session::has('search')) {
-            $search = \Session::get('search');
+        if(session()->has('search')) {
+            $search = session('search');
             $category = new CategoryRepository(\App\Models\Category::class);
             $cateArray = $category->categorySelection();
             foreach ($cateArray as $key => $value) {
@@ -56,7 +57,29 @@ class WordRepository extends Repository implements WordRepositoryInterface
 
     public function deleteWordAndTransWord($id)
     {
-        $transwordId = $this->model->findOrFail($id)->trans_word->delete();
+        $transwordId = $this->model->findOrFail($id)->transWord->delete();
         $this->model->findOrFail($id)->delete();
+    }
+
+    public function getFilterWord($data)
+    {
+        $words = new Word;
+        if(isset($data['category_id']) && $data['category_id'] != '') {
+            $words = $words->where('category_id', '=', $data['category_id']);
+        }
+        if(isset($data['submit']) && $data['submit'] == 'search') {
+            $words = $words->where('word', 'LIKE', '%' . $data['search'] . '%');
+        }
+        if(isset($data['status'])) {
+            $wordIdArray = UserWord::where('status', '=', Word::LEARNED)->lists('word_id');
+            if($data['status'] == Word::LEARNED) {
+                $words = $words->whereIn('id', $wordIdArray);
+            } elseif($data['status'] == Word::NOT_LEARNED) {
+                $words = $words->WhereNotIn('id', $wordIdArray);
+            }
+        }
+        $words = $words->orderBy('word')->paginate(Word::WORD_PER_PAGE);
+
+        return $words;
     }
 }

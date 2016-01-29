@@ -33,9 +33,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
     
-    Route::get('/profiles/create', ['as' => 'user.profile.create', 'UserController@create']);
+    Route::get('/profiles/create', ['as' => 'user.profiles.create', 'UserController@create']);
 
-    Route::post('/profiles', ['as' => 'user.profile.store', 'UserController@store']);
+    Route::post('/profiles', ['as' => 'user.profiles.store', 'UserController@store']);
 
     Route::get('/login', ['as' => 'user.login.index', 'uses' => 'SessionController@index']);
 
@@ -47,17 +47,17 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
 
         Route::get('/', ['as' => 'user.index', 'uses' => 'HomeController@index']);
 
-        Route::get('/profiles', ['as' => 'user.profile.index', 'uses' => 'UserController@index']);
+        Route::get('/profiles', ['as' => 'user.profiles.index', 'uses' => 'UserController@index']);
 
-        Route::get('/profiles/{id}', ['as' => 'user.profile.show', 'uses' => 'UserController@show']);
+        Route::get('/profiles/{id}', ['as' => 'user.profiles.show', 'uses' => 'UserController@show']);
 
-        Route::get('/profiles/{id}/edit', ['as' => 'user.profile.edit', 'uses' => 'UserController@edit']);
+        Route::get('/profiles/{id}/edit', ['as' => 'user.profiles.edit', 'uses' => 'UserController@edit']);
 
-        Route::put('/profiles/{id}', ['as' => 'user.profile.update', 'uses' => 'UserController@update']);
+        Route::put('/profiles/{id}', ['as' => 'user.profiles.update', 'uses' => 'UserController@update']);
 
-        Route::put('/follows/{id}', ['as' => 'user.follow.update', 'uses' => 'FollowController@update']);
+        Route::post('/follows', ['as' => 'user.follows.store', 'uses' => 'FollowController@store']);
 
-        Route::delete('/follows/{id}', ['as' => 'user.follow.destroy', 'uses' => 'FollowController@destroy']);
+        Route::delete('/follows/{id}', ['as' => 'user.follows.destroy', 'uses' => 'FollowController@destroy']);
 
         Route::resource('/words', 'WordController');
 
