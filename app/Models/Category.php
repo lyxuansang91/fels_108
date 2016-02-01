@@ -19,4 +19,9 @@ class Category extends Model
      * @var array
      */
     protected $fillable = ['name', 'content', 'count_words'];
+
+    public function words()
+    {
+        return $this->hasMany('\App\Models\Word');
+    }
 }
