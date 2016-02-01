@@ -20,4 +20,11 @@ class UserWord extends Model
      */
     protected $fillable = ['user_id', 'word_id', 'status'];
 
+    const LEARNED = 1;
+    const NOT_LEARNED = 0;
+
+    public function word()
+    {
+        return  $this->belongsTo('\App\Models\Word');
+    }
 }

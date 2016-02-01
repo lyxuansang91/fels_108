@@ -69,7 +69,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->userRepo->findOrFail($id);
-        // dd(count($user->follow));
         
         return view('user.profile.showProfile')->with(['user' => $user]);
     }

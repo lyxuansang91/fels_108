@@ -39,4 +39,15 @@ class Word extends Model
     {
         return $this->hasMany('App\Models\UserWord');
     }
+
+    public function updateUserWordAndStatus($userWord, $status)
+    {
+        if($this->userWords()->count() > 0) {
+            $userWord['status'] = $status;
+            $this->userWords[0]->update($userWord);
+        } else {
+            $userWord['status'] = $status;
+            UserWord::create($userWord);
+        }
+    }
 }
