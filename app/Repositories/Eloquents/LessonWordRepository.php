@@ -10,6 +10,7 @@ use App\Models\TransWord;
 use App\Models\LessonWord;
 use App\Models\Lesson;
 use App\Models\Word;
+use \App\Models\Activity;
 
 class LessonWordRepository extends Repository implements LessonWordRepositoryInterface
 {
@@ -57,6 +58,7 @@ class LessonWordRepository extends Repository implements LessonWordRepositoryInt
             $lesson->update(['status' => Lesson::PASSED_LESSON]);
         }
         // Update activity
+        $lesson->createActivity($count);
     }
 
     public function getResultLesson($id)

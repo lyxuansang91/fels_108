@@ -45,7 +45,12 @@ class User extends Model implements AuthenticatableContract,
 
     public function userWords()
     {
-        return $this->hasMany('App\Models\UserWord');
+        return $this->hasMany(UserWord::class);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
     }
 
     /**
@@ -59,6 +64,21 @@ class User extends Model implements AuthenticatableContract,
 
     public function follows()
     {
-        return $this->hasMany('App\Models\Follow', 'followee_id');
+        return $this->hasMany(Follow::class, 'followee_id');
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    public function learnedWord()
+    {
+        return $this->userWords()->where('status', '=', 1);
     }
 }
