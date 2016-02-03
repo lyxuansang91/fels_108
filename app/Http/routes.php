@@ -64,5 +64,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
         Route::get('/categories', ['as' => 'user.categories.index', 'uses' => 'CategoryController@index']);
 
         Route::resource('/lessons', 'LessonController');
+
+        Route::get('/results/{id}', ['as' => 'user.results.show', 'uses' => 'ResultController@show']);
     });
 });
