@@ -13,18 +13,18 @@ use App\Repositories\UserRepositoryInterface as UserRepository;
 
 class WordController extends Controller
 {
-    protected $wordRepo;
+    protected $wordRepository;
 
-    protected $categoryRepo;
+    protected $categoryRepository;
 
     public function __construct(
-        WordRepository $wordRepo,
-        UserRepository $userRepo,
-        CategoryRepository $categoryRepo
+        WordRepository $wordRepository,
+        UserRepository $userRepository,
+        CategoryRepository $categoryRepository
     ) {
-        $this->wordRepo = $wordRepo;
-        $this->userRepo = $userRepo;
-        $this->categoryRepo = $categoryRepo;
+        $this->wordRepository = $wordRepository;
+        $this->userRepository = $userRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -35,8 +35,8 @@ class WordController extends Controller
     public function index()
     {
         $data = session('data');
-        $words = $this->wordRepo->getFilterWord($data);
-        $categoryArray = $this->categoryRepo->categorySelection();
+        $words = $this->wordRepository->getFilterWord($data);
+        $categoryArray = $this->categoryRepository->categorySelection();
         $categoryArray[''] = 'select category';
 
         return view('user.word.listWord')->with(['words' => $words, 'categoryArray' => $categoryArray]);

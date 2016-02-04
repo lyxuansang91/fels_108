@@ -37,11 +37,11 @@
                     </div>
                 @endif
                 
-                @if(Session::has('messages'))
+                @if(session()->has('messages'))
                     <div class="alert alert-warning alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                        {!! Session::get('messages') !!}
+                        {!! session('messages') !!}
                     </div>
                 @endif
                 <p class="login-box-msg">Sign in to start your session</p>

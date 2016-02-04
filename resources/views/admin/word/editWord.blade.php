@@ -20,15 +20,15 @@
                         @endforeach
                     </div>
                     @endif
-                    @if(Session::has('messages'))
+                    @if(session()->has('messages'))
                         <div class="alert alert-warning alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                            {!! Session::get('messages') !!}
+                            {!! session('messages') !!}
                         </div>
                     @endif
                     <div class="col-xs-4">
-                        {!! Form::select('category', $cateArray, $word->category_id, ['class'=>'form-control']) !!}
+                        {!! Form::select('category', $categoryArray, $word->category_id, ['class'=>'form-control']) !!}
                     </div>
                     <div class="col-xs-4">
                         {!! Form::text('word', $word->word, ['class'=>'form-control', 'placeholder'=>'Word']) !!}

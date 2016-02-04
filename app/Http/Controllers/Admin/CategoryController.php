@@ -7,18 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Repositories\WordRepositoryInterface as WordRepository;
 use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class CategoryController extends Controller
 {
-    protected $wordRepo;
+    protected $categoryReposotory;
 
-    protected $categoryRepo;
-
-    public function __construct(CategoryRepository $categoryRepo) 
+    public function __construct(CategoryRepository $categoryRepository) 
     {
-        $this->categoryRepo = $categoryRepo;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -28,7 +25,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepo->all();
+        $categories = $this->categoryRepository->all();
 
         return view('admin.category.listCategory')->with(['categories'=>$categories]);
     }
@@ -52,14 +49,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $rule = $this->categoryRepo->ruleAdd;
+        $rule = $this->categoryRepository->ruleAdd;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
 
             return redirect()->route('admin.categories.create')->with(['errors'=>$errors]);
         }
-        $this->categoryRepo->create($request->all());
+        $this->categoryRepository->create($request->all());
 
         return redirect()->route('admin.categories.index');
     }
@@ -83,7 +80,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->categoryRepo->findOrFail($id);
+        $category = $this->categoryRepository->findOrFail($id);
 
         return view('admin.category.editCategory')->with(['category'=>$category]);
     }
@@ -104,7 +101,7 @@ class CategoryController extends Controller
 
             return \Redirect::route('admin.categories.edit', $id)->with(['errors'=>$errors]);
         }
-        $this->categoryRepo->update($id, $request->all());
+        $this->categoryRepository->update($id, $request->all());
 
         return redirect()->route('admin.categories.index');
     }
@@ -117,7 +114,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->categoryRepo->delete($id);
+        $this->categoryRepository->delete($id);
 
         return redirect()->route('admin.categories.index');
     }

@@ -10,7 +10,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
-                            @if(count($users) > 0)
+                            @if($users->count() > 0)
                             <thead>
                                 <tr>
                                     <th>Name</th>

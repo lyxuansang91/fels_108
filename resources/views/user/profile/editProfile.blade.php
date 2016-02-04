@@ -7,7 +7,7 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <ol class="breadcrumb">
-                    <li><a href="{!! route('user.index') !!}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="{!! route('user.index') !!}"><i class="fa fa-home"></i> Home</a></li>
                     <li><a href="{!! route('user.profiles.show', \Auth::id()) !!}">Profile</a></li>
                     <li class="active">Update Profile</li>
                 </ol>

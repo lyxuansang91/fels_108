@@ -11,11 +11,11 @@ use App\Repositories\UserRepositoryInterface as UserRepository;
 
 class MemberController extends Controller
 {
-    protected $userRepo;
+    protected $userRepository;
 
-    public function __construct( UserRepository $userRepo )
+    public function __construct( UserRepository $userRepository )
     {
-        $this->userRepo = $userRepo;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -25,7 +25,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepo->getListMember();
+        $users = $this->userRepository->getListMember();
 
         return view('admin.member.listMember')->with(['users'=>$users]);
     }
@@ -49,14 +49,14 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        $rule = $this->userRepo->ruleAddUser;
+        $rule = $this->userRepository->ruleAddUser;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
 
             return redirect()->route('admin.members.create')->with(['errors'=>$errors]);
         }
-        $this->userRepo->create($request->all());
+        $this->userRepository->create($request->all());
 
         return redirect()->route('admin.members.index')->withMessages('User already created');
     }
@@ -80,7 +80,7 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepo->findOrFail($id);
+        $user = $this->userRepository->findOrFail($id);
 
         return view('admin.member.editMember')->with(['user'=>$user]);
     }
@@ -94,7 +94,7 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rule = $this->userRepo->ruleUpdate;
+        $rule = $this->userRepository->ruleUpdate;
         $rule['email'] .= ',' . $id;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
@@ -102,7 +102,7 @@ class MemberController extends Controller
 
             return \Redirect::route('admin.members.edit', $id)->with(['errors'=>$errors]);
         }
-        $this->userRepo->updateProfile($id, $request->all());
+        $this->userRepository->updateProfile($id, $request->all());
 
         return redirect()->route('admin.members.index');
     }
@@ -115,7 +115,7 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        $this->userRepo->delete($id);
+        $this->userRepository->delete($id);
 
         return redirect()->route('admin.members.index');
     }

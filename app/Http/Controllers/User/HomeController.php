@@ -6,18 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
-class CategoryController extends Controller
+class HomeController extends Controller
 {
-    protected $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepository) 
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all();
-
-        return view('user.category.listCategory')->with(['categories' => $categories]);
+        return view('user.home');
     }
 
     /**

@@ -14,7 +14,6 @@
                         <div class="input-group input-group-sm col-sm-2 pull-right">
                         {!! Form::text('search', '', ['class'=>'form-control', 'placeholder'=>'search word']) !!}
                             <span class="input-group-btn">
-                                {{-- <button class="btn btn-default btn-flat" type="submit" style="margin-right: 30px;" name="search">Search</button> --}}
                                 {!! Form::submit('search', ['class'=>'btn btn-default btn-flat', 'name'=>'submit', 'style'=>'margin-right: 30px;']) !!}
                             </span>
                         </div>
@@ -31,17 +30,17 @@
                                 </div>
                             </div>
                             @endif
-                            @if(Session::has('messages'))
+                            @if(session()->has('messages'))
                                 <div class="alert alert-warning alert-dismissable">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                    {!! Session::get('messages') !!}
+                                    {!! session('messages') !!}
                                 </div>
                             @endif
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Category</label>
                                 <div class="col-sm-4">
-                                    {!! Form::select('category_id', $cateArray, Session::get('categoryId'), ['class'=>'form-control', 'onchange'=>"showDiv(this)"]) !!}
+                                    {!! Form::select('category_id', $categoryArray, session('categoryId'), ['class'=>'form-control', 'onchange'=>"showDiv(this)"]) !!}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -62,7 +61,7 @@
 
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
-                            @if(count($words) > 0)
+                            @if ( count($words) > 0)
                                 <thead>
                                     <tr>
                                         <th>Japanese</th>
@@ -71,9 +70,9 @@
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
-                                @if(Session::has('categoryId'))
-                                    @foreach($cateArray as $key => $category)
-                                        @if($key == Session::get('categoryId'))
+                                @if(session()->has('categoryId'))
+                                    @foreach($categoryArray as $key => $category)
+                                        @if($key == session('categoryId'))
                                             <tbody id="category{!! $key !!}" class="category">
                                         @else
                                             <tbody id="category{!! $key !!}" style="display:none" class="category">
@@ -91,8 +90,8 @@
                                         </tbody>
                                     @endforeach
                                 @else
-                                    @foreach($cateArray as $key => $category)
-                                        @if($key == array_keys($cateArray)[0])
+                                    @foreach($categoryArray as $key => $category)
+                                        @if($key == array_keys($categoryArray)[0])
                                             <tbody id="category{!! $key !!}" class="category">
                                         @else
                                             <tbody id="category{!! $key !!}" style="display:none" class="category">

@@ -16,7 +16,7 @@ class CreateLessonsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('category_id');
-            $table->tinyInteger('status')
+            $table->tinyInteger('status');
             $table->timestamps();
 
             $table->index('user_id');

@@ -35,7 +35,7 @@
                                 {!! Form::open(['route' => 'user.lessons.store']) !!}
                                     <button class="btn btn-default btn-xs" type="submit"><i class="fa fa-share"></i>Start lesson</button>
                                     {!! Form::hidden('category_id', $category->id) !!}
-                                    {!! Form::hidden('user_id', \Auth::id()) !!}
+                                    {!! Form::hidden('user_id', auth()->id()) !!}
                                 {!! Form::close() !!}
                             </div><!-- /.attachment-block -->
                             @endforeach

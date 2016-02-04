@@ -44,7 +44,7 @@ class Lesson extends Model
 
     public function createActivity($count) {
         $activity = [
-            'user_id' => \Auth::id(),
+            'user_id' => auth()->id(),
             'type' => Activity::LESSON_TYPE,
             'content' => 'Did a lesson with result: ' . $count . '/' . Lesson::QUESTION_PER_LESSON . ' in ' . $this->category->name
         ];

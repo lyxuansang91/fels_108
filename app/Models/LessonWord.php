@@ -25,7 +25,7 @@ class LessonWord extends Model
 
     public function word()
     {
-        return $this->belongsTo('\App\Models\Word');
+        return $this->belongsTo(Word::class);
     }
 
     public function isCorrectAnswer()

@@ -28,6 +28,7 @@ class WordRepository extends Repository implements WordRepositoryInterface
      */
     public function getAllWord()
     {
+        $words = array();
         if(session()->has('search')) {
             $search = session('search');
             $category = new CategoryRepository(\App\Models\Category::class);

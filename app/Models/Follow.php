@@ -23,7 +23,7 @@ class Follow extends Model
     public static function createActivity($followeeId, $content)
     {
         $activity = [
-            'user_id' => \Auth::id(),
+            'user_id' => auth()->id(),
             'type' => Activity::FOLLOW_TYPE,
             'content' => $content . ' ' . User::findOrFail($followeeId)->name
         ];

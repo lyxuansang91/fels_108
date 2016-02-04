@@ -15,11 +15,11 @@ use App\Repositories\UserRepositoryInterface as UserRepository;
 class SessionController extends Controller
 {
 
-    protected $userRepo;
+    protected $userRepository;
     
-    public function __construct( UserRepository $userRepo) 
+    public function __construct( UserRepository $userRepository) 
     {
-        $this->userRepo = $userRepo;
+        $this->userRepository = $userRepository;
     }
  
     /*
@@ -42,7 +42,7 @@ class SessionController extends Controller
 
     public function store(Request $request)
     {
-        $rule = $this->userRepo->ruleLogin;
+        $rule = $this->userRepository->ruleLogin;
         
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {

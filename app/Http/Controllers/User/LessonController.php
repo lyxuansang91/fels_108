@@ -16,22 +16,24 @@ use App\Repositories\WordRepositoryInterface as WordRepository;
 class LessonController extends Controller
 {
 
-    protected $lessonRepo;
+    protected $lessonRepository;
     
-    protected $categoryRepo;
+    protected $lessonWordRepository;
     
-    protected $wordRepo;
+    protected $categoryRepository;
+    
+    protected $wordRepository;
     
     public function __construct( 
-        LessonRepository $lessonRepo,
-        LessonWordRepository $lessonWordRepo,
-        CategoryRepository $categoryRepo,
-        WordRepository $wordRepo
+        LessonRepository $lessonRepository,
+        LessonWordRepository $lessonWordRepository,
+        CategoryRepository $categoryRepository,
+        WordRepository $wordRepository
     ) {
-        $this->lessonRepo = $lessonRepo;
-        $this->lessonWordRepo = $lessonWordRepo;
-        $this->categoryRepo = $categoryRepo;
-        $this->wordRepo = $wordRepo;
+        $this->lessonRepository = $lessonRepository;
+        $this->lessonWordRepository = $lessonWordRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->wordRepository = $wordRepository;
     }
 
     /**
@@ -62,11 +64,11 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $category = $this->categoryRepo->findOrFail($request->category_id);
+        $category = $this->categoryRepository->findOrFail($request->category_id);
         if($category->words()->count() < Lesson::QUESTION_PER_LESSON){
             return redirect()->route('user.categories.index')->withMessages('This category not enough 20 words');
         }
-        $lesson = $this->lessonRepo->create($request->all());
+        $lesson = $this->lessonRepository->create($request->all());
 
         return redirect()->route('user.lessons.show', $lesson->id);
     }
@@ -80,7 +82,7 @@ class LessonController extends Controller
     public function show($id)
     {
         $answerArray = ['answer1', 'answer2', 'answer3', 'answer4'];
-        $lesson = $this->lessonRepo->findOrFail($id);
+        $lesson = $this->lessonRepository->findOrFail($id);
 
         return view('user.lesson.showLesson')->with(['lesson' => $lesson, 'answerArray' => $answerArray]);
     }
@@ -105,8 +107,8 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lesson = $this->lessonRepo->findOrFail($id);
-        $this->lessonWordRepo->updateResultLesson($request->all(), $lesson);
+        $lesson = $this->lessonRepository->findOrFail($id);
+        $this->lessonWordRepository->updateResultLesson($request->all(), $lesson);
         
         return redirect()->route('user.results.show', $id);   
     }

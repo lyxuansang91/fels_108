@@ -12,16 +12,16 @@ use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class WordController extends Controller
 {
-    protected $wordRepo;
+    protected $wordRepository;
 
-    protected $categoryRepo;
+    protected $categoryRepository;
 
     public function __construct(
-        WordRepository $wordRepo,
-        CategoryRepository $categoryRepo
+        WordRepository $wordRepository,
+        CategoryRepository $categoryRepository
     ) {
-        $this->wordRepo = $wordRepo;
-        $this->categoryRepo = $categoryRepo;
+        $this->wordRepository = $wordRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -31,10 +31,10 @@ class WordController extends Controller
      */
     public function index()
     {
-        $words = $this->wordRepo->getAllWord();
-        $cateArray = $this->categoryRepo->categorySelection();
+        $words = $this->wordRepository->getAllWord();
+        $categoryArray = $this->categoryRepository->categorySelection();
 
-        return view('admin.word.listWord')->with(['words' => $words, 'cateArray' => $cateArray]);
+        return view('admin.word.listWord')->with(['words' => $words, 'categoryArray' => $categoryArray]);
     }
 
     /**
@@ -59,7 +59,7 @@ class WordController extends Controller
 
             return redirect()->route('admin.words.index')->with(['search' => $request->search, 'categoryId' => $request->category_id]); 
         }
-        $rule = $this->wordRepo->ruleAddWord;
+        $rule = $this->wordRepository->ruleAddWord;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
@@ -67,7 +67,7 @@ class WordController extends Controller
             return redirect()->route('admin.words.index')->with(['errors' => $errors]);
         }
 
-        $this->wordRepo->addWordAndTranslate($request->all());
+        $this->wordRepository->addWordAndTranslate($request->all());
 
         return redirect()->route('admin.words.index')->with(['categoryId' => $request->category_id]);
     }
@@ -91,10 +91,10 @@ class WordController extends Controller
      */
     public function edit($id)
     {
-        $word = $this->wordRepo->findOrFail($id);
-        $cateArray = $this->categoryRepo->categorySelection();
+        $word = $this->wordRepository->findOrFail($id);
+        $categoryArray = $this->categoryRepository->categorySelection();
 
-        return view('admin.word.editWord')->with(['word' => $word, 'cateArray' => $cateArray]);
+        return view('admin.word.editWord')->with(['word' => $word, 'categoryArray' => $categoryArray]);
     }
 
     /**
@@ -106,15 +106,15 @@ class WordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rule = $this->wordRepo->ruleUpdate;
+        $rule = $this->wordRepository->ruleUpdate;
         $rule['word'] .= ',' . $id;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return \Redirect::route('admin.words.edit', $id)->with(['errors' => $errors]);
+            return redirect()->route('admin.words.edit', $id)->with(['errors' => $errors]);
         }
-        $this->wordRepo->update($id, $request->all());
+        $this->wordRepository->update($id, $request->all());
 
         return redirect()->route('admin.words.index');
     }
@@ -127,7 +127,7 @@ class WordController extends Controller
      */
     public function destroy($id)
     {
-        $this->wordRepo->deleteWordAndTransWord($id);
+        $this->wordRepository->deleteWordAndTransWord($id);
 
         return redirect()->route('admin.words.index');        
     }

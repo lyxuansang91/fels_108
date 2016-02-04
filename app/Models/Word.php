@@ -27,17 +27,17 @@ class Word extends Model
 
     public function transWord()
     {
-        return $this->hasOne('App\Models\TransWord');
+        return $this->hasOne(TransWord::class);
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'user_word', 'word_id', 'user_id');
+        return $this->belongsToMany(User::class, 'user_word', 'word_id', 'user_id');
     }
 
     public function userWords()
     {
-        return $this->hasMany('App\Models\UserWord');
+        return $this->hasMany(UserWord::class);
     }
 
     public function updateUserWordAndStatus($userWord, $status)

@@ -13,16 +13,16 @@ use App\Repositories\LessonRepositoryInterface as LessonRepository;
 class ResultController extends Controller
 {
 
-    protected $lessonRepo;
+    protected $lessonRepository;
 
-    protected $lessonWordRepo;
+    protected $lessonWordRepository;
     
     public function __construct( 
-        LessonWordRepository $lessonWordRepo,
-        LessonRepository $lessonRepo
+        LessonWordRepository $lessonWordRepository,
+        LessonRepository $lessonRepository
     ) {
-        $this->lessonWordRepo = $lessonWordRepo;
-        $this->lessonRepo = $lessonRepo;
+        $this->lessonWordRepository = $lessonWordRepository;
+        $this->lessonRepository = $lessonRepository;
     }
 
     /**
@@ -65,8 +65,8 @@ class ResultController extends Controller
     public function show($id)
     {
         $answerArray = ['answer1', 'answer2', 'answer3', 'answer4'];
-        $lesson = $this->lessonRepo->findOrFail($id);
-        $result = $this->lessonWordRepo->getCorrectAnswers($id);
+        $lesson = $this->lessonRepository->findOrFail($id);
+        $result = $this->lessonWordRepository->getCorrectAnswers($id);
 
         return view('user.lesson.resultLesson')->with(['lesson' => $lesson, 'answerArray' => $answerArray, 'result' => $result]);
     }

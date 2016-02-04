@@ -20,7 +20,6 @@
                         <div class="input-group input-group-sm col-sm-3 pull-right">
                         {!! Form::text('search', '', ['class'=>'form-control', 'placeholder'=>'search word']) !!}
                             <span class="input-group-btn">
-                                {{-- <button class="btn btn-default btn-flat" type="submit" style="margin-right: 30px;" name="search">Search</button> --}}
                                 {!! Form::submit('search', ['class'=>'btn btn-default btn-flat', 'name'=>'submit', 'style'=>'margin-right: 30px;']) !!}
                             </span>
                         </div>
@@ -85,7 +84,7 @@
 
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
-                            @if(count($words) > 0)
+                            @if($words->count() > 0)
                                 <thead>
                                     <tr>
                                         <th>Japanese</th>

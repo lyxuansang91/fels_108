@@ -12,27 +12,27 @@ use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class HomeController extends Controller
 {
-    protected $userRepo;
+    protected $userRepository;
 
-    protected $wordRepo;
+    protected $wordRepository;
 
-    protected $categoryRepo;
+    protected $categoryRepository;
 
     public function __construct(
-        UserRepository      $userRepo,
-        WordRepository      $wordRepo,
-        CategoryRepository  $categoryRepo
+        UserRepository      $userRepository,
+        WordRepository      $wordRepository,
+        CategoryRepository  $categoryRepository
     ) {
-        $this->userRepo = $userRepo;
-        $this->wordRepo = $wordRepo;
-        $this->categoryRepo = $categoryRepo;
+        $this->userRepository = $userRepository;
+        $this->wordRepository = $wordRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index()
     {
-        $users = $this->userRepo->all();
-        $words = $this->wordRepo->all();
-        $categories = $this->categoryRepo->all();
+        $users = $this->userRepository->all();
+        $words = $this->wordRepository->all();
+        $categories = $this->categoryRepository->all();
 
         return view('admin.home')->with(['users'=>$users, 'words'=>$words, 'categories'=>$categories]);
     }

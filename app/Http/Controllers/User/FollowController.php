@@ -11,11 +11,11 @@ use App\Repositories\FollowRepositoryInterface as FollowRepository;
 
 class FollowController extends Controller
 {
-    protected $followRepo;
+    protected $followRepository;
     
-    public function __construct( FollowRepository $followRepo) 
+    public function __construct( FollowRepository $followRepository) 
     {
-        $this->followRepo = $followRepo;
+        $this->followRepository = $followRepository;
     }
 
     /**
@@ -47,7 +47,7 @@ class FollowController extends Controller
     public function store(Request $request)
     {
         $id = $request->id;
-        $this->followRepo->followUser($id, \Auth::id());
+        $this->followRepository->followUser($id, auth()->id());
 
         return redirect()->route('user.profiles.show', $id);
     }
@@ -94,7 +94,7 @@ class FollowController extends Controller
      */
     public function destroy($id)
     {
-        $this->followRepo->unfollowUser($id, \Auth::id());
+        $this->followRepository->unfollowUser($id, auth()->id());
 
         return redirect()->route('user.profiles.show', $id);
     }
