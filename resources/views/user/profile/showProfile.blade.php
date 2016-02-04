@@ -33,10 +33,10 @@
                                             <b>Activities</b> <a class="pull-right">{!! $user->activities->count() !!}</a>
                                         </li>
                                     </ul>
-                                    @if(\Auth::id() == $user->id)
+                                    @if (auth()->id() == $user->id)
                                         <a href="{!! route('user.profiles.edit', \Auth::id()) !!}" class="btn btn-primary btn-block"><b>Update profile</b></a>
                                     @else
-                                        @if($user->follows->count() < 1)
+                                        @if ($user->follows->count() < 1)
                                             {!! Form::open(['route' => 'user.follows.store']) !!}
                                                 {!! Form::submit('Follow', ['class' => 'btn btn-primary btn-block']) !!}
                                                 {!! Form::hidden('id', $user->id) !!}
@@ -87,21 +87,35 @@
                         <div class="col-md-9">
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-                                    <li><a href="#timeline" data-toggle="tab">Lesson's history</a></li>
-                                    <li><a href="#settings" data-toggle="tab">Settings</a></li>
+                                    @if (count($errors) > 0 || session()->has('messages'))
+                                        <li><a href="#activity" data-toggle="tab">Activity</a></li>
+                                        <li><a href="#timeline" data-toggle="tab">Lesson's history</a></li>
+                                        @if (auth()->id() == $user->id)
+                                            <li class="active"><a href="#settings" data-toggle="tab">Change Password</a></li>
+                                        @endif
+                                    @else
+                                        <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+                                        <li><a href="#timeline" data-toggle="tab">Lesson's history</a></li>
+                                        @if (auth()->id() == $user->id)
+                                            <li><a href="#settings" data-toggle="tab">Change Password</a></li>
+                                        @endif
+                                    @endif
                                 </ul>
                                 <div class="tab-content">
+                                    @if (count($errors) > 0 || session()->has('messages'))
+                                    <div class="tab-pane" id="activity">
+                                    @else
                                     <div class="active tab-pane" id="activity">
+                                    @endif
                                         <ul class="timeline timeline-inverse">
-                                            @foreach($user->activities as $activity)
+                                            @foreach ($user->activities as $activity)
                                                 <!-- timeline time label -->
                                                 <li class="time-label">
-                                                    @if($activity->checkTypeLesson())
+                                                    @if ($activity->checkTypeLesson())
                                                     <span class="bg-red">
                                                         {!! Date('jS \of F Y', strtotime($activity->created_at)) !!}
                                                     </span>
-                                                    @elseif($activity->checkTypeFollow())
+                                                    @elseif ($activity->checkTypeFollow())
                                                     <span class="bg-green">
                                                         {!! Date('jS \of F Y', strtotime($activity->created_at)) !!}
                                                     </span>
@@ -109,9 +123,9 @@
                                                 </li>
                                                 <!-- /.timeline-label -->
                                                 <li>
-                                                    @if($activity->checkTypeLesson())
+                                                    @if ($activity->checkTypeLesson())
                                                         <i class="fa fa-book bg-blue"></i>
-                                                    @elseif($activity->checkTypeFollow())
+                                                    @elseif ($activity->checkTypeFollow())
                                                         <i class="fa fa-user bg-blue"></i>
                                                     @endif
                                                     <div class="timeline-item">
@@ -125,7 +139,7 @@
                                         </ul>
                                     </div><!-- /.tab-pane -->
                                     <div class="tab-pane" id="timeline">
-                                        @foreach($user->lessons as $lesson)
+                                        @foreach ($user->lessons as $lesson)
                                             <div class="post">
                                                 <div class="user-block">
                                                     <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
@@ -140,55 +154,56 @@
                                             </div><!-- /.post -->
                                         @endforeach
                                     </div><!-- /.tab-pane -->
-
-                                    <div class="tab-pane" id="settings">
-                                        <form class="form-horizontal">
+                                    @if (auth()->id() == $user->id)
+                                        @if (count($errors) > 0 || session()->has('messages'))
+                                        <div class="active tab-pane" id="settings">
+                                        @else
+                                        <div class="tab-pane" id="settings">
+                                        @endif
+                                        {!! Form::open(['route' => ['user.passwords.update', $user->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
+                                            @if (count($errors) > 0)
+                                                <div class="alert alert-danger alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{!! $error !!}</li>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                            
+                                            @if (session()->has('messages'))
+                                                <div class="alert alert-warning alert-dismissable">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                                                    {!! session('messages') !!}
+                                                </div>
+                                            @endif
                                             <div class="form-group">
-                                                <label for="inputName" class="col-sm-2 control-label">Name</label>
-                                                <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                                <label for="inputName" class="col-sm-3 control-label">Current Password</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::password('current_password', ['placeholder' => 'current password', 'class' => 'form-control']) !!}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                                <label for="inputName" class="col-sm-3 control-label">New Password</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::password('new_password', ['placeholder' => 'new password', 'class' => 'form-control']) !!}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputName" class="col-sm-2 control-label">Name</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                                <label for="inputName" class="col-sm-3 control-label">Confirm Password</label>
+                                                <div class="col-sm-9">
+                                                    {!! Form::password('new_password_confirm', ['placeholder' => 'confirm new password', 'class' => 'form-control']) !!}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-2 col-sm-10">
+                                                <div class="col-sm-offset-3 col-sm-9">
                                                     <button type="submit" class="btn btn-danger">Submit</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                        {!! Form::close() !!}
                                     </div><!-- /.tab-pane -->
+                                    @endif
                                 </div><!-- /.tab-content -->
                             </div><!-- /.nav-tabs-custom -->
                         </div><!-- /.col -->

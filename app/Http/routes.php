@@ -66,5 +66,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
         Route::resource('/lessons', 'LessonController');
 
         Route::get('/results/{id}', ['as' => 'user.results.show', 'uses' => 'ResultController@show']);
+
+        Route::put('/passwords/{id}', ['as' => 'user.passwords.update', 'uses' => 'PasswordController@update']);
     });
 });

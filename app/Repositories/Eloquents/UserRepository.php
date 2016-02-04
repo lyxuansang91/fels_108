@@ -37,6 +37,12 @@ class UserRepository extends Repository implements UserRepositoryInterface
         'password_confirm' => 'required|same:password',
     ];
 
+    public $rulePassword = [
+        'current_password' => 'required|min:8',
+        'new_password' => 'required|min:8',
+        'new_password_confirm' => 'required|same:new_password',
+    ];
+
     public function updateProfile($id, $data)
     {
         $user = $this->findOrFail($id);
@@ -57,7 +63,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function updatePassword($id, $password)
     {
         $user = $this->findOrFail($id);
-        $user->password = \Hask::make($password);
+        $user->password = $password;
         $user->save();
 
         return $user;
