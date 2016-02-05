@@ -26,6 +26,7 @@ class Lesson extends Model
     const NOT_PASSED = 0;
     const PASSED_LESSON = 1;
     const NOT_PASSED_LESSON = 0;
+    const LESSON_PER_PAGE = 10;
 
     public function lessonWords()
     {

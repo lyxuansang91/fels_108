@@ -24,9 +24,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $users = $this->userRepository->searchListMember($request->search);
+
+        return view('user.listUser')->with(['users' => $users]);
     }
 
     /**
@@ -69,8 +71,9 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->userRepository->findOrFail($id);
-        
-        return view('user.profile.showProfile')->with(['user' => $user]);
+        $listUser = $this->userRepository->getListMember();
+
+        return view('user.profile.showProfile')->with(['user' => $user, 'listUser' => $listUser]);
     }
 
     /**

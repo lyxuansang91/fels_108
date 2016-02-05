@@ -37,6 +37,10 @@ class SessionController extends Controller
 
     public function index()
     {
+        if(auth()->check()  && auth()->user()->role == User::ROLE_ADMIN) {
+            return redirect()->route('admin.index');
+        }
+
         return view('admin.login');
     }
 

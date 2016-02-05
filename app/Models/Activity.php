@@ -22,6 +22,7 @@ class Activity extends Model
 
     const LESSON_TYPE = 2;
     const FOLLOW_TYPE = 1;
+    const ACTIVITIES_PER_PAGE = 10;
 
     public function checkTypeLesson()
     {

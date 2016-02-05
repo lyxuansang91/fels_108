@@ -7,15 +7,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\FollowRepositoryInterface as FollowRepository;
+use App\Repositories\UserRepositoryInterface as UserRepository;
 
 
 class FollowController extends Controller
 {
     protected $followRepository;
     
-    public function __construct( FollowRepository $followRepository) 
-    {
+    protected $userRepository;
+    
+    public function __construct( 
+        FollowRepository $followRepository,
+        UserRepository $userRepository
+    ) {
         $this->followRepository = $followRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -58,9 +64,14 @@ class FollowController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        $data = $request->search;
+        $user = $this->userRepository->findOrFail($id);
+        $followings = $this->followRepository->getFollowing($user, $data);
+        $followeds = $this->followRepository->getFollowed($user, $data);
+
+        return view('user.follow.showFollow')->with(['followings' => $followings, 'followeds' => $followeds, 'user' => $user]);
     }
 
     /**

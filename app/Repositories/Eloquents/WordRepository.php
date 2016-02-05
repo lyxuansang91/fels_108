@@ -62,7 +62,7 @@ class WordRepository extends Repository implements WordRepositoryInterface
         $this->model->findOrFail($id)->delete();
     }
 
-    public function getFilterWord($data)
+    public function getFilterWord($data, $id)
     {
         $words = new Word;
         if(isset($data['category_id']) && $data['category_id'] != '') {
@@ -72,11 +72,11 @@ class WordRepository extends Repository implements WordRepositoryInterface
             $words = $words->where('word', 'LIKE', '%' . $data['search'] . '%');
         }
         if(isset($data['status'])) {
-            $wordIdArray = UserWord::where('status', '=', Word::LEARNED)->lists('word_id');
+            $wordIdArray = UserWord::where('status', '=', Word::LEARNED)->where('user_id', '=', $id)->lists('word_id');
             if($data['status'] == Word::LEARNED) {
                 $words = $words->whereIn('id', $wordIdArray);
             } elseif($data['status'] == Word::NOT_LEARNED) {
-                $words = $words->WhereNotIn('id', $wordIdArray);
+                $words = $words->whereNotIn('id', $wordIdArray);
             }
         }
         $words = $words->orderBy('word')->paginate(Word::WORD_PER_PAGE);

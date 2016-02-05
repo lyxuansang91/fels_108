@@ -21,13 +21,18 @@
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <b>Learned Word</b> <a class="pull-right">{!! $user->learnedWord()->count() !!}</a>
+                                            <a href="{!! route('user.learned-words.show', $user->id) !!}"><b>Learned Word</b></a> 
+                                            <a class="pull-right">{!! $user->learnedWord()->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Followers</b> <a class="pull-right">{!! $user->follows->count() !!}</a>
+                                             
+                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Followers</b></a> 
+                                            <a class="pull-right">{!! $user->follows->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
-                                          <b>Following</b> <a class="pull-right">{!! $user->following()->count() !!}</a>
+                                           
+                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Following</b></a> 
+                                          <a class="pull-right">{!! $user->following()->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
                                             <b>Activities</b> <a class="pull-right">{!! $user->activities->count() !!}</a>
@@ -53,34 +58,18 @@
                             <!-- About Me Box -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">About Me</h3>
+                                    <h3 class="box-title">Member</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">
-                                    <strong><i class="fa fa-book margin-r-5"></i>  Education</strong>
-                                    <p class="text-muted">
-                                        B.S. in Computer Science from the University of Tennessee at Knoxville
-                                    </p>
-
+                                @foreach($listUser as $anUser)
+                                    <strong>
+                                        <a href="{!! route('user.profiles.show', $anUser->id) !!}">
+                                            <i class="fa fa-user margin-r-5"></i> {!! $anUser->name !!}
+                                        </a>
+                                    </strong>
                                     <hr>
-
-                                    <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-                                    <p class="text-muted">Malibu, California</p>
-
-                                    <hr>
-
-                                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-                                    <p>
-                                        <span class="label label-danger">UI Design</span>
-                                        <span class="label label-success">Coding</span>
-                                        <span class="label label-info">Javascript</span>
-                                        <span class="label label-warning">PHP</span>
-                                        <span class="label label-primary">Node.js</span>
-                                    </p>
-
-                                    <hr>
-
-                                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                @endforeach
+                                {!! $listUser->render() !!}
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                         </div><!-- /.col -->
@@ -108,7 +97,7 @@
                                     <div class="active tab-pane" id="activity">
                                     @endif
                                         <ul class="timeline timeline-inverse">
-                                            @foreach ($user->activities as $activity)
+                                            @foreach ($user->activities()->paginate(\App\Models\Activity::ACTIVITIES_PER_PAGE) as $activity)
                                                 <!-- timeline time label -->
                                                 <li class="time-label">
                                                     @if ($activity->checkTypeLesson())
@@ -137,12 +126,13 @@
                                                 <i class="fa fa-clock-o bg-gray"></i>
                                             </li>
                                         </ul>
+                                        {!! $user->activities()->paginate(\App\Models\Activity::ACTIVITIES_PER_PAGE)->render() !!}
                                     </div><!-- /.tab-pane -->
                                     <div class="tab-pane" id="timeline">
                                         @foreach ($user->lessons as $lesson)
                                             <div class="post">
                                                 <div class="user-block">
-                                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                                    <img class="img-circle img-bordered-sm" src="{!! $lesson->category->image !!}" alt="user image">
                                                     <span class='username'>
                                                         <a href="{!! route('user.results.show', $lesson->id) !!}">{!! $lesson->category->name !!}</a>
                                                     </span>

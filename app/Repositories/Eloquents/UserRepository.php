@@ -87,8 +87,18 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     public function registerUser($data)
     {
+        $data['avatar'] = '/images/avatar/default.png';
         $data['role'] = User::ROLE_USER;
 
         $this->model->create($data);
+    }
+
+    public function searchListMember($data)
+    {
+        $users = $this->model->where('role', '=', User::ROLE_USER)
+            ->where('name', 'LIKE', '%' . $data . '%')
+            ->paginate(User::PER_PAGE);
+
+        return $users;
     }
 }

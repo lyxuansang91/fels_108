@@ -40,6 +40,11 @@ class Word extends Model
         return $this->hasMany(UserWord::class);
     }
 
+    public function lessonWords()
+    {
+        return $this->hasMany(LessonWord::class);
+    }
+
     public function updateUserWordAndStatus($userWord, $status)
     {
         if($this->userWords()->count() > 0) {

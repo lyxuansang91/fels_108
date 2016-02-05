@@ -33,9 +33,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
     
-    Route::get('/profiles/create', ['as' => 'user.profiles.create', 'UserController@create']);
+    Route::get('/profiles/create', ['as' => 'user.profiles.create', 'uses' => 'UserController@create']);
 
-    Route::post('/profiles', ['as' => 'user.profiles.store', 'UserController@store']);
+    Route::post('/profiles', ['as' => 'user.profiles.store', 'uses' => 'UserController@store']);
 
     Route::get('/login', ['as' => 'user.login.index', 'uses' => 'SessionController@index']);
 
@@ -55,6 +55,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
 
         Route::put('/profiles/{id}', ['as' => 'user.profiles.update', 'uses' => 'UserController@update']);
 
+        Route::get('/follows/{id}', ['as' => 'user.follows.show', 'uses' => 'FollowController@show']);
+
         Route::post('/follows', ['as' => 'user.follows.store', 'uses' => 'FollowController@store']);
 
         Route::delete('/follows/{id}', ['as' => 'user.follows.destroy', 'uses' => 'FollowController@destroy']);
@@ -68,5 +70,11 @@ Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
         Route::get('/results/{id}', ['as' => 'user.results.show', 'uses' => 'ResultController@show']);
 
         Route::put('/passwords/{id}', ['as' => 'user.passwords.update', 'uses' => 'PasswordController@update']);
+
+        Route::get('/learned-words/{id}', ['as' => 'user.learned-words.show', 'uses' => 'LearnedWordController@show']);
+
+        Route::post('/learned-words', ['as' => 'user.learned-words.store', 'uses' => 'LearnedWordController@store']);
+
+        Route::get('/list', ['as' => 'user.list.index', 'uses' => 'UserController@index']);
     });
 });

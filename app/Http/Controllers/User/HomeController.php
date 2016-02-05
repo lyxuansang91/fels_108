@@ -6,9 +6,28 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepositoryInterface as UserRepository;
+use App\Repositories\WordRepositoryInterface as WordRepository;
+use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 
 class HomeController extends Controller
 {
+    protected $userRepository;
+
+    protected $wordRepository;
+
+    protected $categoryRepository;
+
+    public function __construct(
+        UserRepository      $userRepository,
+        WordRepository      $wordRepository,
+        CategoryRepository  $categoryRepository
+    ) {
+        $this->userRepository = $userRepository;
+        $this->wordRepository = $wordRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +35,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        $users = $this->userRepository->all();
+        $words = $this->wordRepository->all();
+        $categories = $this->categoryRepository->all();
+
+        return view('user.home')->with(['users'=>$users, 'words'=>$words, 'categories'=>$categories]);
     }
 
     /**

@@ -13,8 +13,8 @@
             {{-- {!! HTML::style('/font/font-awesome.min.css') !!} --}}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <!-- Ionicons -->
-            {!! HTML::style('/ionicons/ionicons.min.css') !!}
-            {{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
+            {{-- {!! HTML::style('/ionicons/ionicons.min.css') !!} --}}
+            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
             {{-- <link rel="stylesheet" href="/ionicons/ionicons.min.css"> --}}
 
             {!! HTML::style('/plugins/datatables/dataTables.bootstrap.css') !!}
@@ -113,5 +113,7 @@
     {!! HTML::script('/dist/js/app.min.js') !!}
     <!-- AdminLTE for demo purposes -->
     {!! HTML::script('/dist/js/demo.js') !!}
+    @yield('script')
+
   </body>
 </html>

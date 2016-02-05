@@ -6,16 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Word;
+use App\Repositories\WordRepositoryInterface as WordRepository;
+use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
 use App\Repositories\UserRepositoryInterface as UserRepository;
 
-
-class SessionController extends Controller
+class LearnedWordController extends Controller
 {
-    protected $userRepository;
-    
-    public function __construct( UserRepository $userRepository) 
-    {
+    protected $wordRepository;
+
+    protected $categoryRepository;
+
+    public function __construct(
+        WordRepository $wordRepository,
+        UserRepository $userRepository,
+        CategoryRepository $categoryRepository
+    ) {
+        $this->wordRepository = $wordRepository;
         $this->userRepository = $userRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -25,11 +35,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        if(auth()->check()) {
-            return redirect()->route('user.index');
-        }
-
-        return view('user.login');
+        //
     }
 
     /**
@@ -50,22 +56,7 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
-        $rule = $this->userRepository->ruleLogin;
-        
-        $validation = \Validator::make($request->all(), $rule);
-        if($validation->fails()) {
-            $errors = $validation->messages();
-
-            return redirect()->route('user.login.index')->with(['errors' => $errors]);
-        }
-        $auth = \Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-        if($auth) {
-            
-            return redirect()->route('user.index');
-        } else {
-            
-            return redirect()->route('user.login.index')->withMessages('Email or Password is incorrect'); 
-        }
+        return redirect()->route('user.learned-words.show', $request->id)->with(['data' => $request->all()]);
     }
 
     /**
@@ -74,9 +65,19 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        $data = session('data');
+        if($request->all()) {
+            $data = $request->all();
+        }
+        unset($data['_token']);
+        $data['status'] = Word::LEARNED;
+        $learnedWords = $this->wordRepository->getFilterWord($data, $id);
+        $categoryArray = $this->categoryRepository->categorySelection();
+        $categoryArray[''] = 'select category';
+
+        return view('user.word.listLearnedWord')->with(['learnedWords' => $learnedWords, 'categoryArray' => $categoryArray, 'data' => $data, 'id' => $id]);
     }
 
     /**
@@ -108,10 +109,8 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy($id)
     {
-        \Auth::logout();
-
-        return redirect()->route('user.login.index');
+        //
     }
 }

@@ -32,14 +32,18 @@ class WordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = session('data');
-        $words = $this->wordRepository->getFilterWord($data);
+        if($request->all()) {
+            $data = $request->all();
+        }
+        unset($data['_token']);
+        $words = $this->wordRepository->getFilterWord($data, auth()->id());
         $categoryArray = $this->categoryRepository->categorySelection();
         $categoryArray[''] = 'select category';
 
-        return view('user.word.listWord')->with(['words' => $words, 'categoryArray' => $categoryArray]);
+        return view('user.word.listWord')->with(['words' => $words, 'categoryArray' => $categoryArray, 'data' => $data]);
     }
 
     /**
@@ -60,8 +64,7 @@ class WordController extends Controller
      */
     public function store(Request $request)
     {
-
-        return redirect()->route('user.words.index')->with(['data' => $request->all(), 'categoryId' => $request->category_id]); 
+        return redirect()->route('user.words.index')->with(['data' => $request->all()]); 
     }
 
     /**

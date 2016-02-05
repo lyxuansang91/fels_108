@@ -24,4 +24,20 @@ class FollowRepository extends Repository implements FollowRepositoryInterface
                     ->delete();
         Follow::createActivity($followeeId, 'Unfollowed');
     }
+
+    public function getFollowing($user, $data)
+    {
+        $userIdArray = \App\Models\User::where('name', 'LIKE', '%' . $data . '%')->lists('id');
+        $followings = $user->following()->whereIn('followee_id', $userIdArray)->get();
+
+        return $followings;
+    }
+
+    public function getFollowed($user, $data)
+    {
+        $userIdArray = \App\Models\User::where('name', 'LIKE', '%' . $data . '%')->lists('id');
+        $followeds = $user->follows()->whereIn('follower_id', $userIdArray)->get();
+
+        return $followeds;
+    }
 }

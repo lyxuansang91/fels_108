@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label">Category</label>
                                 <div class="col-sm-4">
-                                    {!! Form::select('category_id', $categoryArray, session('categoryId'), ['class'=>'form-control', 'onchange'=>"showDiv(this)"]) !!}
+                                    {!! Form::select('category_id', $categoryArray, isset($data['category_id']) ? $data['category_id'] : '', ['class'=>'form-control', 'onchange'=>"showDiv(this)"]) !!}
                                 </div>
                                 <div class="col-sm-1">
                                     {!! Form::submit('Filter', ['class' => 'btn btn-default']) !!}
@@ -55,28 +55,28 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-2 control-label"></label>
                                 <div class="col-sm-1 radio">
-                                    @if(session('data')['status'] == \App\Models\Word::LEARNED)
+                                    @if(isset($data['status']) && $data['status'] == \App\Models\Word::LEARNED)
                                         <label>{!! Form::radio('status', \App\Models\Word::LEARNED, true) !!} Learned</label>
                                     @else
                                         <label>{!! Form::radio('status', \App\Models\Word::LEARNED) !!} Learned</label>
                                     @endif
                                 </div>
                                 <div class="col-sm-1 radio">
-                                    @if(session('data')['status'] == \App\Models\Word::NOT_LEARNED)
+                                    @if(isset($data['status']) && $data['status'] == \App\Models\Word::NOT_LEARNED)
                                         <label>{!! Form::radio('status', \App\Models\Word::NOT_LEARNED, true) !!} Not learned</label>
                                     @else
                                         <label>{!! Form::radio('status', \App\Models\Word::NOT_LEARNED) !!} Not learned</label>
                                     @endif
                                 </div>
                                 <div class="col-sm-1 radio">
-                                    @if(!session()->has('data') || session('data')['status'] == \App\Models\Word::ALL_WORD)
+                                    @if(!$data || (isset($data['status']) && $data['status'] == \App\Models\Word::ALL_WORD))
                                         <label>{!! Form::radio('status', \App\Models\Word::ALL_WORD, true) !!} All</label>
                                     @else
                                         <label>{!! Form::radio('status', \App\Models\Word::ALL_WORD) !!} All</label>
                                     @endif
                                 </div>
                             </div>
-                            {!! $words->render() !!}
+                            {!! $words->appends($data)->render() !!}
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                         </div><!-- /.box-footer -->

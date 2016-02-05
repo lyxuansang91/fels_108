@@ -57,7 +57,7 @@ class WordController extends Controller
     {
         if($request->submit == 'search') {
 
-            return redirect()->route('admin.words.index')->with(['search' => $request->search, 'categoryId' => $request->category_id]); 
+            return redirect()->route('admin.words.index')->with(['search' => $request->search, 'categoryId' => $request->category_id])->withInput(); 
         }
         $rule = $this->wordRepository->ruleAddWord;
         $validation = \Validator::make($request->all(), $rule);

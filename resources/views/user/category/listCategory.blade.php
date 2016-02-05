@@ -27,7 +27,7 @@
                             <div class="attachment-block clearfix">
                                 <img class="attachment-img" src="{!! $category->image !!}" alt="attachment image">
                                 <div class="attachment-pushed">
-                                    <h4 class="attachment-heading"><a href="#">{{ $category->name }}</a>  You've learned 20/500 </h4>
+                                    <h4 class="attachment-heading">{{ $category->name }}  You've learned 20/500 </h4>
                                     <div class="attachment-text">
                                         {!! nl2br($category->content) !!}
                                     </div><!-- /.attachment-text -->

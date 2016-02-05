@@ -12,7 +12,7 @@
                     {!! Form::open(['route'=>'admin.words.store', 'class'=>'form-horizontal']) !!}
                     <div class="form-group">
                         <div class="input-group input-group-sm col-sm-2 pull-right">
-                        {!! Form::text('search', '', ['class'=>'form-control', 'placeholder'=>'search word']) !!}
+                        {!! Form::text('search', old('search'), ['class'=>'form-control', 'placeholder'=>'search word']) !!}
                             <span class="input-group-btn">
                                 {!! Form::submit('search', ['class'=>'btn btn-default btn-flat', 'name'=>'submit', 'style'=>'margin-right: 30px;']) !!}
                             </span>
@@ -88,6 +88,15 @@
                                                 </tr>
                                         @endforeach
                                         </tbody>
+                                        @if($key == session('categoryId'))
+                                            <div class="category" id="pagination{!! $key !!}">
+                                                {!! $words[$key]->render() !!}
+                                            </div>
+                                        @else
+                                            <div class="category" id="pagination{!! $key !!}" style="display:none">
+                                                {!! $words[$key]->render() !!}
+                                            </div>
+                                        @endif
                                     @endforeach
                                 @else
                                     @foreach($categoryArray as $key => $category)
@@ -107,6 +116,15 @@
                                                 </tr>
                                         @endforeach
                                         </tbody>
+                                        @if($key == array_keys($categoryArray)[0])
+                                            <div class="category" id="pagination{!! $key !!}">
+                                                {!! $words[$key]->render() !!}
+                                            </div>
+                                        @else
+                                            <div class="category" id="pagination{!! $key !!}" style="display:none">
+                                                {!! $words[$key]->render() !!}
+                                            </div>
+                                        @endif
                                     @endforeach
                                 @endif
                             @else
