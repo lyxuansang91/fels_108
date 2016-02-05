@@ -18,7 +18,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'content', 'count_words'];
+    protected $fillable = ['name', 'content', 'image'];
 
     public function words()
     {

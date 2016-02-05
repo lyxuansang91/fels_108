@@ -56,7 +56,7 @@ class CategoryController extends Controller
 
             return redirect()->route('admin.categories.create')->with(['errors'=>$errors]);
         }
-        $this->categoryRepository->create($request->all());
+        $this->categoryRepository->createCategory($request->all());
 
         return redirect()->route('admin.categories.index');
     }
@@ -101,7 +101,7 @@ class CategoryController extends Controller
 
             return \Redirect::route('admin.categories.edit', $id)->with(['errors'=>$errors]);
         }
-        $this->categoryRepository->update($id, $request->all());
+        $this->categoryRepository->updateCategory($id, $request->all());
 
         return redirect()->route('admin.categories.index');
     }

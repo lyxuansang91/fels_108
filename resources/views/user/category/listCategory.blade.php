@@ -25,7 +25,7 @@
                             <!-- Attachment -->
                             @foreach($categories as $category)
                             <div class="attachment-block clearfix">
-                                <img class="attachment-img" src="../dist/img/photo1.png" alt="attachment image">
+                                <img class="attachment-img" src="{!! $category->image !!}" alt="attachment image">
                                 <div class="attachment-pushed">
                                     <h4 class="attachment-heading"><a href="#">{{ $category->name }}</a>  You've learned 20/500 </h4>
                                     <div class="attachment-text">

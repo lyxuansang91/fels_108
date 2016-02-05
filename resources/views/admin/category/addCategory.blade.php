@@ -9,7 +9,7 @@
                 <h3 class="box-title">Create new Category</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
-            {!! Form::open(['route'=>'admin.categories.store', 'class'=>'form-horizontal']) !!}
+            {!! Form::open(['route'=>'admin.categories.store', 'class'=>'form-horizontal', 'files'=>true]) !!}
                 <div class="box-body">
                     @if(count($errors) > 0)
                     <div class="alert alert-danger alert-dismissable">
@@ -24,6 +24,12 @@
                         <label for="inputName3" class="col-sm-2 control-label">Category</label>
                         <div class="col-sm-10">
                             {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Input Category']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Category</label>
+                        <div class="col-sm-10">
+                            {!! Form::file('image', '', ['class'=>'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group">

@@ -25,7 +25,7 @@
                                 <tr>
                                     <td>{{{ $category->name }}}</td>
                                     <td>{!! nl2br($category->content) !!}</td>
-                                    <td>{{{ $category->count_words }}}</td>
+                                    <td>{{{ $category->words()->count() }}}</td>
                                     <td><a href="{!! route('admin.categories.edit', $category->id) !!}" class="btn btn-primary">Edit</a></td>
                                     {!! Form::open(['route' => ['admin.categories.destroy', $category->id], 'method' => 'delete']) !!}
                                     <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
