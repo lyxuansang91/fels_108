@@ -41,7 +41,7 @@
                                     @if (auth()->id() == $user->id)
                                         <a href="{!! route('user.profiles.edit', \Auth::id()) !!}" class="btn btn-primary btn-block"><b>Update profile</b></a>
                                     @else
-                                        @if ($user->follows->count() < 1)
+                                        @if ($user->checkfollowed()->count() < 1)
                                             {!! Form::open(['route' => 'user.follows.store']) !!}
                                                 {!! Form::submit('Follow', ['class' => 'btn btn-primary btn-block']) !!}
                                                 {!! Form::hidden('id', $user->id) !!}
@@ -114,12 +114,20 @@
                                                 <li>
                                                     @if ($activity->checkTypeLesson())
                                                         <i class="fa fa-book bg-blue"></i>
+                                                        <div class="timeline-item">
+                                                            <h3 class="timeline-header">
+                                                                Passed {!! $activity->lesson->countPassed()->count() !!} / {!! \App\Models\Lesson::QUESTION_PER_LESSON !!}
+                                                                in <a href="{!! route('user.results.show', $activity->lesson->id) !!}">Lesson  of the {!! $activity->lesson->category->name !!}</a>
+                                                            </h3>
+                                                        </div>
                                                     @elseif ($activity->checkTypeFollow())
                                                         <i class="fa fa-user bg-blue"></i>
+                                                        <div class="timeline-item">
+                                                            <h3 class="timeline-header">
+                                                                Followed <a href="{!! route('user.profiles.show', $activity->follow->followee->id) !!}">{!! $activity->follow->followee->name !!}</a>
+                                                            </h3>
+                                                        </div>
                                                     @endif
-                                                    <div class="timeline-item">
-                                                        <h3 class="timeline-header">{!! $activity->content !!}</h3>
-                                                    </div>
                                                 </li>
                                             @endforeach
                                             <li>

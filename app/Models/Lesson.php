@@ -33,6 +33,11 @@ class Lesson extends Model
         return $this->hasMany(LessonWord::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function isPassed()
     {
         return $this->status == self::PASSED;
@@ -43,12 +48,18 @@ class Lesson extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function createActivity($count) {
+    public function createActivity($lesson) 
+    {
         $activity = [
             'user_id' => auth()->id(),
             'type' => Activity::LESSON_TYPE,
-            'content' => 'Did a lesson with result: ' . $count . '/' . Lesson::QUESTION_PER_LESSON . ' in ' . $this->category->name
+            'lesson_id' => $lesson->id,
         ];
         Activity::create($activity);    
+    }
+
+    public function countPassed()
+    {
+        return $this->lessonWords()->where('lesson_word.result', '=', 1)->get();
     }
 }

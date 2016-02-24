@@ -58,7 +58,7 @@ class LessonWordRepository extends Repository implements LessonWordRepositoryInt
             $lesson->update(['status' => Lesson::PASSED_LESSON]);
         }
         // Update activity
-        $lesson->createActivity($count);
+        $lesson->createActivity($lesson);
     }
 
     public function getResultLesson($id)

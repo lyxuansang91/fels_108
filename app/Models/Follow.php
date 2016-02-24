@@ -30,12 +30,12 @@ class Follow extends Model
         return $this->belongsTo(User::class, 'follower_id');
     }
 
-    public static function createActivity($followeeId, $content)
+    public static function createActivity($followeeId, $follow)
     {
         $activity = [
             'user_id' => auth()->id(),
             'type' => Activity::FOLLOW_TYPE,
-            'content' => $content . ' ' . User::findOrFail($followeeId)->name
+            'follow_id' => $follow->id,
         ];
         Activity::create($activity);
     }

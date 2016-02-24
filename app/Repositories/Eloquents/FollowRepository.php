@@ -6,6 +6,7 @@ use App\Repositories\FollowRepositoryInterface;
 use Exception;
 use App\Repositories\Eloquents\CategoryRepository;
 use App\Models\Follow;
+use App\Models\Activity;
 
 class FollowRepository extends Repository implements FollowRepositoryInterface
 {
@@ -14,7 +15,8 @@ class FollowRepository extends Repository implements FollowRepositoryInterface
         $data['followee_id'] = $followeeId;
         $data['follower_id'] = $followerId;
         $this->model->create($data);
-        Follow::createActivity($followeeId, 'Followed');
+        $follow = $this->model->all()->last();
+        Follow::createActivity($followeeId, $follow);
     }
 
     public function unfollowUser($followeeId, $followerId)
@@ -22,7 +24,7 @@ class FollowRepository extends Repository implements FollowRepositoryInterface
         $follow = $this->model->where('followee_id', '=', $followeeId)
                     ->where('follower_id', '=', $followerId)
                     ->delete();
-        Follow::createActivity($followeeId, 'Unfollowed');
+
     }
 
     public function getFollowing($user, $data)

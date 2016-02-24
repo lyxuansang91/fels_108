@@ -81,4 +81,9 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->userWords()->where('status', '=', 1);
     }
+
+    public function checkFollowed()
+    {
+        return $this->follows()->where('follower_id', '=', auth()->id())->get();
+    }
 }

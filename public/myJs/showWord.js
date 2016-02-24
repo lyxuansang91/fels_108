@@ -5,4 +5,5 @@ function showDiv(e){
         x[i].style.display = "none";
     }
     document.getElementById('category' + strdisplay).style.display = "table-row-group";
+    document.getElementById('pagination' + strdisplay).style.display = "table-row-group";
 }
