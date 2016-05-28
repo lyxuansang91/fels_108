@@ -20,7 +20,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
     Route::get('/logout', ['as' => 'admin.logout.index', 'uses' => 'SessionController@destroy']);
 
     Route::group(['middleware' => 'auth.admin'], function () {
-    
+
         Route::get('/', ['as' => 'admin.index', 'uses' => 'HomeController@index']);
 
         Route::resource('/members', 'MemberController');
@@ -28,11 +28,15 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/words', 'WordController');
 
         Route::resource('/categories', 'CategoryController');
+
+        Route::resource('/grades', 'GradeController');
+
+        Route::resource('/semesters', 'SemesterController');
     });
 });
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'], function() {
-    
+
     Route::get('/profiles/create', ['as' => 'user.profiles.create', 'uses' => 'UserController@create']);
 
     Route::post('/profiles', ['as' => 'user.profiles.store', 'uses' => 'UserController@store']);

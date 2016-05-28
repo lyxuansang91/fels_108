@@ -56,13 +56,13 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="{!! auth()->user()->avatar !!}" class="user-image" alt="User Image">
+                  <img src="{!! Asset(auth()->user()->avatar) !!}" class="user-image" alt="User Image">
                   <span class="hidden-xs">{!! auth()->user()->name !!}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="{!! \Auth::user()->avatar !!}" class="img-circle" alt="User Image">
+                    <img src="{!! Asset(\Auth::user()->avatar) !!}" class="img-circle" alt="User Image">
                     <p>
                       {!! auth()->user()->name !!}
                     </p>
@@ -97,7 +97,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="{!! auth()->user()->avatar !!}" class="img-circle" alt="User Image" style="width: 100%; max-width: 45px; height: 45px;">
+              <img src="{!! Asset(auth()->user()->avatar) !!}" class="img-circle" alt="User Image" style="width: 100%; max-width: 45px; height: 45px;">
             </div>
             <div class="pull-left info">
               <p>{!! auth()->user()->name !!}</p>
@@ -151,6 +151,28 @@
                 <li><a href="{!! route('admin.categories.index') !!}"><i class="fa fa-circle-o"></i> List Category</a></li>
               </ul>
             </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Grades</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.grades.create') !!}"><i class="fa fa-circle-o"></i> Add Grade</a></li>
+                <li><a href="{!! route('admin.grades.index') !!}"><i class="fa fa-circle-o"></i> List Grade</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Semester</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.semesters.create') !!}"><i class="fa fa-circle-o"></i> Add Semester</a></li>
+                <li><a href="{!! route('admin.semesters.index') !!}"><i class="fa fa-circle-o"></i> List Semester</a></li>
+              </ul>
+            </li>
           </ul>
         </section>
         <!-- /.sidebar -->
@@ -160,7 +182,7 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        @yield('content')  
+        @yield('content')
       </div><!-- /.content-wrapper -->
 
       <footer class="main-footer">

@@ -31,5 +31,13 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\LessonWordRepositoryInterface', function() {
             return new \App\Repositories\Eloquents\LessonWordRepository(\App\Models\LessonWord::class);
         });
+
+        $this->app->bind('App\Repositories\GradeRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\GradeRepository(\App\Models\Grade::class);
+        });
+
+        $this->app->bind('App\Repositories\SemesterRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\SemesterRepository(\App\Models\Semester::class);
+        });
     }
 }
