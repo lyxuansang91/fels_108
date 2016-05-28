@@ -97,7 +97,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="{!! Asset(auth()->user()->avatar) !!}" class="img-circle" alt="User Image" style="width: 100%; max-width: 45px; height: 45px;">
+              <img src="{!! Asset(auth()->user()->avatar) !!}" class="img-circle" alt="User Image" style="width: 100%;">
             </div>
             <div class="pull-left info">
               <p>{!! auth()->user()->name !!}</p>
@@ -166,14 +166,37 @@
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-tasks"></i>
-                <span>Semester</span>
+                <span>Semesters</span>
               </a>
               <ul class="treeview-menu">
                 <li><a href="{!! route('admin.semesters.create') !!}"><i class="fa fa-circle-o"></i> Add Semester</a></li>
                 <li><a href="{!! route('admin.semesters.index') !!}"><i class="fa fa-circle-o"></i> List Semester</a></li>
               </ul>
             </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Subjects</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.subjects.create') !!}"><i class="fa fa-circle-o"></i> Add Subject</a></li>
+                <li><a href="{!! route('admin.subjects.index') !!}"><i class="fa fa-circle-o"></i> List Subjects</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Group</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.groups.create') !!}"><i class="fa fa-circle-o"></i> Add Group</a></li>
+                <li><a href="{!! route('admin.groups.index') !!}"><i class="fa fa-circle-o"></i> List Groups</a></li>
+              </ul>
+            </li>
           </ul>
+
         </section>
         <!-- /.sidebar -->
       </aside>
@@ -189,7 +212,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; 2016 <a href="http://almsaeedstudio.com">Framgia E-learning System</a>.</strong> All rights reserved.
+        <!-- <strong>Copyright &copy; 2016 <a href="http://almsaeedstudio.com">Framgia E-learning System</a>.</strong> All rights reserved. -->
       </footer>
 
       <!-- Control Sidebar -->

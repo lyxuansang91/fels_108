@@ -6,33 +6,33 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">List Semester</h3>
+                        <h3 class="box-title">List Group</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
-                            @if(count($semesters) > 0)
+                            @if(count($groups) > 0)
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Semester Name</th>
+                                    <th>Group Name</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($semesters as $semester)
+                                @foreach($groups as $group)
                                 <tr>
-                                    <td>{{{ $semester->id }}}</td>
-                                    <td>{!! nl2br($semester->name) !!}</td>
-                                    <td><a href="{!! route('admin.semesters.edit', $semester->id) !!}" class="btn btn-primary">Edit</a></td>
-                                    {!! Form::open(['route' => ['admin.semesters.destroy', $semester->id], 'method' => 'delete']) !!}
+                                    <td>{{{ $group->id }}}</td>
+                                    <td>{!! nl2br($group->group_name) !!}</td>
+                                    <td><a href="{!! route('admin.groups.edit', $group->id) !!}" class="btn btn-primary">Edit</a></td>
+                                    {!! Form::open(['route' => ['admin.groups.destroy', $group->id], 'method' => 'delete']) !!}
                                     <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
                             </tbody>
                             @else
-                                List Subject is empty
+                                List Group is empty
                             @endif
                         </table>
                     </div><!-- /.box-body -->
