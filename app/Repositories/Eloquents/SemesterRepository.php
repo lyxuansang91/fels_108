@@ -18,7 +18,7 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         $semesters = $this->model->all();
         $semesterArray = array();
         foreach ($semesters as $semester) {
-            $semesterArray[$semester->id] = $semester->semester_name;
+            $semesterArray[$semester->id] = $semester->name;
         }
         return $semesterArray;
     }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories\Eloquents;
- 
+
 use App\Repositories\UserRepositoryInterface;
 use Exception;
 use \App\Models\User;
@@ -14,7 +14,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
      */
     public $ruleLogin = [
         'email' => 'required|email',
-        'password' => 'required|min:8'  
+        'password' => 'required|min:8'
     ];
 
     public $ruleAddUser = [
@@ -68,6 +68,18 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
         return $user;
     }
+
+
+    public function userSelection()
+    {
+        $users = $this->model->all();
+        $userArray = array();
+        foreach ($users as $user) {
+            $userArray[$user->id] = $user->name;
+        }
+        return $userArray;
+    }
+
 
     public function getListMember()
     {

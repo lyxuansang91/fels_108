@@ -68,7 +68,7 @@ class Activity extends Model
     public static function getFilterActivities()
     {
         $followIdArray = Follow::where('follower_id', auth()->id())->lists('followee_id');
-        $followIdArray[] = auth()->id(); 
+        $followIdArray[] = auth()->id();
         $dateActivities = Activity::select(\DB::raw('DATE(created_at) as day'))->whereIn('user_id', $followIdArray)->orderBy('created_at', 'desc')->get();
         foreach ($dateActivities as $activity) {
             $activities[$activity->day] = Activity::where('created_at', '>=', $activity->day . ' 00:00:00')
