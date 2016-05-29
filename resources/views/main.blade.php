@@ -195,6 +195,17 @@
                 <li><a href="{!! route('admin.groups.index') !!}"><i class="fa fa-circle-o"></i> List Groups</a></li>
               </ul>
             </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Level</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.levels.create') !!}"><i class="fa fa-circle-o"></i> Add Level</a></li>
+                <li><a href="{!! route('admin.levels.index') !!}"><i class="fa fa-circle-o"></i> List Level</a></li>
+              </ul>
+            </li>
           </ul>
 
         </section>

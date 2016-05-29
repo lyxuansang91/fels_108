@@ -18,7 +18,7 @@ class GradeRepository extends Repository implements GradeRepositoryInterface
         $grades = $this->model->all();
         $gradeArray = array();
         foreach ($grades as $grade) {
-            $gradeArray[$grade->id] = $grade->name;
+            $gradeArray[$grade->id] = $grade->grade_name;
         }
 
         return $gradeArray;

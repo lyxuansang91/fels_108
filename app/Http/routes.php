@@ -36,6 +36,8 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/subjects', 'SubjectController');
 
         Route::resource('/groups', 'GroupController');
+
+        Route::resource('/levels', 'LevelController');
     });
 });
 

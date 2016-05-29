@@ -22,8 +22,8 @@ class Grade extends Model
      */
     protected $fillable = ['grade_name'];
 
-    // public function words()
-    // {
-    //     return $this->hasMany(Word::class);
-    // }
+    public function classes()
+    {
+        return $this->hasMany(Level::class);
+    }
 }
