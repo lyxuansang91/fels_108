@@ -217,6 +217,17 @@
                 <li><a href="{!! route('admin.semester_subject_groups.index') !!}"><i class="fa fa-circle-o"></i> List Semester-Subject-Group</a></li>
               </ul>
             </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>User-Group</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.user_groups.create') !!}"><i class="fa fa-circle-o"></i> Add User-Group</a></li>
+                <li><a href="{!! route('admin.user_groups.index') !!}"><i class="fa fa-circle-o"></i> List User-Group</a></li>
+              </ul>
+            </li>
           </ul>
 
         </section>

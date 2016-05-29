@@ -40,6 +40,8 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/levels', 'LevelController');
 
         Route::resource('/semester_subject_groups', 'SemesterSubjectGroupController');
+
+        Route::resource('/user_groups', 'UserGroupController');
     });
 });
 
