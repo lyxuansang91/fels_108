@@ -228,6 +228,17 @@
                 <li><a href="{!! route('admin.user_groups.index') !!}"><i class="fa fa-circle-o"></i> List User-Group</a></li>
               </ul>
             </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>User-Grade</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.user_grades.create') !!}"><i class="fa fa-circle-o"></i> Add User-Grade</a></li>
+                <li><a href="{!! route('admin.user_grades.index') !!}"><i class="fa fa-circle-o"></i> List User-Grade</a></li>
+              </ul>
+            </li>
           </ul>
 
         </section>

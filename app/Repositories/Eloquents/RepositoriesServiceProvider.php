@@ -59,5 +59,9 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\UserGroupRepositoryInterface', function() {
             return new \App\Repositories\Eloquents\UserGroupRepository(\App\Models\UserGroup::class);
         });
+
+        $this->app->bind('App\Repositories\UserGradeRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\UserGradeRepository(\App\Models\UserGrade::class);
+        });
     }
 }
