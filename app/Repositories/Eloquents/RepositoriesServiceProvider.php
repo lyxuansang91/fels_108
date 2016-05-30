@@ -63,5 +63,13 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\UserGradeRepositoryInterface', function() {
             return new \App\Repositories\Eloquents\UserGradeRepository(\App\Models\UserGrade::class);
         });
+
+        $this->app->bind('App\Repositories\PointRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\PointRepository(\App\Models\Point::class);
+        });
+
+        $this->app->bind('App\Repositories\ConductRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\ConductRepository(\App\Models\Conduct::class);
+        });
     }
 }

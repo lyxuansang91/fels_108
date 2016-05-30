@@ -25,15 +25,19 @@ class SemesterSubjectGroupRepository extends Repository implements SemesterSubje
     ];
 
 
-    // public function levelSelection()
-    // {
-    //     $levels = $this->model->all();
-    //     $levelArray = array();
-    //     foreach ($levels as $level) {
-    //         $levelArray[$level->id] = $level->level_name;
-    //     }
-    //     return $levelArray;
-    // }
+    public function selection()
+    {
+        $semester_subject_groups = $this->model->all();
+        $semesterSubjectgroupArray = array();
+        foreach ($semester_subject_groups as $semester_subject_group) {
+            $semesterSubjectgroupArray[$semester_subject_group->id]
+                = $semester_subject_group->semester->name
+                .'-'. $semester_subject_group->subject->subject_name
+                .'-'. $semester_subject_group->group->group_name
+                .'-'. $semester_subject_group->level->level_name;
+        }
+        return $semesterSubjectgroupArray;
+    }
 
     public function createSemesterSubjectGroup($data)
     {

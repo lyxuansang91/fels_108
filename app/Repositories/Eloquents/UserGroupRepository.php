@@ -18,17 +18,6 @@ class UserGroupRepository extends Repository implements UserGroupRepositoryInter
         'user_id' => 'required'
     ];
 
-
-    // public function levelSelection()
-    // {
-    //     $levels = $this->model->all();
-    //     $levelArray = array();
-    //     foreach ($levels as $level) {
-    //         $levelArray[$level->id] = $level->level_name;
-    //     }
-    //     return $levelArray;
-    // }
-
     public function createUserGroup($data)
     {
         $this->create($data);
