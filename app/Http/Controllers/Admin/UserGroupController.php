@@ -94,12 +94,12 @@ class UserGroupController extends Controller
      */
     public function edit($id)
     {
-        $user_groups = $this->userGroupRepository->findOrFail($id);
+        $user_group = $this->userGroupRepository->findOrFail($id);
         $groups = $this->groupRepository->groupSelection();
         $users = $this->userRepository->userSelection();
 
         return view('admin.user_group.edit')->with([
-            'user_groups' => $user_groups,
+            'user_group' => $user_group,
             'groups' => $groups,
             'users' => $users
         ]);
@@ -114,13 +114,13 @@ class UserGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rule = $this->semesterSubjectGroupRepository->ruleUpdate;
+        $rule = $this->userGroupRepository->ruleUpdate;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
             return redirect()->route('admin.user_groups.edit', $id)->with(['errors' => $errors]);
         }
-        $this->semesterSubjectGroupRepository->updateUserGroup($id, $request->all());
+        $this->userGroupRepository->updateUserGroup($id, $request->all());
 
         return redirect()->route('admin.user_groups.index');
     }

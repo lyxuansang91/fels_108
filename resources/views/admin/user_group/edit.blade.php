@@ -24,14 +24,14 @@
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Group Name</label>
                         <div class="col-sm-10">
-                            {!! Form::select('group_id', $groups, $user_group->group->group_name, ['class'=>'form-control', 'pladeholder'=> 'Pick a Group']) !!}
+                            {!! Form::select('group_id', $groups, $user_group->group->id, ['class'=>'form-control', 'pladeholder'=> 'Pick a Group']) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">User Name</label>
                         <div class="col-sm-10">
-                            {!! Form::select('user_id', $users, $user_group->user->name, ['class'=>'form-control', 'pladeholder'=> 'Pick an User']) !!}
+                            {!! Form::select('user_id', $users, $user_group->user->id, ['class'=>'form-control', 'pladeholder'=> 'Pick an User']) !!}
                         </div>
                     </div>
                 </div><!-- /.box-body -->

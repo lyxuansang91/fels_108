@@ -31,24 +31,12 @@ class UserGroupRepository extends Repository implements UserGroupRepositoryInter
 
     public function createUserGroup($data)
     {
-        // $file = $data['image'];
-        // $name = $file->getClientOriginalName();
-        // $file->move(public_path().'/images/category', $name);
-        // $data['image'] = '/images/category/' . $name;
         $this->create($data);
     }
 
     public function updateUserGroup($id, $data)
     {
         $user_group = $this->findOrFail($id);
-        // if(isset($data['image'])) {
-        //     $file = $data['image'];
-        //     $name = $file->getClientOriginalName();
-        //     $file->move(public_path().'/images/category', $name);
-        //     $category->image = '/images/category/' . $name;
-        // }
-        // $category->name = $data['name'];
-        // $category->content = $data['content'];
         $user_group->group_id = $data['group_id'];
         $user_group->user_id = $data['user_id'];
         $user_group->save();
