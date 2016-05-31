@@ -45,6 +45,13 @@
                                 {!! Form::text('name', $user->name, ['class'=>'form-control', 'placeholder'=>'Input name']) !!}
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="inputName3" class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                {!! Form::text('student_id', $user->student_id, ['class'=>'form-control', 'placeholder'=>'Input name']) !!}
+                            </div>
+                        </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <a href="{!! URL::previous() !!}" class="btn  btn-default">Back</a>

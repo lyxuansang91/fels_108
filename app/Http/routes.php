@@ -46,8 +46,10 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/user_grades', 'UserGradeController');
 
         Route::resource('/points', 'PointController');
-        
+
         Route::resource('/conducts', 'ConductController');
+
+        Route::resource('/students', 'StudentController');
     });
 });
 

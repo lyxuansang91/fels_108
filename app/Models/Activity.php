@@ -40,21 +40,6 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function follow()
-    {
-        return $this->belongsTo(Follow::class, 'follow_id');
-    }
-
-    public function lesson()
-    {
-        return $this->belongsTo(Lesson::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function checkTypeLesson()
     {
         return $this->type == self::LESSON_TYPE;
@@ -70,6 +55,7 @@ class Activity extends Model
         $followIdArray = Follow::where('follower_id', auth()->id())->lists('followee_id');
         $followIdArray[] = auth()->id();
         $dateActivities = Activity::select(\DB::raw('DATE(created_at) as day'))->whereIn('user_id', $followIdArray)->orderBy('created_at', 'desc')->get();
+        $activities = Array();
         foreach ($dateActivities as $activity) {
             $activities[$activity->day] = Activity::where('created_at', '>=', $activity->day . ' 00:00:00')
                 ->where('created_at', '<=', $activity->day . ' 23:59:59')

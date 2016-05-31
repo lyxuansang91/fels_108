@@ -40,4 +40,9 @@ class PointRepository extends Repository implements PointRepositoryInterface
         $point->mark_last = $data['mark_last'];
         $point->save();
     }
+
+    public function getListPointByUser($user_id) {
+        $points = $this->model->where('user_id', '=', $user_id)->orderBy('created_at', 'desc')->get();
+        return $points;
+    }
 }

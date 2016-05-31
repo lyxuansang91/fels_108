@@ -22,7 +22,7 @@
                     @endif
 
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Grade</label>
+                        <label for="inputName3" class="col-sm-2 control-label">User name</label>
                         <div class="col-sm-10">
                             {!! Form::select('user_id', $users, null,  ['class'=>'form-control', 'pladeholder'=> 'Pick a grade']) !!}
                         </div>

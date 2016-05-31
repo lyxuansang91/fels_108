@@ -130,6 +130,8 @@
               <ul class="treeview-menu">
                 <li><a href="{!! route('admin.members.create') !!}"><i class="fa fa-circle-o"></i> Add Member</a></li>
                 <li><a href="{!! route('admin.members.index') !!}"><i class="fa fa-circle-o"></i> List Member</a></li>
+                <li><a href="{!! route('admin.students.create') !!}"><i class="fa fa-circle-o"></i> Add Student</a></li>
+                <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i> List Student</a></li>
               </ul>
             </li>
             <li class="treeview active">
@@ -237,6 +239,28 @@
               <ul class="treeview-menu">
                 <li><a href="{!! route('admin.user_grades.create') !!}"><i class="fa fa-circle-o"></i> Add User-Grade</a></li>
                 <li><a href="{!! route('admin.user_grades.index') !!}"><i class="fa fa-circle-o"></i> List User-Grade</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Point</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.points.create') !!}"><i class="fa fa-circle-o"></i> Add Point</a></li>
+                <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> List Point</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-tasks"></i>
+                <span>Conduct</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="{!! route('admin.user_grades.create') !!}"><i class="fa fa-circle-o"></i> Add Conduct</a></li>
+                <li><a href="{!! route('admin.user_grades.index') !!}"><i class="fa fa-circle-o"></i> List Conduct</a></li>
               </ul>
             </li>
           </ul>

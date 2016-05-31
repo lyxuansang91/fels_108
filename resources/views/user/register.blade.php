@@ -55,6 +55,11 @@
                 {!! Form::password('password_confirm', ['class'=>'form-control', 'placeholder'=>'Retype password']) !!}
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
+
+            <div class="form-group has-feedback">
+                {!! Form::text('student_id', '', ['class'=>'form-control', 'placeholder'=>'Input Student']) !!}
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
             <div class="row">
                 <div class="col-xs-4">
                     {!! Form::submit('Register', ['class'=>'btn btn-primary btn-block btn-flat']) !!}

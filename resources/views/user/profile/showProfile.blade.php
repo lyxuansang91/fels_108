@@ -16,22 +16,22 @@
                             <!-- Profile Image -->
                             <div class="box box-primary">
                                 <div class="box-body box-profile">
-                                    <img class="profile-user-img img-responsive img-circle" src="{!! $user->avatar !!}" alt="User profile picture" style="width: 100%; max-width: 100px; height: 100px;">
+                                    <img class="profile-user-img img-responsive img-circle" src="{!! asset($user->avatar) !!}" alt="User profile picture" style="width: 100%; max-width: 100px; height: 100px;">
                                     <h3 class="profile-username text-center">{!! $user->name !!}</h3>
 
                                     <ul class="list-group list-group-unbordered">
                                         <li class="list-group-item">
-                                            <a href="{!! route('user.learned-words.show', $user->id) !!}"><b>Learned Word</b></a> 
+                                            <a href="{!! route('user.learned-words.show', $user->id) !!}"><b>Learned Word</b></a>
                                             <a class="pull-right">{!! $user->learnedWord()->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
-                                             
-                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Followers</b></a> 
+
+                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Followers</b></a>
                                             <a class="pull-right">{!! $user->follows->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
-                                           
-                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Following</b></a> 
+
+                                            <a href="{!! route('user.follows.show', $user->id) !!}"><b>Following</b></a>
                                           <a class="pull-right">{!! $user->following()->count() !!}</a>
                                         </li>
                                         <li class="list-group-item">
@@ -74,136 +74,54 @@
                             </div><!-- /.box -->
                         </div><!-- /.col -->
                         <div class="col-md-9">
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    @if (count($errors) > 0 || session()->has('messages'))
-                                        <li><a href="#activity" data-toggle="tab">Activity</a></li>
-                                        <li><a href="#timeline" data-toggle="tab">Lesson's history</a></li>
-                                        @if (auth()->id() == $user->id)
-                                            <li class="active"><a href="#settings" data-toggle="tab">Change Password</a></li>
-                                        @endif
-                                    @else
-                                        <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-                                        <li><a href="#timeline" data-toggle="tab">Lesson's history</a></li>
-                                        @if (auth()->id() == $user->id)
-                                            <li><a href="#settings" data-toggle="tab">Change Password</a></li>
-                                        @endif
-                                    @endif
-                                </ul>
-                                <div class="tab-content">
-                                    @if (count($errors) > 0 || session()->has('messages'))
-                                    <div class="tab-pane" id="activity">
-                                    @else
-                                    <div class="active tab-pane" id="activity">
-                                    @endif
-                                        <ul class="timeline timeline-inverse">
-                                            @foreach ($user->activities()->paginate(\App\Models\Activity::ACTIVITIES_PER_PAGE) as $activity)
-                                                <!-- timeline time label -->
-                                                <li class="time-label">
-                                                    @if ($activity->checkTypeLesson())
-                                                    <span class="bg-red">
-                                                        {!! Date('jS \of F Y', strtotime($activity->created_at)) !!}
-                                                    </span>
-                                                    @elseif ($activity->checkTypeFollow())
-                                                    <span class="bg-green">
-                                                        {!! Date('jS \of F Y', strtotime($activity->created_at)) !!}
-                                                    </span>
-                                                    @endif
-                                                </li>
-                                                <!-- /.timeline-label -->
-                                                <li>
-                                                    @if ($activity->checkTypeLesson())
-                                                        <i class="fa fa-book bg-blue"></i>
-                                                        <div class="timeline-item">
-                                                            <h3 class="timeline-header">
-                                                                Passed {!! $activity->lesson->countPassed()->count() !!} / {!! \App\Models\Lesson::QUESTION_PER_LESSON !!}
-                                                                in <a href="{!! route('user.results.show', $activity->lesson->id) !!}">Lesson  of the {!! $activity->lesson->category->name !!}</a>
-                                                            </h3>
-                                                        </div>
-                                                    @elseif ($activity->checkTypeFollow())
-                                                        <i class="fa fa-user bg-blue"></i>
-                                                        <div class="timeline-item">
-                                                            <h3 class="timeline-header">
-                                                                Followed <a href="{!! route('user.profiles.show', $activity->follow->followee->id) !!}">{!! $activity->follow->followee->name !!}</a>
-                                                            </h3>
-                                                        </div>
-                                                    @endif
-                                                </li>
-                                            @endforeach
-                                            <li>
-                                                <i class="fa fa-clock-o bg-gray"></i>
-                                            </li>
-                                        </ul>
-                                        {!! $user->activities()->paginate(\App\Models\Activity::ACTIVITIES_PER_PAGE)->render() !!}
-                                    </div><!-- /.tab-pane -->
-                                    <div class="tab-pane" id="timeline">
-                                        @foreach ($user->lessons as $lesson)
-                                            <div class="post">
-                                                <div class="user-block">
-                                                    <img class="img-circle img-bordered-sm" src="{!! $lesson->category->image !!}" alt="user image">
-                                                    <span class='username'>
-                                                        <a href="{!! route('user.results.show', $lesson->id) !!}">{!! $lesson->category->name !!}</a>
-                                                    </span>
-                                                    <span class='description'>{!! $lesson->created_at !!}</span>
-                                                </div><!-- /.user-block -->
-                                                <p>
-                                                    {!! $lesson->content !!}
-                                                </p>
-                                            </div><!-- /.post -->
+                            <table id="example1" class="table table-bordered table-striped">
+                                @if (count($points) > 0)
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Semester Name</th>
+                                            <th>Subject Name</th>
+                                            <th>Group Name</th>
+                                            <th>Level Name</th>
+                                            <th>User Name</th>
+                                            <th>Mark M 1</th>
+                                            <th>Mark M 2</th>
+                                            <th>Mark M 3</th>
+                                            <th>Mark M 4</th>
+                                            <th>Mark 15 1</th>
+                                            <th>Mark 15 2</th>
+                                            <th>Mark 15 3</th>
+                                            <th>Mark 45 1</th>
+                                            <th>Mark 45 2</th>
+                                            <th>Mark Last</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($points as $point)
+                                        <tr>
+                                            <td>{{{ $point->id }}}</td>
+                                            <td>{!! nl2br($point->semester_subject_group->semester->name) !!}</td>
+                                            <td>{{{ $point->semester_subject_group->subject->subject_name }}}</td>
+                                            <td>{{{ $point->semester_subject_group->group->group_name }}}</td>
+                                            <td>{{{ $point->semester_subject_group->level->level_name }}}</td>
+                                            <td>{{{ $point->user->student->name }}}</td>
+                                            <td>{{{ $point->mark_m1 }}}</td>
+                                            <td>{{{ $point->mark_m2 }}}</td>
+                                            <td>{{{ $point->mark_m3 }}}</td>
+                                            <td>{{{ $point->mark_m4 }}}</td>
+                                            <td>{{{ $point->mark_15_1 }}}</td>
+                                            <td>{{{ $point->mark_15_2 }}}</td>
+                                            <td>{{{ $point->mark_15_3 }}}</td>
+                                            <td>{{{ $point->mark_45_1 }}}</td>
+                                            <td>{{{ $point->mark_45_2 }}}</td>
+                                            <td>{{{ $point->mark_last }}}</td>
+                                        </tr>
                                         @endforeach
-                                    </div><!-- /.tab-pane -->
-                                    @if (auth()->id() == $user->id)
-                                        @if (count($errors) > 0 || session()->has('messages'))
-                                        <div class="active tab-pane" id="settings">
-                                        @else
-                                        <div class="tab-pane" id="settings">
-                                        @endif
-                                        {!! Form::open(['route' => ['user.passwords.update', $user->id], 'method' => 'PUT', 'class' => 'form-horizontal']) !!}
-                                            @if (count($errors) > 0)
-                                                <div class="alert alert-danger alert-dismissable">
-                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{!! $error !!}</li>
-                                                    @endforeach
-                                                </div>
-                                            @endif
-                                            
-                                            @if (session()->has('messages'))
-                                                <div class="alert alert-warning alert-dismissable">
-                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                                                    {!! session('messages') !!}
-                                                </div>
-                                            @endif
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-3 control-label">Current Password</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::password('current_password', ['placeholder' => 'current password', 'class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-3 control-label">New Password</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::password('new_password', ['placeholder' => 'new password', 'class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputName" class="col-sm-3 control-label">Confirm Password</label>
-                                                <div class="col-sm-9">
-                                                    {!! Form::password('new_password_confirm', ['placeholder' => 'confirm new password', 'class' => 'form-control']) !!}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-offset-3 col-sm-9">
-                                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                                </div>
-                                            </div>
-                                        {!! Form::close() !!}
-                                    </div><!-- /.tab-pane -->
-                                    @endif
-                                </div><!-- /.tab-content -->
-                            </div><!-- /.nav-tabs-custom -->
+                                    </tbody>
+                                @else
+                                    List point is empty
+                                @endif
+                            </table>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div>

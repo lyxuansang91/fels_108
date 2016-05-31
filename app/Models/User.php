@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'avatar', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'avatar', 'role', 'student_id'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -53,6 +53,9 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany(Activity::class);
     }
 
+    public function student() {
+        return $this->belongsTo(Student::class);
+    }
     /**
      * Mutator for auto hash password
      * @param String $data

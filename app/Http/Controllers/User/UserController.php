@@ -8,15 +8,22 @@ use App\Models\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepositoryInterface as UserRepository;
-
+use App\Repositories\StudentRepositoryInterface as StudentRepository;
+use App\Repositories\PointRepositoryInterface as PointRepository;
 
 class UserController extends Controller
 {
     protected $userRepository;
-    
-    public function __construct( UserRepository $userRepository) 
+    protected $studentRepository;
+    protected $pointRepository;
+
+    public function __construct( UserRepository $userRepository,
+    StudentRepository $studentRepository,
+    PointRepository $pointRepository)
     {
         $this->userRepository = $userRepository;
+        $this->studentRepository = $studentRepository;
+        $this->pointRepository = $pointRepository;
     }
 
     /**
@@ -50,7 +57,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $rule = $this->userRepository->ruleCreate;
-        
+
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
@@ -71,9 +78,15 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->userRepository->findOrFail($id);
+        $student = $this->studentRepository->findOrFail($user->student_id);
+        $points = $this->pointRepository->getListPointByUser($id);
         $listUser = $this->userRepository->getListMember();
 
-        return view('user.profile.showProfile')->with(['user' => $user, 'listUser' => $listUser]);
+        return view('user.profile.showProfile')->with([
+            'user' => $user,
+            'listUser' => $listUser,
+            'points' => $points,
+            'student' => $student]);
     }
 
     /**
@@ -88,7 +101,7 @@ class UserController extends Controller
             return redirect()->route('user.index');
         }
         $user = $this->userRepository->findOrFail($id);
-        
+
         return view('user.profile.editProfile')->with(['user' => $user]);
     }
 
