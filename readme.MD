@@ -1,1 +1,1 @@
-This is Trung's project
+This is Trung & Sang's project
