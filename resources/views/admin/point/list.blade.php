@@ -11,7 +11,7 @@
         </select>
     </div>
 
-    
+
 
     <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
 </form>
@@ -30,7 +30,7 @@
                                         <th>ID</th>
                                         <th>Semester Name</th>
                                         <th>Subject Name</th>
-                                        <th>Group Name</th>
+
                                         <th>Level Name</th>
                                         <th>User Name</th>
                                         <th>Mark M 1</th>
@@ -54,7 +54,6 @@
                                         <td>{{{ $point->id }}}</td>
                                         <td>{!! nl2br($point->semester_subject_level->semester->semester_number) !!}</td>
                                         <td>{{{ $point->semester_subject_level->subject->subject_name }}}</td>
-                                        <td></td>
                                         <td>{{{ $point->semester_subject_level->level->level_name }}}</td>
                                         <td>{{{ $point->student->name }}}</td>
                                         <td><input type="text" name="mark_m1" id="mark_m1" value="{{{ $point->mark_m1 }}}" size="3" readonly="true"></td>
@@ -125,7 +124,7 @@
                     jQuery(".point_"+id+" .savePoint").attr('disabled', 'true');
                 }
             });
-            
+
 
         });
     });
