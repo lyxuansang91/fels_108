@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Eloquents;
 
-use App\Repositories\SemesterSubjectGroupRepositoryInterface;
+use App\Repositories\SemesterSubjectLevelRepositoryInterface;
 use Exception;
 
-class SemesterSubjectGroupRepository extends Repository implements SemesterSubjectGroupRepositoryInterface
+class SemesterSubjectLevelRepository extends Repository implements SemesterSubjectLevelRepositoryInterface
 {
 
     public $ruleAdd = [

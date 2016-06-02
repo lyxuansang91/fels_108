@@ -50,6 +50,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/conducts', 'ConductController');
 
         Route::resource('/students', 'StudentController');
+
+        Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
+
     });
 });
 

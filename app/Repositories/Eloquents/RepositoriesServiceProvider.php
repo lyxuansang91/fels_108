@@ -52,8 +52,8 @@ class RepositoriesServiceProvider extends ServiceProvider
             return new \App\Repositories\Eloquents\LevelRepository(\App\Models\Level::class);
         });
 
-        $this->app->bind('App\Repositories\SemesterSubjectGroupRepositoryInterface', function() {
-            return new \App\Repositories\Eloquents\SemesterSubjectGroupRepository(\App\Models\SemesterSubjectGroup::class);
+        $this->app->bind('App\Repositories\SemesterSubjectLevelRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\SemesterSubjectLevelRepository(\App\Models\SemesterSubjectLevel::class);
         });
 
         $this->app->bind('App\Repositories\UserGroupRepositoryInterface', function() {

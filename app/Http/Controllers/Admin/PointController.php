@@ -12,23 +12,27 @@ use App\Repositories\GroupRepositoryInterface as GroupRepository;
 use App\Repositories\SubjectRepositoryInterface as SubjectRepository;
 use App\Repositories\UserRepositoryInterface as UserRepository;
 use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
-use App\Repositories\SemesterSubjectGroupRepositoryInterface as SemesterSubjectGroupRepository;
+use App\Repositories\SemesterSubjectLevelRepositoryInterface as SemesterSubjectLevelRepository;
 use App\Repositories\PointRepositoryInterface as PointRepository;
+use App\Repositories\LevelRepositoryInterface as LevelRepository;
 
 class PointController extends Controller
 {
     protected $pointRepository;
-    protected $semesterSubjectGroupRepository;
+    protected $semesterSubjectLevelRepository;
     protected $userRepository;
+    protected $levelRepository;
     public function __construct(
 
         PointRepository $pointRepository,
-        SemesterSubjectGroupRepository $semesterSubjectGroupRepository,
-        UserRepository $userRepository
+        semesterSubjectLevelRepository $semesterSubjectLevelRepository,
+        UserRepository $userRepository,
+        LevelRepository $levelRepository
     ) {
         $this->pointRepository = $pointRepository;
-        $this->semesterSubjectGroupRepository = $semesterSubjectGroupRepository;
+        $this->semesterSubjectLevelRepository = $semesterSubjectLevelRepository;
         $this->userRepository = $userRepository;
+        $this->levelRepository = $levelRepository;
     }
 
     /**
@@ -36,11 +40,16 @@ class PointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $points = $this->pointRepository->all();
+        $selectLevel = $request->selectLevel;
+        if($selectLevel == NULL)
+            $points = $this->pointRepository->all();
+        else
+            $points = $this->pointRepository->getListPoinByLevel($selectLevel);
+        $level = $this->levelRepository->all();
         return view('admin.point.list')->with([
-            'points' => $points]);
+            'points' => $points, 'levels'=>$level, 'selectLevel'=>$selectLevel]);
     }
 
     /**
@@ -52,7 +61,7 @@ class PointController extends Controller
     {
         //
         // $gradeArray = $this->gradeRepository->gradeSelection();
-        $semester_subject_groups = $this->semesterSubjectGroupRepository->selection();
+        $semester_subject_groups = $this->semesterSubjectLevelRepository->selection();
         $users = $this->userRepository->userSelection();
         return view('admin.point.add')->with([
             'semester_subject_groups' => $semester_subject_groups,
@@ -100,7 +109,7 @@ class PointController extends Controller
     public function edit($id)
     {
         $point = $this->pointRepository->findOrFail($id);
-        $semester_subject_groups = $this->semesterSubjectGroupRepository->selection();
+        $semester_subject_groups = $this->semesterSubjectLevelRepository->selection();
         $users = $this->userRepository->userSelection();
 
         return view('admin.point.edit')->with([
@@ -128,6 +137,12 @@ class PointController extends Controller
         $this->pointRepository->updatePoint($id, $request->all());
 
         return redirect()->route('admin.points.index');
+    }
+
+    public function updatePoint(Request $request){
+        $id = $request->id;
+        $res = $this->pointRepository->updatePoint($id, $request->all());
+        return $res;
     }
 
     /**

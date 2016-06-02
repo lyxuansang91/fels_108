@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SemesterSubjectGroup extends Model
+class SemesterSubjectLevel extends Model
 {
     //
     public $timestamps = true;
-    protected $fillable = ['semester_id', 'subject_id', 'group_id', 'level_id', 'user_id'];
-    protected $table = 'semester_subject_groups';
+    protected $fillable = ['semester_id', 'subject_id', 'group_id', 'level_id', 'student_id'];
+    protected $table = 'semester_subject_levels';
 
     public function semester() {
         return $this->belongsTo(Semester::class);
@@ -27,7 +27,7 @@ class SemesterSubjectGroup extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function student() {
+        return $this->belongsTo(Student::class);
     }
 }
