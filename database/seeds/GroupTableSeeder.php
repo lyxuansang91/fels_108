@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserTableSeeder extends Seeder
+class GroupTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,11 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('users')->insert([
-             ['email' => 'sang.lxuan@gmail.com',
-             'password'=> bcrypt('12345678'),
-             'role' => 1,
+        DB::table('groups')->insert([
+             ['group_name' => 'Cơ bản',
+             'created_at'=> \Carbon\Carbon::now(),
+             'updated_at' => \Carbon\Carbon::now()],
+             ['group_name' => 'Nâng cao',
              'created_at'=> \Carbon\Carbon::now(),
              'updated_at' => \Carbon\Carbon::now()]
         ]);

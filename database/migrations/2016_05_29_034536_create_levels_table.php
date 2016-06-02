@@ -16,6 +16,8 @@ class CreateLevelsTable extends Migration
             $table->increments('id');
             $table->string('level_name');
             $table->integer('grade_id');
+            $table->integer('group_id');
+            $table->integer('teacher_id');
             $table->timestamps();
         });
     }

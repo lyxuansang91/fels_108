@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSemesterSubjectGroupsTable extends Migration
+class CreateSubjectGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateSemesterSubjectGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('semester_subject_groups', function (Blueprint $table) {
+        Schema::create('subject_groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('semester_id');
             $table->integer('subject_id');
             $table->integer('group_id');
-            $table->integer('level_id');
-            $table->integer('user_id');
+            $table->integer('factor');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSemesterSubjectGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('semester_subject_groups');
+        Schema::drop('subject_groups');
     }
 }

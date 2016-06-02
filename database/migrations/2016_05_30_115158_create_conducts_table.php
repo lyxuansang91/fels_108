@@ -14,6 +14,9 @@ class CreateConductsTable extends Migration
     {
         Schema::create('conducts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('student_id');
+            $table->integer('semester_id');
+            $table->string('conduct_name');
             $table->timestamps();
         });
     }

@@ -14,8 +14,8 @@ class CreatePointsTable extends Migration
     {
         Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('semester_subject_group_id');
+            $table->integer('student_id');
+            $table->integer('semester_subject_level_id');
             $table->double('mark_m1', 5, 1);
             $table->double('mark_m2', 5, 1);
             $table->double('mark_m3', 5, 1);
@@ -26,6 +26,7 @@ class CreatePointsTable extends Migration
             $table->double('mark_45_1', 5, 1);
             $table->double('mark_45_2', 5, 1);
             $table->double('mark_last', 5, 1);
+            $table->double('mark_avg', 5, 1);
             $table->timestamps();
         });
     }

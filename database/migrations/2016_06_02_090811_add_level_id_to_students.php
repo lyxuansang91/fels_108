@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemoveUserIdFromStudents extends Migration
+class AddLevelIdToStudents extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class RemoveUserIdFromStudents extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             //
-            $table->dropColumn('user_id');
+            $table->integer('level_id');
         });
     }
 
@@ -27,7 +27,6 @@ class RemoveUserIdFromStudents extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             //
-            $table->integer('user_id')->nullable();
         });
     }
 }

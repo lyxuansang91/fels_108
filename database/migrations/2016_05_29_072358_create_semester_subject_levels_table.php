@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserGroupsTable extends Migration
+class CreateSemesterSubjectLevelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,12 @@ class CreateUserGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_groups', function (Blueprint $table) {
+        Schema::create('semester_subject_levels', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('group_id');
+            $table->integer('semester_id');
+            $table->integer('subject_id');
+            $table->integer('level_id');
+            $table->integer('teacher_id');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateUserGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_groups');
+        Schema::drop('semester_subject_levels');
     }
 }
