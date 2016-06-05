@@ -4,6 +4,15 @@ namespace App\Repositories\Eloquents;
 
 use App\Repositories\SemesterRepositoryInterface;
 use Exception;
+use App\Models\User;
+use App\Models\Semester;
+use App\Models\SemesterSubjectLevel;
+use App\Models\Conduct;
+use App\Models\Point;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Level;
+use App\Models\Teacher;
 
 class SemesterRepository extends Repository implements SemesterRepositoryInterface
 {
@@ -31,7 +40,33 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         // $file->move(public_path().'/images/category', $name);
         // $data['image'] = '/images/category/' . $name;
         $data['semester_code'] = $data['year'].'-'.$data['semester_number'];
-        $this->create($data);
+        $semester = $this->create($data);
+        $subjects = Subject::all();
+        $levels = Level::all();
+
+        //prepare point
+        foreach($subjects as $subject) {
+            foreach($levels as $level) {
+                $teachers = Teacher::where('subject_id', $subject->id)->get();
+                if(count($teachers) > 0) {
+                    $teacher = $teachers[rand(0, count($teachers)-1)];
+                    $semester_subject_level = SemesterSubjectLevel::create([
+                        'semester_id' => $semester->id,
+                        'subject_id' => $subject->id,
+                        'teacher_id' => $teacher->id,
+                        'level_id' => $level->id]);
+
+                    $students = Student::where('level_id', $level->id)->get();
+                    foreach($students as $student) {
+                        Point::create([
+                            'student_id' => $student->id,
+                            'semester_subject_level_id'=> $semester_subject_level->id
+                        ]);
+                    }
+
+                }
+            }
+        }
     }
 
     public function updateSemester($id, $data)

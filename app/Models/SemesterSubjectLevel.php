@@ -8,7 +8,7 @@ class SemesterSubjectLevel extends Model
 {
     //
     public $timestamps = true;
-    protected $fillable = ['semester_id', 'subject_id', 'group_id', 'level_id', 'student_id'];
+    protected $fillable = ['semester_id', 'subject_id', 'group_id', 'level_id', 'teacher_id'];
     protected $table = 'semester_subject_levels';
 
     public function semester() {
@@ -27,7 +27,7 @@ class SemesterSubjectLevel extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function student() {
-        return $this->belongsTo(Student::class);
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
     }
 }

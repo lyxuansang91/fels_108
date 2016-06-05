@@ -49,9 +49,9 @@
                                     @foreach ($points as $point)
                                     <tr class="point_{{ $point->id }}">
                                         <td>{{{ $point->id }}}</td>
-                                        <td>{!! nl2br($point->semester_subject_level->semester->semester_number) !!}</td>
+                                        <td>{!! nl2br($point->semester_subject_level->semester->semester_code) !!}</td>
                                         <td>{{{ $point->semester_subject_level->subject->subject_name }}}</td>
-                                        <td>{{{ $point->semester_subject_level->level->level_name }}}</td>
+                                        <td>{{{ $point->semester_subject_level->level->grade->grade_name.'-'.$point->semester_subject_level->level->level_name }}}</td>
                                         <td>{{{ $point->student->name }}}</td>
                                         <td><input type="text" name="mark_m1" id="mark_m1" value="{{{ $point->mark_m1 }}}" size="3" readonly="true"></td>
                                         <td><input type="text" name="mark_m2" id="mark_m2" value="{{{ $point->mark_m2 }}}" size="3" readonly="true"></td>

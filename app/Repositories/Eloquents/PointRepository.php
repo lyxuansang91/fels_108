@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquents;
 
 use App\Repositories\PointRepositoryInterface;
 use App\Models\SemesterSubjectLevel;
+use App\Models\Semester;
 use Exception;
 
 class PointRepository extends Repository implements PointRepositoryInterface
@@ -45,11 +46,36 @@ class PointRepository extends Repository implements PointRepositoryInterface
         return $points;
     }
 
-    public function getListPoinByLevel($level_id){
+
+    public function getAllPoint() {
         $points = array();
-        $semester_subject_levels_id = SemesterSubjectLevel::where('level_id', $level_id)->first();
-        if($semester_subject_levels_id)
-        $points = $this->model->where('semester_subject_level_id', $semester_subject_levels_id->id)->get();
+        $semester = Semester::all()->last();
+        $semester_subject_levels = SemesterSubjectLevel::where('semester_id', $semester->id)->select('id')->get();
+        if($semester_subject_levels)
+            $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_id')->get();
+        return $points;
+    }
+
+    public function getListPoinByLevel($level_id, $teacher_id = NULL){
+        $points = array();
+        $semester = Semester::all()->last();
+
+    //    dd($semester);
+        if($teacher_id == NULL) {
+            $semester_subject_levels = SemesterSubjectLevel::
+                where('level_id', $level_id)
+                ->where('semester_id', $semester->id)->select('id')->get();
+        } else  {
+            $semester_subject_levels = SemesterSubjectLevel::
+                where('level_id', $level_id)
+                ->where('teacher_id', $teacher_id)
+                ->where('semester_id', $semester->id)->select('id')->get();
+        }
+
+        if($semester_subject_levels) {
+            $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_id')->get();
+        }
+
         return $points;
     }
 }

@@ -8,6 +8,6 @@ class Semester extends Model
 {
     //
     protected $table = 'semesters';
-    protected $fillable = ['semester_number'];
+    protected $fillable = ['semester_number', 'semester_code', 'year'];
     public $timestamps = true;
 }

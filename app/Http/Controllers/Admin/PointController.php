@@ -44,7 +44,7 @@ class PointController extends Controller
     {
         $selectLevel = $request->selectLevel;
         if($selectLevel == NULL)
-            $points = $this->pointRepository->all();
+            $points = $this->pointRepository->getAllPoint();
         else
             $points = $this->pointRepository->getListPoinByLevel($selectLevel);
         $level = $this->levelRepository->all();
