@@ -11,11 +11,13 @@ class LevelRepository extends Repository implements LevelRepositoryInterface
     public $ruleAdd = [
         'level_name' => 'required',
         'grade_id' => 'required',
+        'group_id' => 'required'
     ];
 
     public $ruleUpdate = [
         'level_name' => 'required',
         'grade_id' => 'required',
+        'group_id' => 'required'
     ];
 
 
@@ -24,7 +26,7 @@ class LevelRepository extends Repository implements LevelRepositoryInterface
         $levels = $this->model->all();
         $levelArray = array();
         foreach ($levels as $level) {
-            $levelArray[$level->id] = $level->level_name;
+            $levelArray[$level->id] = $level->grade->grade_name.'-'.$level->level_name;
         }
         return $levelArray;
     }
@@ -51,6 +53,7 @@ class LevelRepository extends Repository implements LevelRepositoryInterface
         // $category->content = $data['content'];
         $level->level_name = $data['level_name'];
         $level->grade_id = $data['grade_id'];
+        $level->group_id = $data['group_id'];
         $level->save();
     }
 }

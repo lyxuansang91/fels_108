@@ -145,6 +145,30 @@ class PointController extends Controller
         return $res;
     }
 
+    public function exportExcel() {
+        // dd("123");
+
+        \Excel::create('export', function($excel) {
+            $excel->sheet('points', function($sheet){
+                $points = $this->pointRepository->all();
+                $headers = $this->getColumnNames($points);
+                $points_array = array_merge((array) $headers, (array) $points->toArray());
+                $sheet->with($points);
+            });
+        })->export('xls');
+    }
+
+    public function getColumnNames($object)
+    {
+        $rip_headers = $object->toArray();
+        $keys = array_keys($rip_headers[0]);
+        foreach($keys as $value) {
+            $headers[$value] = $value;
+        }
+        return array($headers);
+        # code...
+    }
+
     /**
      * Remove the specified resource from storage.
      *

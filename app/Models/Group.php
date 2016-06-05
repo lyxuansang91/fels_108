@@ -10,4 +10,5 @@ class Group extends Model
     public $timestamps = true;
     protected $table = 'groups';
     protected $fillable = ['group_name'];
+
 }

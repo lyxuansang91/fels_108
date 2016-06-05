@@ -32,6 +32,13 @@
                             {!! Form::select('grade_id', $gradeArray, null, ['class'=>'form-control', 'pladeholder'=> 'Pick a grade']) !!}
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Group Name</label>
+                        <div class="col-sm-10">
+                            {!! Form::select('group_id', $groupArray, null, ['class'=>'form-control', 'pladeholder'=> 'Pick a grade']) !!}
+                        </div>
+                    </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                     {!! Form::submit('Create', ['class'=>'btn btn-primary']) !!}

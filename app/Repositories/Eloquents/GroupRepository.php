@@ -18,7 +18,7 @@ class GroupRepository extends Repository implements GroupRepositoryInterface
         $groups = $this->model->all();
         $groupArray = array();
         foreach ($groups as $group) {
-            $groupArray[$group->id] = $group->group_name;
+            $groupArray[$group->id] = $group->group_name.'-'.$group->id;
         }
         return $groupArray;
     }

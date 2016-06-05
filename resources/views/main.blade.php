@@ -56,13 +56,13 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="{!! Asset(auth()->user()->avatar) !!}" class="user-image" alt="User Image">
+                  <img src="{!! Asset('images/avatar/default.png') !!}" class="user-image" alt="User Image">
                   <span class="hidden-xs">{!! auth()->user()->name !!}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="{!! Asset(\Auth::user()->avatar) !!}" class="img-circle" alt="User Image">
+                    <img src="{!!Asset('images/avatar/default.png')  !!}" class="img-circle" alt="User Image">
                     <p>
                       {!! auth()->user()->name !!}
                     </p>
@@ -97,10 +97,10 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="{!! Asset(auth()->user()->avatar) !!}" class="img-circle" alt="User Image" style="width: 100%;">
+              <img src="{!! Asset('images/avatar/default.png') !!}" class="img-circle" alt="User Image" style="width: 100%;">
             </div>
             <div class="pull-left info">
-              <p>{!! auth()->user()->name !!}</p>
+              <p>{!! Auth()->user()->email !!}</p>
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
           </div>
@@ -212,39 +212,6 @@
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-tasks"></i>
-                <span>Semester-Subject-Group</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{!! route('admin.semester_subject_groups.create') !!}"><i class="fa fa-circle-o"></i> Add Semester-Subject-Group</a></li>
-                <li><a href="{!! route('admin.semester_subject_groups.index') !!}"><i class="fa fa-circle-o"></i> List Semester-Subject-Group</a></li>
-              </ul>
-            </li>
-
-            <li class="treeview active">
-              <a href="#">
-                <i class="fa fa-tasks"></i>
-                <span>User-Group</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{!! route('admin.user_groups.create') !!}"><i class="fa fa-circle-o"></i> Add User-Group</a></li>
-                <li><a href="{!! route('admin.user_groups.index') !!}"><i class="fa fa-circle-o"></i> List User-Group</a></li>
-              </ul>
-            </li>
-
-            <li class="treeview active">
-              <a href="#">
-                <i class="fa fa-tasks"></i>
-                <span>User-Grade</span>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{!! route('admin.user_grades.create') !!}"><i class="fa fa-circle-o"></i> Add User-Grade</a></li>
-                <li><a href="{!! route('admin.user_grades.index') !!}"><i class="fa fa-circle-o"></i> List User-Grade</a></li>
-              </ul>
-            </li>
-
-            <li class="treeview active">
-              <a href="#">
-                <i class="fa fa-tasks"></i>
                 <span>Point</span>
               </a>
               <ul class="treeview-menu">
@@ -259,8 +226,8 @@
                 <span>Conduct</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{!! route('admin.user_grades.create') !!}"><i class="fa fa-circle-o"></i> Add Conduct</a></li>
-                <li><a href="{!! route('admin.user_grades.index') !!}"><i class="fa fa-circle-o"></i> List Conduct</a></li>
+                <li><a href="{!! route('admin.conducts.create') !!}"><i class="fa fa-circle-o"></i> Add Conduct</a></li>
+                <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> List Conduct</a></li>
               </ul>
             </li>
           </ul>

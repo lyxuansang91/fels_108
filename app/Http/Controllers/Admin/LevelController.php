@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\GradeRepositoryInterface as GradeRepository;
 use App\Repositories\LevelRepositoryInterface as LevelRepository;
+use App\Repositories\GroupRepositoryInterface as GroupRepository;
+use App\Repositories\TeacherRepositoryInterface as TeacherRepository;
 
 class LevelController extends Controller
 {
@@ -16,12 +18,18 @@ class LevelController extends Controller
 
     protected $levelRepository;
 
+    protected $teacherRepository;
+
+    protected $groupRepository;
+
     public function __construct(
         GradeRepository $gradeRepository,
-        LevelRepository $levelRepository
+        LevelRepository $levelRepository,
+        GroupRepository $groupRepository
     ) {
         $this->gradeRepository = $gradeRepository;
         $this->levelRepository = $levelRepository;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -32,9 +40,8 @@ class LevelController extends Controller
     public function index()
     {
         $levels = $this->levelRepository->all();
-        $gradeArray = $this->gradeRepository->gradeSelection();
-
-        return view('admin.level.listLevel')->with(['levels' => $levels, 'gradeArray' => $gradeArray]);
+        //$gradeArray = $this->gradeRepository->gradeSelection();
+        return view('admin.level.listLevel')->with(['levels' => $levels]);
     }
 
     /**
@@ -46,7 +53,8 @@ class LevelController extends Controller
     {
         //
         $gradeArray = $this->gradeRepository->gradeSelection();
-        return view('admin.level.addLevel')->with(['gradeArray' => $gradeArray]);
+        $groupArray = $this->groupRepository->groupSelection();
+        return view('admin.level.addLevel')->with(['gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
     }
 
     /**
@@ -57,10 +65,7 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        // if($request->submit == 'search') {
-        //
-        //     return redirect()->route('admin.words.index')->with(['search' => $request->search, 'categoryId' => $request->category_id])->withInput();
-        // }
+
         $ruleAdd = $this->levelRepository->ruleAdd;
         $validation = \Validator::make($request->all(), $ruleAdd);
         if($validation->fails()) {
@@ -70,7 +75,7 @@ class LevelController extends Controller
 
         $this->levelRepository->createLevel($request->all());
 
-        return redirect()->route('admin.levels.index')->with(['grade_id' => $request->grade_id]);
+        return redirect()->route('admin.levels.index');
     }
 
     /**
@@ -94,8 +99,9 @@ class LevelController extends Controller
     {
         $level = $this->levelRepository->findOrFail($id);
         $gradeArray = $this->gradeRepository->gradeSelection();
+        $groupArray = $this->groupRepository->groupSelection();
 
-        return view('admin.level.editLevel')->with(['level' => $level, 'gradeArray' => $gradeArray]);
+        return view('admin.level.editLevel')->with(['level' => $level, 'gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
     }
 
     /**
