@@ -35,15 +35,19 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
 
     public function createSemester($data)
     {
-        // $file = $data['image'];
-        // $name = $file->getClientOriginalName();
-        // $file->move(public_path().'/images/category', $name);
-        // $data['image'] = '/images/category/' . $name;
         $data['semester_code'] = $data['year'].'-'.$data['semester_number'];
         $semester = $this->create($data);
         $subjects = Subject::all();
         $levels = Level::all();
-
+        $teachers = Teacher::all();
+        //prepare level
+        if(count($teachers) > 0) {
+            foreach($levels as $level) {
+                $teacher = $teachers[rand(0, count($teachers)-1)];
+                $level->teacher_id = $teacher->id;
+                $level->save();
+            }
+        }
         //prepare point
         foreach($subjects as $subject) {
             foreach($levels as $level) {
@@ -63,7 +67,6 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
                             'semester_subject_level_id'=> $semester_subject_level->id
                         ]);
                     }
-
                 }
             }
         }
@@ -72,14 +75,6 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
     public function updateSemester($id, $data)
     {
         $semester = $this->findOrFail($id);
-        // if(isset($data['image'])) {
-        //     $file = $data['image'];
-        //     $name = $file->getClientOriginalName();
-        //     $file->move(public_path().'/images/category', $name);
-        //     $category->image = '/images/category/' . $name;
-        // }
-        // $category->name = $data['name'];
-        // $category->content = $data['content'];
         $semester->semester_number = $data['semester_number'];
         $semester->year = $data['year'];
         $semester->semester_code = $data['year'].'-'.$data['semester_number'];

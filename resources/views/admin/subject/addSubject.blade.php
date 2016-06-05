@@ -26,18 +26,18 @@
                             {!! Form::text('subject_name', '', ['class'=>'form-control', 'placeholder'=>'Input Subject Name']) !!}
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Category</label>
-                        <div class="col-sm-10">
-                            {!! Form::file('image', '', ['class'=>'form-control']) !!}
+
+                    @if (count($groupArray) > 0)
+                        @foreach($groupArray as $group)
+                        <div class="form-group">
+                            <label for="inputName3" class="col-sm-2 control-label">Hệ số {{{$group->group_name}}}</label>
+                            <div class="col-sm-10">
+                                {!! Form::text('group_'.$group->id, '', ['class'=>'form-control', 'placeholder'=>'Input Factor'.$group->id]) !!}
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Content</label>
-                        <div class="col-sm-10">
-                            {!! Form::textArea('content', '', ['class'=>'form-control']) !!}
-                        </div>
-                    </div> -->
+                        @endforeach
+                    @endif
+
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                     {!! Form::submit('Create', ['class'=>'btn btn-primary']) !!}

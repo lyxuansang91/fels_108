@@ -7,15 +7,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\SubjectRepositoryInterface as SubjectRepository;
+use App\Repositories\GroupRepositoryInterface as GroupRepository;
+use App\Repositories\SubjectGroupRepositoryInterface as SubjectGroupRepository;
 
 class SubjectController extends Controller
 {
 
     protected $subjectRepository;
 
-    public function __construct(SubjectRepository $subjectRepository)
+    protected $groupRepository;
+
+    protected $subjectGroupRepository;
+
+    public function __construct(SubjectRepository $subjectRepository,
+        GroupRepository $groupRepository,
+        SubjectGroupRepository $subjectGroupRepository)
     {
         $this->subjectRepository = $subjectRepository;
+        $this->groupRepository = $groupRepository;
+        $this->subjectGroupRepository = $subjectGroupRepository;
     }
 
     /**
@@ -38,7 +48,8 @@ class SubjectController extends Controller
     public function create()
     {
         //
-        return view('admin.subject.addSubject');
+        $groupArray = $this->groupRepository->all();
+        return view('admin.subject.addSubject')->with(['groupArray' => $groupArray]);
     }
 
     /**
@@ -83,7 +94,13 @@ class SubjectController extends Controller
     {
         $subject = $this->subjectRepository->findOrFail($id);
 
-        return view('admin.subject.editSubject')->with(['subject'=>$subject]);
+        $subjectGroupArray = $this->subjectGroupRepository->bySubject($id);
+
+        $groupArray = $this->groupRepository->all();
+
+        return view('admin.subject.editSubject')->with(['subject'=>$subject,
+            'subjectGroupArray'=> $subjectGroupArray,
+            'groupArray'=> $groupArray]);
         //
     }
 
