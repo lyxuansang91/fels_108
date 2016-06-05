@@ -97,7 +97,10 @@ class SemesterController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $rule['name'] = 'required';
+        $rule = [
+            'semester_number' => 'required',
+            'year' => 'required'
+        ];
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();

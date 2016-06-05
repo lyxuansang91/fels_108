@@ -6,6 +6,7 @@ use App\Repositories\UserRepositoryInterface;
 use Exception;
 use \App\Models\User;
 
+
 class UserRepository extends Repository implements UserRepositoryInterface
 {
     /**
@@ -75,7 +76,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
         $users = $this->model->all();
         $userArray = array();
         foreach ($users as $user) {
-            $userArray[$user->id] = $user->name;
+            $userArray[$user->id] = $user->email;
         }
         return $userArray;
     }
@@ -90,10 +91,6 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     public function create($data)
     {
-        if(!isset($data['avatar']) || $data['avatar'] == '') {
-            $data['avatar'] = '/images/avatar/default.png';
-        }
-
         return $this->model->create($data);
     }
 

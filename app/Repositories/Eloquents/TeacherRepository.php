@@ -3,41 +3,76 @@
 namespace App\Repositories\Eloquents;
 
 use App\Repositories\TeacherRepositoryInterface;
-use App\Models\SemesterSubjectLevel;
+use App\Models\User;
 use Exception;
+use App\Repositories\Eloquents\UserRepository;
 
 class TeacherRepository extends Repository implements TeacherRepositoryInterface
 {
 
     public $ruleAdd = [
-        'semester_subject_level_id' => 'required',
-        'user_id' => 'required'
+        'teacher_name' => 'required',
+        'address' => 'required',
+        'phone' => 'required',
+        'birthday' => 'required',
+        'gender' => 'required',
+        'subject_id' => 'required',
+        'email' => 'required|email'
     ];
 
     public $ruleUpdate = [
-        'semester_subject_level_id' => 'required',
-        'user_id' => 'required'
+        'teacher_name' => 'required',
+        'address' => 'required',
+        'birthday' => 'required',
+        'phone' => 'required',
+        'gender' => 'required'
     ];
+
+    public function allTeacher() {
+        $users = User::where('role', User::ROLE_TEACHER)->select('id')->get();
+        $teachers = $this->model->whereIn('user_id', $users)->get();
+        return $teachers;
+
+    }
 
     public function createTeacher($data)
     {
-        $this->create($data);
+        $email = $data['email'];
+        $userRepository = new UserRepository(\App\Models\User::class);
+        $user_by_email = $userRepository->model->where('email', $email)->first();
+        if(!$user_by_email) {
+            unset($data['email']);
+            $user_data = ['email' => $email,
+                'password' => '12345678',
+                'password_confirm' => '12345678',
+                'role' => User::ROLE_TEACHER];
+            $user = $userRepository->create($user_data);
+            if($user) {
+                $data['user_id'] = $user->id;
+                $this->create($data);
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    public function getListTeacherBySubject($subject_id){
+        $users = User::where('role', User::ROLE_TEACHER)->select('id')->get();
+        $teachers = $this->model->whereIn('user_id', $users)
+                        ->where('subject_id', $subject_id)->get();
+        return $teachers;
     }
 
     public function updateTeacher($id, $data)
     {
-        $point = $this->findOrFail($id);
-        $point->mark_m1 = $data['mark_m1']?$data['mark_m1']:NULL;
-        $point->mark_m2 = $data['mark_m2']?$data['mark_m2']:NULL;
-        $point->mark_m3 = $data['mark_m3']?$data['mark_m3']:NULL;
-        $point->mark_m4 = $data['mark_m4']?$data['mark_m4']:NULL;
-        $point->mark_15_1 = $data['mark_15_1']?$data['mark_15_1']:NULL;
-        $point->mark_15_2 = $data['mark_15_2']?$data['mark_15_2']:NULL;
-        $point->mark_15_3 = $data['mark_15_3']?$data['mark_15_3']:NULL;
-        $point->mark_45_1 = $data['mark_45_1']?$data['mark_45_1']:NULL;
-        $point->mark_45_2 = $data['mark_45_2']?$data['mark_45_2']:NULL;
-        $point->mark_last = $data['mark_last']?$data['mark_last']:NULL;
-        if($point->save()) return 200; else return 500;
+        $teacher = $this->model->findOrFail($id);
+        $teacher->teacher_name = $data['teacher_name'];
+        $teacher->phone = $data['phone'];
+        $teacher->gender = $data['gender'];
+        $teacher->address = $data['address'];
+        $teacher->birthday = $data['birthday'];
+        $teacher->save();
     }
 
     public function getListTeacherByUser($user_id) {

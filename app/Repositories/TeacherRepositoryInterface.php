@@ -2,6 +2,6 @@
 
 namespace App\Repositories;
 
-interface PointRepositoryInterface extends RepositoryInterface
+interface TeacherRepositoryInterface extends RepositoryInterface
 {
 }

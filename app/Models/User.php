@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'avatar', 'role', 'student_id'];
+    protected $fillable = ['name', 'email', 'password', 'avatar', 'role'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -40,6 +40,7 @@ class User extends Model implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     const ROLE_USER = 2;
+    const ROLE_TEACHER = 3;
     const ROLE_ADMIN = 1;
     const PER_PAGE = 10;
 

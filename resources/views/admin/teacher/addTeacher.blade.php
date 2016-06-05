@@ -6,10 +6,10 @@
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Create new Student</h3>
+                <h3 class="box-title">Create new Teacher</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
-            {!! Form::open(['route'=>'admin.students.store', 'class'=>'form-horizontal']) !!}
+            {!! Form::open(['route'=>'admin.teachers.store', 'class'=>'form-horizontal']) !!}
                 <div class="box-body">
                     @if(count($errors) > 0)
                     <div class="alert alert-danger alert-dismissable">
@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Name</label>
                         <div class="col-sm-10">
-                            {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Input name']) !!}
+                            {!! Form::text('teacher_name', '', ['class'=>'form-control', 'placeholder'=>'Input name']) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -53,9 +53,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Level</label>
+                        <label for="inputEmail3" class="col-sm-2 control-label">Subject</label>
                         <div class="col-sm-10">
-                            {!! Form::select('level_id', $levelArray, NULL, ['class'=>'form-control', 'placeholder'=> 'Input Level']) !!}
+                            {!! Form::select('subject_id', $subjectArray, NULL, ['class'=>'form-control', 'placeholder'=> 'Input Subject']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            {!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=> 'Input Email']) !!}
                         </div>
                     </div>
                 </div><!-- /.box-body -->

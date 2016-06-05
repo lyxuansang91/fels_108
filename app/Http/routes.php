@@ -41,13 +41,11 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/semester_subject_groups', 'SemesterSubjectGroupController');
 
-        Route::resource('/user_groups', 'UserGroupController');
-
-        Route::resource('/user_grades', 'UserGradeController');
-
         Route::resource('/conducts', 'ConductController');
 
         Route::resource('/students', 'StudentController');
+
+        Route::resource('/teachers', 'TeacherController');
 
         Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
         Route::get('points/exportExcel', ['as' => 'points.exportExcel', 'uses'=> 'PointController@exportExcel']);

@@ -53,6 +53,13 @@
                             {!! Form::text('phone', $student->phone, ['class'=>'form-control', 'placeholder'=> 'Input phone']) !!}
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Level</label>
+                        <div class="col-sm-10">
+                            {!! Form::select('level_id', $levelArray, NULL, ['class'=>'form-control', 'placeholder'=> 'Input Level']) !!}
+                        </div>
+                    </div>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                     <a href="{!! URL::previous() !!}" class="btn  btn-default">Back</a>

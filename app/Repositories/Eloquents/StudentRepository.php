@@ -42,6 +42,7 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
         $student->birthday = $data['birthday'];
         $student->address = $data['address'];
         $student->phone = $data['phone'];
+        $student->level_id = $data['level_id'];
         $student->save();
         return $student;
     }
@@ -51,6 +52,11 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
         $this->model->create($data);
     }
 
+    public function allStudent() {
+        $students = $this->model->all();
+        return $students;
+    }
+
     public function searchListMember($data)
     {
         $users = $this->model->where('role', '=', User::ROLE_USER)
@@ -58,5 +64,10 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
             ->paginate(User::PER_PAGE);
 
         return $users;
+    }
+
+    public function getListStudentByLevel($level_id) {
+        $students = $this->model->where('level_id', $level_id)->get();
+        return $students;
     }
 }

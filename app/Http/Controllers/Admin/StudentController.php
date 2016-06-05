@@ -8,15 +8,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\StudentRepositoryInterface as StudentRepository;
+use App\Repositories\LevelRepositoryInterface as LevelRepository;
 
 
 class StudentController extends Controller
 {
     protected $studentRepository;
 
-    public function __construct(StudentRepository $studentRepository )
+    protected $levelRepository;
+
+    public function __construct(StudentRepository $studentRepository, LevelRepository $levelRepository )
     {
         $this->studentRepository = $studentRepository;
+        $this->levelRepository = $levelRepository;
     }
 
     /**
@@ -24,11 +28,16 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = $this->studentRepository->all();
+        $selectLevel = $request->selectLevel;
+        if($selectLevel == NULL)
+            $students = $this->studentRepository->allStudent();
+        else
+            $students = $this->studentRepository->getListStudentByLevel($selectLevel);
+        $levels = $this->levelRepository->all();
 
-        return view('admin.student.listStudent')->with(['students'=>$students]);
+        return view('admin.student.listStudent')->with(['students'=>$students, 'levels'=> $levels, 'selectLevel'=> $selectLevel]);
     }
 
     /**
@@ -38,8 +47,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-
-        return view('admin.student.addStudent');
+        $levelArray = $this->levelRepository->levelSelection();
+        return view('admin.student.addStudent')->with(['levelArray' => $levelArray]);
     }
 
     /**
@@ -82,8 +91,9 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student = $this->studentRepository->findOrFail($id);
+        $levelArray = $this->levelRepository->levelSelection();
 
-        return view('admin.student.editStudent')->with(['student'=>$student]);
+        return view('admin.student.editStudent')->with(['student'=>$student, 'levelArray'=> $levelArray]);
     }
 
     /**

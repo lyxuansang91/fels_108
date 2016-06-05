@@ -7,6 +7,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">List Semester</h3>
+                        <a href="{!! route('admin.semesters.create') !!}" class="btn btn-primary pull-right">Create Semester</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -23,7 +24,7 @@
                                 @foreach($semesters as $semester)
                                 <tr>
                                     <td>{{{ $semester->id }}}</td>
-                                    <td>{!! nl2br($semester->name) !!}</td>
+                                    <td>{!! nl2br($semester->semester_code) !!}</td>
                                     <td><a href="{!! route('admin.semesters.edit', $semester->id) !!}" class="btn btn-primary">Edit</a></td>
                                     {!! Form::open(['route' => ['admin.semesters.destroy', $semester->id], 'method' => 'delete']) !!}
                                     <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>

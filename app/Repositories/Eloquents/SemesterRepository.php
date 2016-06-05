@@ -9,7 +9,8 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
 {
 
     public $ruleAdd = [
-        'name' => 'required'
+        'semester_number' => 'required',
+        'year' => 'required'
     ];
 
 
@@ -18,7 +19,7 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         $semesters = $this->model->all();
         $semesterArray = array();
         foreach ($semesters as $semester) {
-            $semesterArray[$semester->id] = $semester->name;
+            $semesterArray[$semester->id] = $semester->year.'-'.$semester->semester_number;
         }
         return $semesterArray;
     }
@@ -29,6 +30,7 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         // $name = $file->getClientOriginalName();
         // $file->move(public_path().'/images/category', $name);
         // $data['image'] = '/images/category/' . $name;
+        $data['semester_code'] = $data['year'].'-'.$data['semester_number'];
         $this->create($data);
     }
 
@@ -43,7 +45,9 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         // }
         // $category->name = $data['name'];
         // $category->content = $data['content'];
-        $semester->name = $data['name'];
+        $semester->semester_number = $data['semester_number'];
+        $semester->year = $data['year'];
+        $semester->semester_code = $data['year'].'-'.$data['semester_number'];
         $semester->save();
     }
 }

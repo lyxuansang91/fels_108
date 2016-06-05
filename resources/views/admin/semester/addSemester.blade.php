@@ -21,9 +21,16 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Semester</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Semester Number</label>
                         <div class="col-sm-10">
-                            {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Input Semester']) !!}
+                            {!! Form::number('semester_number', '', ['class'=>'form-control', 'placeholder'=>'Input Semester']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Year</label>
+                        <div class="col-sm-10">
+                            {!! Form::number('year', '', ['class'=>'form-control', 'placeholder'=>'Input Year']) !!}
                         </div>
                     </div>
                     <!-- <div class="form-group">
