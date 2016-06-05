@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquents;
 use App\Repositories\UserRepositoryInterface;
 use Exception;
 use \App\Models\User;
+use \App\Models\Student;
 
 
 class UserRepository extends Repository implements UserRepositoryInterface
@@ -32,10 +33,10 @@ class UserRepository extends Repository implements UserRepositoryInterface
     ];
 
     public $ruleCreate = [
-        'name' => 'required',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8',
         'password_confirm' => 'required|same:password',
+        'student_id' => 'required'
     ];
 
     public $rulePassword = [
@@ -96,10 +97,14 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
     public function registerUser($data)
     {
-        $data['avatar'] = '/images/avatar/default.png';
         $data['role'] = User::ROLE_USER;
-
-        $this->model->create($data);
+        $student_id = $data['student_id'];
+        $student = Student::find($student_id);
+        if($student) {
+            $user = $this->model->create($data);
+            $student->user_id = $user->id;
+            $student->save();
+        }
     }
 
     public function searchListMember($data)

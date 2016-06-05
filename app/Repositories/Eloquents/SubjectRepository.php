@@ -27,11 +27,6 @@ class SubjectRepository extends Repository implements SubjectRepositoryInterface
 
     public function createSubject($data)
     {
-        // $file = $data['image'];
-        // $name = $file->getClientOriginalName();
-        // $file->move(public_path().'/images/category', $name);
-        // $data['image'] = '/images/category/' . $name;
-        //dd(count($data)-2);
         $group_ids = array();
         foreach($data as $key => $value) {
             $pos = strpos($key, 'group');

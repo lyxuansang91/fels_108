@@ -43,13 +43,39 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
         $student->address = $data['address'];
         $student->phone = $data['phone'];
         $student->level_id = $data['level_id'];
+        if(!$student->student_code) {
+            $year = \Carbon\Carbon::parse($student->created_at)->year;
+            $result = strval($student->id);
+            while(strlen($result) < 3) $result = '0'.$result;
+            $student->student_code = 'HS'.$year.$result;
+        }
         $student->save();
         return $student;
     }
 
-    public function createStudent($data)
-    {
-        $this->model->create($data);
+    public function studentSelection() {
+        $studentArray = array();
+        $students = $this->model->all();
+        foreach($students as $student) {
+            $studentArray[$student->id] = $student->student_code;
+        }
+        return $studentArray;
+    }
+
+    public function findByUserId($user_id) {
+        $student =  $this->model->where('user_id', $user_id)->first();
+        return $student;
+    }
+
+    public function createStudent($data) {
+        $student = $this->model->create($data);
+        if($student) {
+            $year = \Carbon\Carbon::now()->year;
+            $result = strval($student->id);
+            while(strlen($result) < 3) $result = '0'.$result;
+            $student->student_code = 'HS'.$year.$result;
+            $student->save();
+        }
     }
 
     public function allStudent() {

@@ -41,8 +41,8 @@ class PointRepository extends Repository implements PointRepositoryInterface
         if($point->save()) return 200; else return 500;
     }
 
-    public function getListPointByUser($user_id) {
-        $points = $this->model->where('user_id', '=', $user_id)->orderBy('created_at', 'desc')->get();
+    public function getListPointByStudent($student_id) {
+        $points = $this->model->where('student_id', '=', $student_id)->orderBy('created_at', 'desc')->get();
         return $points;
     }
 

@@ -45,7 +45,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.register');
+        $studentArray = $this->studentRepository->studentSelection();
+        return view('user.register')->with(['studentArray'=> $studentArray]);
     }
 
     /**
@@ -78,13 +79,11 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->userRepository->findOrFail($id);
-        $student = $this->studentRepository->findOrFail($user->student_id);
-        $points = $this->pointRepository->getListPointByUser($id);
-        $listUser = $this->userRepository->getListMember();
+        $student = $this->studentRepository->findByUserId($id);
+        $points = $this->pointRepository->getListPointByStudent($student->id);
 
         return view('user.profile.showProfile')->with([
             'user' => $user,
-            'listUser' => $listUser,
             'points' => $points,
             'student' => $student]);
     }

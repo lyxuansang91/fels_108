@@ -46,12 +46,6 @@
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{!! route('user.categories.index') !!}">Categories</a></li>
-                        <li><a href="{!! route('user.words.index') !!}">Words</a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -60,15 +54,15 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="{!! asset(auth()->user()->avatar) !!}" class="user-image" alt="User Image">
+                                <img src="{!! asset('images/avatar/default.png') !!}" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">{!! auth()->user()->name !!}</span>
+                                <span class="hidden-xs">{!! auth()->user()->email !!}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="{!! asset(auth()->user()->avatar) !!}" class="img-circle" alt="User Image">
-                                    <p>{!! auth()->user()->name !!}</p>
+                                    <img src="{!! asset('images/avatar/default.png') !!}" class="img-circle" alt="User Image">
+                                    <p>{!! auth()->user()->email !!}</p>
                                 </li>
                                 <!-- Menu Body -->
                                 <!-- Menu Footer-->

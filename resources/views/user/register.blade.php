@@ -40,10 +40,6 @@
             @endif
             {!! Form::open(['route'=>'user.profiles.store']) !!}
             <div class="form-group has-feedback">
-                {!! Form::text('name', '', ['class'=>'form-control', 'placeholder'=>'Full name']) !!}
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
                 {!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'Email']) !!}
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
@@ -57,7 +53,7 @@
             </div>
 
             <div class="form-group has-feedback">
-                {!! Form::text('student_id', '', ['class'=>'form-control', 'placeholder'=>'Input Student']) !!}
+                {!! Form::select('student_id', $studentArray, NULL, ['class'=>'form-control', 'placeholder'=>'Input Student']) !!}
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
             <div class="row">

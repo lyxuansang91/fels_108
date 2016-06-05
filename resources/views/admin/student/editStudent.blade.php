@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">Level</label>
                         <div class="col-sm-10">
-                            {!! Form::select('level_id', $levelArray, NULL, ['class'=>'form-control', 'placeholder'=> 'Input Level']) !!}
+                            {!! Form::select('level_id', $levelArray, $student->level_id, ['class'=>'form-control', 'placeholder'=> 'Input Level']) !!}
                         </div>
                     </div>
                 </div><!-- /.box-body -->
