@@ -26,6 +26,13 @@
                             {!! Form::text('group_name', '', ['class'=>'form-control', 'placeholder'=>'Input group Name']) !!}
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Group</label>
+                        <div class="col-sm-10">
+                            {!! Form::text('group_code', '', ['class'=>'form-control', 'placeholder'=>'Input group Name']) !!}
+                        </div>
+                    </div>
                     <!-- <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Category</label>
                         <div class="col-sm-10">

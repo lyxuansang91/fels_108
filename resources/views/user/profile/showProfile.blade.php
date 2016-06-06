@@ -26,7 +26,6 @@
                                 @if (count($points) > 0)
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
                                             <th>Semester Name</th>
                                             <th>Subject Name</th>
                                             <th>Mark M 1</th>
@@ -39,15 +38,14 @@
                                             <th>Mark 45 1</th>
                                             <th>Mark 45 2</th>
                                             <th>Mark Last</th>
+                                            <th>Mark Avg</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($points as $point)
                                         <tr>
-                                            <td>#</td>
                                             <td>{!! nl2br($point->semester_subject_level->semester->semester_code) !!}</td>
                                             <td>{{{ $point->semester_subject_level->subject->subject_name }}}</td>
-                                            <td>{{{ $point->semester_subject_level->level->group->group_name }}}</td>
                                             <td>{{{ $point->mark_m1 }}}</td>
                                             <td>{{{ $point->mark_m2 }}}</td>
                                             <td>{{{ $point->mark_m3 }}}</td>
@@ -58,6 +56,7 @@
                                             <td>{{{ $point->mark_45_1 }}}</td>
                                             <td>{{{ $point->mark_45_2 }}}</td>
                                             <td>{{{ $point->mark_last }}}</td>
+                                            <td>{{{ $point->mark_avg }}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -15,7 +15,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Group Name</th>
+                                    <th>Mã ban</th>
+                                    <th>Tên ban</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
@@ -24,6 +25,7 @@
                                 @foreach($groups as $group)
                                 <tr>
                                     <td>{{{ $group->id }}}</td>
+                                    <td>{!! nl2br($group->group_code) !!}</td>
                                     <td>{!! nl2br($group->group_name) !!}</td>
                                     <td><a href="{!! route('admin.groups.edit', $group->id) !!}" class="btn btn-primary">Edit</a></td>
                                     {!! Form::open(['route' => ['admin.groups.destroy', $group->id], 'method' => 'delete']) !!}

@@ -18,7 +18,7 @@ class GroupRepository extends Repository implements GroupRepositoryInterface
         $groups = $this->model->all();
         $groupArray = array();
         foreach ($groups as $group) {
-            $groupArray[$group->id] = $group->group_name.'-'.$group->id;
+            $groupArray[$group->id] = $group->group_code;
         }
         return $groupArray;
     }
@@ -34,7 +34,7 @@ class GroupRepository extends Repository implements GroupRepositoryInterface
 
     public function updateGroup($id, $data)
     {
-        $subject = $this->findOrFail($id);
+        $group = $this->findOrFail($id);
         // if(isset($data['image'])) {
         //     $file = $data['image'];
         //     $name = $file->getClientOriginalName();
@@ -43,7 +43,8 @@ class GroupRepository extends Repository implements GroupRepositoryInterface
         // }
         // $category->name = $data['name'];
         // $category->content = $data['content'];
-        $subject->group_name = $data['group_name'];
-        $subject->save();
+        $group->group_name = $data['group_name'];
+        $group->group_code = $data['group_code'];
+        $group->save();
     }
 }

@@ -15,6 +15,7 @@ use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
 use App\Repositories\SemesterSubjectLevelRepositoryInterface as SemesterSubjectLevelRepository;
 use App\Repositories\PointRepositoryInterface as PointRepository;
 use App\Repositories\LevelRepositoryInterface as LevelRepository;
+use App\Models\Teacher;
 
 class PointController extends Controller
 {
@@ -22,16 +23,19 @@ class PointController extends Controller
     protected $semesterSubjectLevelRepository;
     protected $userRepository;
     protected $levelRepository;
+    protected $subjectRepository;
     public function __construct(
 
         PointRepository $pointRepository,
-        semesterSubjectLevelRepository $semesterSubjectLevelRepository,
+        SemesterSubjectLevelRepository $semesterSubjectLevelRepository,
         UserRepository $userRepository,
-        LevelRepository $levelRepository
+        LevelRepository $levelRepository,
+        SubjectRepository $subjectRepository
     ) {
         $this->pointRepository = $pointRepository;
         $this->semesterSubjectLevelRepository = $semesterSubjectLevelRepository;
         $this->userRepository = $userRepository;
+        $this->subjectRepository = $subjectRepository;
         $this->levelRepository = $levelRepository;
     }
 
@@ -42,14 +46,45 @@ class PointController extends Controller
      */
     public function index(Request $request)
     {
-        $selectLevel = $request->selectLevel;
-        if($selectLevel == NULL)
-            $points = $this->pointRepository->getAllPoint();
-        else
-            $points = $this->pointRepository->getListPoinByLevel($selectLevel);
-        $level = $this->levelRepository->all();
-        return view('admin.point.list')->with([
-            'points' => $points, 'levels'=>$level, 'selectLevel'=>$selectLevel]);
+        if(\Auth()->user()->role == \App\Models\User::ROLE_ADMIN)  {
+            $selectLevel = $request->selectLevel;
+            $selectSubject = $request->selectSubject;
+            if($selectLevel == NULL && $selectSubject == NULL)
+                $points = $this->pointRepository->getAllPoint();
+            else
+                $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject);
+            $levels = $this->levelRepository->all();
+            $subjects = $this->subjectRepository->all();
+            return view('admin.point.list')->with([
+                'points' => $points,
+                'levels'=>$levels,
+                'selectSubject'=>$selectSubject,
+                'subjects' => $subjects,
+                'selectLevel'=>$selectLevel]);
+        } else {
+            //handler teacher
+            $teacher = Teacher::where('user_id', \Auth()->user()->id)->first();
+            $selectLevel = $request->selectLevel;
+            $selectSubject = $request->selectSubject;
+            if($selectLevel == NULL) {
+                $points = $this->pointRepository->getAllPoint($teacher->id);
+            } else {
+                $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject, $teacher->id);
+            }
+
+            $level_ids = \App\Models\SemesterSubjectLevel::where('teacher_id', $teacher->id)->select('level_id')->get();
+            $levels = \App\Models\Level::whereIn('id', $level_ids)->get();
+
+            $subject_ids = \App\Models\SemesterSubjectLevel::where('teacher_id', $teacher->id)->select('subject_id')->get();
+            $subjects = \App\Models\Subject::whereIn('id', $subject_ids)->get();
+            return view('admin.point.list')->with([
+                'points' => $points,
+                'levels'=>$levels,
+                'selectSubject'=>$selectSubject,
+                'subjects' => $subjects,
+                'selectLevel'=>$selectLevel]);
+
+        }
     }
 
     /**
@@ -143,6 +178,19 @@ class PointController extends Controller
         $id = $request->id;
         $res = $this->pointRepository->updatePoint($id, $request->all());
         return $res;
+    }
+
+
+    public function calculatePoint(Request $request) {
+
+        $calculate = $request->calculate;
+        $selectLevel = $request->selectLevel;
+        $selectSubject = $request->selectSubject;
+
+        if($calculate) {
+            $this->pointRepository->updateAllPoints($selectLevel, $selectSubject);
+            return redirect()->back();
+        }
     }
 
     public function exportExcel() {

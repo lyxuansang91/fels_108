@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Year</label>
                         <div class="col-sm-10">
-                            {!! Form::number('year', '', ['class'=>'form-control', 'placeholder'=>'Input Year']) !!}
+                            {!! Form::text('year', '', ['class'=>'form-control', 'placeholder'=>'Input Year']) !!}
                         </div>
                     </div>
                     <!-- <div class="form-group">

@@ -37,16 +37,15 @@ class AuthenticateAdmin
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
-
                 return response('Unauthorized.', 401);
             } else {
 
                 return redirect()->route('admin.login.index');
             }
         } else {
-            if ($this->auth->user()->role != User::ROLE_ADMIN) {
+            if ($this->auth->user()->role == User::ROLE_USER) {
 
-                return redirect()->route('admin.login.index')->withMessages('Email or Password is incorrect');
+                return redirect()->route('admin.login.index')->withMessages('You dont have permission');
             }
 
             return $next($request);

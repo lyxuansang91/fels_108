@@ -46,6 +46,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::resource('/teachers', 'TeacherController');
 
         Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
+        Route::post('points/calculatePoint', ['as'=>'points.calculatePoint', 'uses'=>'PointController@calculatePoint']);
         Route::get('points/exportExcel', ['as' => 'points.exportExcel', 'uses'=> 'PointController@exportExcel']);
         Route::resource('/points', 'PointController');
 

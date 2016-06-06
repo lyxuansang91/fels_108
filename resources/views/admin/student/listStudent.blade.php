@@ -64,5 +64,11 @@
                 </div><!-- /.box -->
             </div><!-- /.col -->
         </div><!-- /.row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="#" class="btn btn-primary">Nhập excel</a>
+                <a href="#" class="btn btn-primary">Xuất excel</a>
+            </div>
+        </div>
     </section><!-- /.content -->
 @stop

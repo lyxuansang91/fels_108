@@ -44,10 +44,12 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
         $student->phone = $data['phone'];
         $student->level_id = $data['level_id'];
         if(!$student->student_code) {
-            $year = \Carbon\Carbon::parse($student->created_at)->year;
+            $semester = \App\Models\Semester::all()->last();
+
             $result = strval($student->id);
+            $group = $student->level->group->group_code;
             while(strlen($result) < 3) $result = '0'.$result;
-            $student->student_code = 'HS'.$year.$result;
+            $student->student_code = 'HS'.$semester->year.$group.$result;
         }
         $student->save();
         return $student;
@@ -70,10 +72,12 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
     public function createStudent($data) {
         $student = $this->model->create($data);
         if($student) {
+            $semester = \App\Models\Semester::all()->last();
+            $group = $student->level->group->group_code;
             $year = \Carbon\Carbon::now()->year;
             $result = strval($student->id);
             while(strlen($result) < 3) $result = '0'.$result;
-            $student->student_code = 'HS'.$year.$result;
+            $student->student_code = 'HS'.$semester->year.$group.$result;
             $student->save();
         }
     }
