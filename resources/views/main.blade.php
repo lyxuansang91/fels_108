@@ -135,8 +135,8 @@
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.groups.index') !!}"><i class="fa fa-circle-o"></i> Ban</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.levels.index') !!}"><i class="fa fa-circle-o"></i> Lớp</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.teachers.index') !!}"><i class="fa fa-circle-o"></i> Giáo viên</a></li> @endif
-                <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li>
-                <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li>
+                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li> @endif
+                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li> @endif
               </ul>
             </li>
           </ul>
