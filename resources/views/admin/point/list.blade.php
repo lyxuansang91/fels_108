@@ -66,10 +66,6 @@
                                 <tbody>
                                     @foreach ($points as $key => $point)
                                     <tr class="point_{{ $point->id }}">
-                                        <!-- <td>{{{ $point->id }}}</td> -->
-                                        <!-- <td>{!! nl2br($point->semester_subject_level->semester->semester_code) !!}</td> -->
-                                        <!-- <td>{{{ $point->semester_subject_level->subject->subject_name }}}</td> -->
-                                        <!-- <td>{{{ $point->semester_subject_level->level->grade->grade_name.'-'.$point->semester_subject_level->level->level_name }}}</td> -->
                                         <td>{{{$key + 1}}}</td>
                                         <td>{{{ $point->student->student_code }}}</td>
                                         <td width="150px">{{{ $point->student->name }}}</td>

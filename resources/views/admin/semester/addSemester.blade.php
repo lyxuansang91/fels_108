@@ -33,18 +33,6 @@
                             {!! Form::text('year', '', ['class'=>'form-control', 'placeholder'=>'Input Year']) !!}
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Category</label>
-                        <div class="col-sm-10">
-                            {!! Form::file('image', '', ['class'=>'form-control']) !!}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Content</label>
-                        <div class="col-sm-10">
-                            {!! Form::textArea('content', '', ['class'=>'form-control']) !!}
-                        </div>
-                    </div> -->
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                     {!! Form::submit('Create', ['class'=>'btn btn-primary']) !!}
