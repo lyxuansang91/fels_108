@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\Level;
 use App\Models\Teacher;
 
+
 class SemesterRepository extends Repository implements SemesterRepositoryInterface
 {
 
@@ -40,6 +41,15 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         $subjects = Subject::all();
         $levels = Level::all();
         $teachers = Teacher::all();
+
+        //prepare conduct
+        $students = \App\Models\Student::all();
+        foreach($students as $student)  {
+            $conduct = new \App\Models\Conduct;
+            $conduct->student_id = $student->id;
+            $conduct->semester_id = $semester->id;
+            $conduct->save();
+        }
         //prepare level
         if(count($teachers) > 0) {
             foreach($levels as $level) {

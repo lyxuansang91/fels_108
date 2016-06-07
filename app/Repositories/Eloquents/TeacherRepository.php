@@ -32,7 +32,15 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
         $users = User::where('role', User::ROLE_TEACHER)->select('id')->get();
         $teachers = $this->model->whereIn('user_id', $users)->get();
         return $teachers;
+    }
 
+    public function teacherSelection() {
+        $teacherArray = array();
+        $teachers = $this->model->all();
+        foreach($teachers as $teacher) {
+            $teacherArray[$teacher->id] = $teacher->teacher_name;
+        }
+        return $teacherArray;
     }
 
     public function createTeacher($data)

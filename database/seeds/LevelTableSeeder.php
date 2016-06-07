@@ -18,7 +18,7 @@ class LevelTableSeeder extends Seeder
             'address' => 'Hà Nội',
             'phone' => '000000000',
             'gender' => 0,
-            'user_id'=> 1,
+            'user_id'=> 2,
             'subject_id'=> 1,
             'created_at'=> \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()

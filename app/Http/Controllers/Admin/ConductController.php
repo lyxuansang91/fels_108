@@ -10,20 +10,22 @@ use App\Models\User;
 use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
 use App\Repositories\UserRepositoryInterface as UserRepository;
 use App\Repositories\ConductRepositoryInterface as ConductRepository;
+use App\Repositories\StudentRepositoryInterface as StudentRepository;
 
 class ConductController extends Controller
 {
     protected $userRepository;
     protected $semesterRepository;
     protected $conductRepository;
+    protected $studentRepository;
     public function __construct(
-        UserRepository $userRepository,
         SemesterRepository $semesterRepository,
-        ConductRepository $conductRepository
+        ConductRepository $conductRepository,
+        StudentRepository $studentRepository
     ) {
         $this->semesterRepository = $semesterRepository;
-        $this->userRepository = $userRepository;
         $this->conductRepository = $conductRepository;
+        $this->studentRepository = $studentRepository;
     }
 
     /**
@@ -31,11 +33,28 @@ class ConductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $conducts = $this->conductRepository->all();
+        $user = \Auth()->user();
+
+        $selectLevel = $request->selectLevel;
+        if($user->role == \App\Models\User::ROLE_TEACHER) {
+            $teacher = \App\Models\Teacher::where('user_id', $user->id)->first();
+            $semester = $this->semesterRepository->all()->last();
+            $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel);
+
+            $levels = \App\Models\Level::where('teacher_id', $teacher->id)->get();
+        }
+
+
         return view('admin.conduct.list')->with([
-            'conducts' => $conducts]);
+            'conducts' => $conducts, 'levels' => $levels, 'selectLevel' => $selectLevel]);
+    }
+
+    public function updateConduct(Request $request) {
+        $id = $request->id;
+        $res = $this->conductRepository->updateConduct($id, $request->all());
+        return $res ? 200: 500;
     }
 
     /**

@@ -28,9 +28,20 @@ class ConductRepository extends Repository implements ConductRepositoryInterface
     public function updateConduct($id, $data)
     {
         $conduct = $this->findOrFail($id);
-        $conduct->user_id = $data['user_id'];
-        $conduct->semester_id = $data['semester_id'];
-        $conduct->conduct_name = $data['conduct_name'];
-        $conduct->save();
+        $conduct->conduct_name = $data['conduct_name'] ? $data['conduct_name'] : NULL;
+        return $conduct->save();
+    }
+
+    public function getListConductByLevel($semester_id, $level_id) {
+        $student_ids = \App\Models\Student::where('level_id', $level_id)->select('id')->get();
+        if($level_id) {
+            $student_ids = \App\Models\Student::where('level_id', $level_id)->select('id')->get();
+            $conducts = \App\Models\Conduct::whereIn('student_id', $student_ids)
+                ->where('semester_id', $semester_id)->get();
+        } else  {
+            $conducts = \App\Models\Conduct::where('semester_id', $semester_id)->get();
+        }
+
+        return $conducts;
     }
 }

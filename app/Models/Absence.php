@@ -4,15 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Conduct extends Model
+class Absence extends Model
 {
     //
+    protected $fillable = ['student_id', 'teacher_id', 'reason', 'semester_id'];
+    protected $table = 'absences';
     public $timestamps = true;
-    protected $fillable = ['conduct_name', 'semester_id', 'student_id'];
-    protected $table = 'conducts';
 
     public function student() {
         return $this->belongsTo(Student::class);
+    }
+
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
     }
 
     public function semester() {

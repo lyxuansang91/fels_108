@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquents;
 use App\Repositories\StudentRepositoryInterface;
 use Exception;
 use \App\Models\User;
+use \App\Models\Level;
 
 class StudentRepository extends Repository implements StudentRepositoryInterface
 {
@@ -33,6 +34,7 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
 
     public $rulePassword = [
     ];
+
 
     public function updateStudent($id, $data)
     {

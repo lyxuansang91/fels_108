@@ -29,14 +29,21 @@
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Grade Name</label>
                         <div class="col-sm-10">
-                            {!! Form::select('grade_id', $gradeArray, null, ['class'=>'form-control', 'pladeholder'=> 'Pick a grade']) !!}
+                            {!! Form::select('grade_id', $gradeArray, null, ['class'=>'form-control', 'placeholder'=> 'Pick a grade']) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Group Name</label>
                         <div class="col-sm-10">
-                            {!! Form::select('group_id', $groupArray, null, ['class'=>'form-control', 'pladeholder'=> 'Pick a grade']) !!}
+                            {!! Form::select('group_id', $groupArray, null, ['class'=>'form-control', 'placeholder'=> 'Pick a group']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Group Name</label>
+                        <div class="col-sm-10">
+                            {!! Form::select('teacher_id', $teacherArray, null, ['class'=>'form-control', 'placeholder'=> 'Pick a teacher']) !!}
                         </div>
                     </div>
                 </div><!-- /.box-body -->

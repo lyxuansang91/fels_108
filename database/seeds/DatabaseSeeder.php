@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SubjectTableSeeder::class);
         $this->call(GradeTableSeeder::class);
         $this->call(GroupTableSeeder::class);
-        $this->call(SubjectGroupTableSeeder::class);
         $this->call(LevelTableSeeder::class);
         $this->call(StudentTableSeeder::class);
         Model::reguard();

@@ -83,5 +83,9 @@ class RepositoriesServiceProvider extends ServiceProvider
         $this->app->bind('App\Repositories\SubjectGroupRepositoryInterface', function() {
             return new \App\Repositories\Eloquents\SubjectGroupRepository(\App\Models\SubjectGroup::class);
         });
+
+        $this->app->bind('App\Repositories\AbsenceRepositoryInterface', function() {
+            return new \App\Repositories\Eloquents\AbsenceRepository(\App\Models\Absence::class);
+        });
     }
 }

@@ -7,31 +7,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Repositories\GradeRepositoryInterface as GradeRepository;
-use App\Repositories\LevelRepositoryInterface as LevelRepository;
-use App\Repositories\GroupRepositoryInterface as GroupRepository;
+use App\Repositories\AbsenceRepositoryInterface as AbsenceRepository;
+use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
+use App\Repositories\StudentRepositoryInterface as StudentRepository;
 use App\Repositories\TeacherRepositoryInterface as TeacherRepository;
 
-class LevelController extends Controller
+class AbsenceController extends Controller
 {
-    protected $gradeRepository;
+    protected $teacherRepository;
 
-    protected $levelRepository;
+    protected $semesterRepository;
 
     protected $teacherRepository;
 
-    protected $groupRepository;
+    protected $absenceRepository;
 
     public function __construct(
-        GradeRepository $gradeRepository,
-        LevelRepository $levelRepository,
-        GroupRepository $groupRepository,
-        TeacherRepository $teacherRepository
+        AbsenceRepository $absenceRepository,
+        StudentRepository $studentRepository,
+        TeacherRepository $teacherRepository,
+        SemesterRepository $semesterRepository
     ) {
-        $this->gradeRepository = $gradeRepository;
-        $this->levelRepository = $levelRepository;
-        $this->groupRepository = $groupRepository;
-        $this->teacherRepository = $teacherRepository; 
+        $this->absenceRepository = $absenceRepository;
+        $this->studentRepository = $studentRepository;
+        $this->teacherRepository = $teacherRepository;
+        $this->semesterRepository = $semesterRepository;
     }
 
     /**
@@ -41,6 +41,10 @@ class LevelController extends Controller
      */
     public function index()
     {
+        if(\Auth()->user()->role == \App\Models\User::ROLE_TEACHER) {
+            $teacher = $this->teacherRepository->model->where('user_id', \Auth()->user()->id)->first();
+            $semester = \App\Models\Semester::all()->last();
+        }
         $levels = $this->levelRepository->all();
         //$gradeArray = $this->gradeRepository->gradeSelection();
         return view('admin.level.listLevel')->with(['levels' => $levels]);
@@ -56,8 +60,7 @@ class LevelController extends Controller
         //
         $gradeArray = $this->gradeRepository->gradeSelection();
         $groupArray = $this->groupRepository->groupSelection();
-        $teacherArray = $this->teacherRepository->teacherSelection();
-        return view('admin.level.addLevel')->with(['gradeArray' => $gradeArray, 'groupArray'=> $groupArray, 'teacherArray'=> $teacherArray]);
+        return view('admin.level.addLevel')->with(['gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
     }
 
     /**
@@ -103,12 +106,8 @@ class LevelController extends Controller
         $level = $this->levelRepository->findOrFail($id);
         $gradeArray = $this->gradeRepository->gradeSelection();
         $groupArray = $this->groupRepository->groupSelection();
-        $teacherArray = $this->teacherRepository->teacherSelection();
 
-        return view('admin.level.editLevel')->with(['level' => $level,
-        'gradeArray' => $gradeArray,
-        'groupArray'=> $groupArray,
-        'teacherArray' => $teacherArray]);
+        return view('admin.level.editLevel')->with(['level' => $level, 'gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
     }
 
     /**
