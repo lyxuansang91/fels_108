@@ -31,13 +31,35 @@ class LevelRepository extends Repository implements LevelRepositoryInterface
         return $levelArray;
     }
 
+    public function getListLevelByTeacher($teacher_id) {
+        $levels = $this->model->where('teacher_id', $teacher_id)->get();
+        return $levels;
+    }
+
     public function createLevel($data)
     {
         // $file = $data['image'];
         // $name = $file->getClientOriginalName();
         // $file->move(public_path().'/images/category', $name);
         // $data['image'] = '/images/category/' . $name;
-        $this->create($data);
+        $level = $this->create($data);
+        if($level) {
+            $semester = \App\Models\Semester::all()->last();
+            if($semester) {
+                $subjects = \App\Models\Subject::all();
+                foreach($subjects as $subject) {
+                    $teachers = \App\Models\Teacher::where('subject_id', $subject->id)->get();
+                    if(count($teachers) > 0) {
+                        $teacher = $teachers[rand(0, count($teachers)-1)];
+                        $semester_subject_level = \App\Models\SemesterSubjectLevel::create([
+                            'semester_id' => $semester->id,
+                            'subject_id' => $subject->id,
+                            'teacher_id' => $teacher->id,
+                            'level_id' => $level->id]);
+                    }
+                }
+            }
+        }
     }
 
     public function updateLevel($id, $data)

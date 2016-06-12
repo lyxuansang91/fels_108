@@ -12,8 +12,8 @@ use App\Repositories\UserRepositoryInterface as UserRepository;
 class SessionController extends Controller
 {
     protected $userRepository;
-    
-    public function __construct( UserRepository $userRepository) 
+
+    public function __construct( UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -51,7 +51,7 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $rule = $this->userRepository->ruleLogin;
-        
+
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
@@ -60,11 +60,11 @@ class SessionController extends Controller
         }
         $auth = \Auth::attempt(['email' => $request->email, 'password' => $request->password]);
         if($auth) {
-            
+
             return redirect()->route('user.index');
         } else {
-            
-            return redirect()->route('user.login.index')->withMessages('Email or Password is incorrect'); 
+
+            return redirect()->route('user.login.index')->withMessages('Email or Password is incorrect');
         }
     }
 

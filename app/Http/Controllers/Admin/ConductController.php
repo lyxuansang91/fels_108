@@ -41,7 +41,7 @@ class ConductController extends Controller
         if($user->role == \App\Models\User::ROLE_TEACHER) {
             $teacher = \App\Models\Teacher::where('user_id', $user->id)->first();
             $semester = $this->semesterRepository->all()->last();
-            $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel);
+            $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel, $teacher->id);
 
             $levels = \App\Models\Level::where('teacher_id', $teacher->id)->get();
         }

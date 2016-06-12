@@ -30,4 +30,15 @@ class SemesterSubjectLevel extends Model
     public function teacher() {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function points() {
+        return $this->hasMany(Point::class);
+    }
+
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($semester_subject_level) {
+            $semester_subject_level->points()->delete(); 
+        });
+    }
 }

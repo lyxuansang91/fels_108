@@ -51,6 +51,10 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::get('points/exportExcel', ['as' => 'points.exportExcel', 'uses'=> 'PointController@exportExcel']);
         Route::resource('/points', 'PointController');
 
+        Route::get('/semester_classes', ['as' => 'admin.semester_classes', 'uses' => 'SemesterClassController@index']);
+        Route::get('/year_classes', ['as' => 'admin.year_classes', 'uses' => 'YearClassController@index']);
+
+
         Route::resource('/absences', 'AbsenceController');
 
     });

@@ -10,7 +10,7 @@ class Teacher extends Model
     protected $fillable = ['teacher_name', 'teacher_code', 'address','birthday', 'phone', 'gender', 'user_id', 'subject_id'];
     protected $table = 'teachers';
     public $timestamps = true;
-    
+
     public function subject() {
         return $this->belongsTo(Subject::class);
     }
@@ -18,4 +18,17 @@ class Teacher extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function semester_subject_levels() {
+        return $this->hasMany(SemesterSubjectLevel::class);
+    }
+
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($teacher) {
+            $teacher->semester_subject_levels()->delete();
+        });
+    }
+
+
 }

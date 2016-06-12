@@ -55,7 +55,7 @@ class User extends Model implements AuthenticatableContract,
     }
 
     public function student() {
-        return $this->belongsTo(Student::class);
+        return $this->hasOne(Student::class);
     }
     /**
      * Mutator for auto hash password

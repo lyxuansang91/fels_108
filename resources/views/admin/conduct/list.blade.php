@@ -38,8 +38,16 @@
                                     @foreach ($conducts as $conduct)
                                     <tr class="conduct_{{ $conduct->id }}">
                                         <td>{{{ $conduct->id }}}</td>
-                                        <td>{{{ $conduct->student->student_code }}}</td>
-                                        <td>{{{ $conduct->student->name }}}</td>
+                                        <td>
+                                            @if ($conduct->student)
+                                                {{{ $conduct->student->student_code }}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($conduct->student)
+                                                {{{ $conduct->student->name }}}
+                                            @endif
+                                        </td>
                                         <td>
                                             <select name="conduct_name" id="conduct_name" class="form-control" readonly="true">
                                                 <option value="0" @if ($conduct->conduct_name == NULL) selected @endif>Chọn HK</option>

@@ -154,7 +154,6 @@ class PointRepository extends Repository implements PointRepositoryInterface
     public function getListPoinByLevel($level_id, $subject_id, $teacher_id = NULL){
         $points = array();
         $semester = Semester::all()->last();
-
     //    dd($semester);
         if($teacher_id == NULL) {
             $semester_subject_levels = SemesterSubjectLevel::

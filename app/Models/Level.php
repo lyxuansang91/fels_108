@@ -15,6 +15,23 @@ class Level extends Model
         return $this->belongsTo(Grade::class);
     }
 
+    public function students() {
+        return $this->hasMany(Student::class);
+    }
+
+    public function semester_subject_levels() {
+        return $this->hasMany(SemesterSubjectLevel::class);
+    }
+
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($level) {
+            $level->students()->delete();
+            $level->semester_subject_levels()->delete();
+        });
+    }
+
+
     public function group()
     {
         return $this->belongsTo(Group::class);

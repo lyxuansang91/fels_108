@@ -73,12 +73,33 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
     public function createStudent($data) {
         $student = $this->model->create($data);
         if($student) {
+            //save student
             $group = $student->level->group->group_code;
             $year = \Carbon\Carbon::now()->year;
             $result = strval($student->id);
             while(strlen($result) < 3) $result = '0'.$result;
             $student->student_code = 'HS'.$year.$group.$result;
             $student->save();
+
+
+            //save in point
+            $semester = \App\Models\Semester::all()->last();
+            if($semester) {
+                $semester_subject_levels = \App\Models\SemesterSubjectLevel::where('semester_id', $semester->id)
+                    ->where('level_id', $student->level_id)->get();
+                foreach($semester_subject_levels as $semester_subject_level) {
+                    $point = new \App\Models\Point();
+                    $point->student_id = $student->id;
+                    $point->semester_subject_level_id = $semester_subject_level->id;
+                    $point->save();
+                }
+
+                //save in conduct
+                $conduct = new \App\Models\Conduct();
+                $conduct->student_id = $student->id;
+                $conduct->semester_id = $semester->id;
+                $conduct->save();
+            }
         }
     }
 
