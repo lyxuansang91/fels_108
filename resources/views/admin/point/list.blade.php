@@ -58,9 +58,9 @@
                                         <th>Điểm 45 phút 2</th>
                                         <th>Điểm thi</th>
                                         <th>Điểm tổng kết</th>
-                                        <th>Edit</th>
-                                        <th>Save</th>
-                                        <th>Delete</th>
+                                        <th>Chỉnh sửa</th>
+                                        <th>Lưu</th>
+                                        <th>Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,13 +89,13 @@
                                         <!-- <td><a href="{!! route('admin.points.edit', $point->id) !!}" class="btn btn-primary">Edit</a></td> -->
                                         <td><a href="javascript:void(0)" class="btn btn-success savePoint" id="{{{ $point->id }}}" disabled>Save</a></td>
                                         {!! Form::open(['route' => ['admin.points.destroy', $point->id], 'method' => 'delete']) !!}
-                                        <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
+                                        <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa?')"]) !!}</td>
                                         {!! Form::close() !!}
                                     </tr>
                                     @endforeach
                                 </tbody>
                             @else
-                                List point is empty
+                                Danh sách trống
                             @endif
                         </table>
                     </div><!-- /.box-body -->

@@ -4,7 +4,7 @@
     <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Framgia E-Learning System</title>
+    <title>Sổ liên lạc điện tử</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -38,9 +38,9 @@
         <!-- Logo -->
         <a href="{!! route('admin.index') !!}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>E</b>Learning</span>
+          <span class="logo-mini">THPT B Kim Bảng</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>E-</b>learning</span>
+          <span class="logo-lg">THPT B Kim Bảng</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -71,10 +71,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="#" class="btn btn-default btn-flat">Thông tin</a>
                     </div>
                     <div class="pull-right">
-                      <a href="{!! route('admin.logout.index') !!}" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="{!! route('admin.logout.index') !!}" class="btn btn-default btn-flat">Đăng xuất</a>
                     </div>
                   </li>
                 </ul>
@@ -107,7 +107,7 @@
           <!-- search form -->
           <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <input type="text" name="q" class="form-control" placeholder="Tìm kiếm...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
               </span>
@@ -116,7 +116,6 @@
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header">Menu</li>
             <li>
               <a href="{!! route('admin.index') !!}">
                 <i class="fa fa-home"></i> <span>Trang chủ</span>
@@ -125,24 +124,53 @@
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-users"></i>
-                <span>Quản lý</span>
+                <span>Quản lý DM</span>
               </a>
               <ul class="treeview-menu">
-                @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i> Học sinh</a></li> @endif
+               
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.grades.index') !!}"><i class="fa fa-circle-o"></i> Khối </a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.semesters.index') !!}"><i class="fa fa-circle-o"></i> Học kỳ</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.subjects.index') !!}"><i class="fa fa-circle-o"></i> Môn học</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.groups.index') !!}"><i class="fa fa-circle-o"></i> Ban</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.levels.index') !!}"><i class="fa fa-circle-o"></i> Lớp</a></li> @endif
+              
+              </ul>
+            </li>
+          
+
+           <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Quản lý GV</span>
+              </a>
+              <ul class="treeview-menu">
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.teachers.index') !!}"><i class="fa fa-circle-o"></i> Giáo viên</a></li> @endif
+              </ul>
+            </li>
+          
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Quản lý HS</span>
+              </a>
+              <ul class="treeview-menu">
+                @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i> Học sinh</a></li> @endif
+              </ul>
+            </li>
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-users"></i>
+                <span>Quản lý KQ</span>
+              </a>
+              <ul class="treeview-menu">
                 @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li> @endif
+
                 @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li> @endif
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li> @endif
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li> @endif
               </ul>
             </li>
           </ul>
-
         </section>
         <!-- /.sidebar -->
       </aside>

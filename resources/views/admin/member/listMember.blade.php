@@ -36,7 +36,7 @@
                                 {!! $users->render() !!}
                             </tbody>
                             @else
-                                List Member is empty
+                                Danh sách người dùng trống.
                             @endif
                         </table>
                     </div><!-- /.box-body -->

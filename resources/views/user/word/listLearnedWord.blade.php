@@ -8,8 +8,8 @@
             <div class="col-md-12">
                 <div class="box">
                     <ol class="breadcrumb">
-                        <li><a href="{!! route('user.index') !!}"><i class="fa fa-home"></i> Home</a></li>
-                        <li><a href="{!! route('user.profiles.show', auth()->id()) !!}"> Profile</a></li>
+                        <li><a href="{!! route('user.index') !!}"><i class="fa fa-home"></i> Trang chủ</a></li>
+                        <li><a href="{!! route('user.profiles.show', auth()->id()) !!}"> Thông tin</a></li>
                         <li class="active">List learned</li>
                     </ol>
                     <div class="box-header">

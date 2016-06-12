@@ -6,19 +6,19 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">List Group</h3>
-                        <a href="{!! route('admin.groups.create') !!}" class="btn btn-primary pull-right">Create Group</a>
+                        <h3 class="box-title">Danh sách ban học</h3>
+                        <a href="{!! route('admin.groups.create') !!}" class="btn btn-primary pull-right">Thêm mới</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
                             @if(count($groups) > 0)
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>STT</th>
                                     <th>Mã ban</th>
                                     <th>Tên ban</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Chỉnh sửa</th>
+                                    <th>Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,15 +27,15 @@
                                     <td>{{{ $group->id }}}</td>
                                     <td>{!! nl2br($group->group_code) !!}</td>
                                     <td>{!! nl2br($group->group_name) !!}</td>
-                                    <td><a href="{!! route('admin.groups.edit', $group->id) !!}" class="btn btn-primary">Edit</a></td>
+                                    <td><a href="{!! route('admin.groups.edit', $group->id) !!}" class="btn btn-primary">Sửa</a></td>
                                     {!! Form::open(['route' => ['admin.groups.destroy', $group->id], 'method' => 'delete']) !!}
-                                    <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
+                                    <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
                             </tbody>
                             @else
-                                List Group is empty
+                                Danh sách ban học trống.
                             @endif
                         </table>
                     </div><!-- /.box-body -->

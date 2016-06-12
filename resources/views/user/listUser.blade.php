@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <ol class="breadcrumb">
-                        <li><a href="{!! route('user.index') !!}"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="{!! route('user.index') !!}"><i class="fa fa-home"></i> Trang chủ</li>
                         <li class="active">List Member</li>
                     </ol>
                     <div class="box-header">
@@ -55,7 +55,7 @@
                                 </tbody>
                                 {!! $users->render() !!}
                             @else
-                                List Member is empty
+                                Danh sách người dùng trống.
                             @endif
                         </table>
                     </div><!-- /.box-body -->

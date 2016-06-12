@@ -6,7 +6,7 @@
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Create new group</h3>
+                <h3 class="box-title">Tạo ban học mới</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             {!! Form::open(['route'=>'admin.groups.store', 'class'=>'form-horizontal', 'files'=>true]) !!}
@@ -21,16 +21,16 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Group</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Mã ban học</label>
                         <div class="col-sm-10">
-                            {!! Form::text('group_name', '', ['class'=>'form-control', 'placeholder'=>'Input group Name']) !!}
+                            {!! Form::text('group_name', '', ['class'=>'form-control', 'placeholder'=>'Nhập mã ban học']) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Group</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Tên ban học</label>
                         <div class="col-sm-10">
-                            {!! Form::text('group_code', '', ['class'=>'form-control', 'placeholder'=>'Input group Name']) !!}
+                            {!! Form::text('group_code', '', ['class'=>'form-control', 'placeholder'=>'Nhập tên ban học']) !!}
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -47,7 +47,7 @@
                     </div> -->
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    {!! Form::submit('Create', ['class'=>'btn btn-primary']) !!}
+                    {!! Form::submit('Tạo mới', ['class'=>'btn btn-primary']) !!}
                 </div><!-- /.box-footer -->
             {!! Form::close() !!}
         </div><!-- /.box -->

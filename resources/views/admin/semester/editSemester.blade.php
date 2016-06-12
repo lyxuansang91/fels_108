@@ -6,7 +6,7 @@
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Edit a Semester</h3>
+                <h3 class="box-title">Chỉnh sửa kỳ học</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             {!! Form::open(['route'=>['admin.semesters.update', $semester->id], 'method'=>'put', 'class'=>'form-horizontal', 'files' => true]) !!}
@@ -21,23 +21,23 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Semester Number</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Tên kỳ học</label>
                         <div class="col-sm-10">
-                            {!! Form::number('semester_number', $semester->semester_number, ['class'=>'form-control', 'placeholder'=>'Input Semester']) !!}
+                            {!! Form::number('semester_number', $semester->semester_number, ['class'=>'form-control', 'placeholder'=>'Nhập tên kỳ học']) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Year</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Tên năm học</label>
                         <div class="col-sm-10">
-                            {!! Form::text('year', $semester->year, ['class'=>'form-control', 'placeholder'=>'Input Year']) !!}
+                            {!! Form::text('year', $semester->year, ['class'=>'form-control', 'placeholder'=>'Nhập tên năm học']) !!}
                         </div>
                     </div>
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    <a href="{!! URL::previous() !!}" class="btn  btn-default">Back</a>
-                    {!! Form::submit('Update', ['class'=>'btn btn-primary pull-right']) !!}
+                    <a href="{!! URL::previous() !!}" class="btn  btn-default"><<</a>
+                    {!! Form::submit('Cập nhật', ['class'=>'btn btn-primary pull-right']) !!}
                 </div><!-- /.box-footer -->
             {!! Form::close() !!}
         </div><!-- /.box -->

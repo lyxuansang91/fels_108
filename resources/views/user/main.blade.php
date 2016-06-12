@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Framgia E-Learning System</title>
+        <title>Điểm học sinh</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.5 -->
@@ -39,7 +39,7 @@
         <nav class="navbar navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="{!! route('user.index') !!}" class="navbar-brand"><b>E</b>Learning</a>
+                    <a href="{!! route('user.index') !!}" class="navbar-brand">THPT B Kim Bảng</a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -68,10 +68,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="{!! route('user.profiles.show', \Auth::id()) !!}" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{!! route('user.profiles.show', \Auth::id()) !!}" class="btn btn-default btn-flat">Xem thông tin</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="{!! route('user.logout.index') !!}" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="{!! route('user.logout.index') !!}" class="btn btn-default btn-flat">Đăng xuất</a>
                                     </div>
                                 </li>
                             </ul>
@@ -90,7 +90,7 @@
             <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0
             </div>
-            <strong>Copyright &copy; 2015-2016 <a href="{!! route('user.index') !!}">Framgia Elearning System</a>.</strong> All rights reserved.
+            <strong>Sổ liên lạc điện tử <a href="{!! route('user.index') !!}">THPT B Kim Bảng</a>.</strong> 
         </div><!-- /.container -->
     </footer>
     </div><!-- ./wrapper -->

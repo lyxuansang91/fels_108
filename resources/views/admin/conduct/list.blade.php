@@ -18,36 +18,28 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">List Conduct</h3>
+                        <h3 class="box-title">Danh sách hạnh kiểm</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
                             @if ( count($conducts) > 0)
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Student Code</th>
-                                        <th>Student Name</th>
-                                        <th>Conduct Name</th>
-                                        <th>Edit</th>
-                                        <th>Save</th>
-                                        <th>Delete</th>
+                                        <th>STT</th>
+                                        <th>Mã học sinh</th>
+                                        <th>Họ và tên</th>
+                                        <th>Hạnh kiểm</th>
+                                        <th>Chỉnh sửa</th>
+                                        <th>Lưu thông tin</th>
+                                        <th>Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($conducts as $conduct)
                                     <tr class="conduct_{{ $conduct->id }}">
                                         <td>{{{ $conduct->id }}}</td>
-                                        <td>
-                                            @if ($conduct->student)
-                                                {{{ $conduct->student->student_code }}}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($conduct->student)
-                                                {{{ $conduct->student->name }}}
-                                            @endif
-                                        </td>
+                                        <td>{{{ $conduct->student->student_code }}}</td>
+                                        <td>{{{ $conduct->student->name }}}</td>
                                         <td>
                                             <select name="conduct_name" id="conduct_name" class="form-control" readonly="true">
                                                 <option value="0" @if ($conduct->conduct_name == NULL) selected @endif>Chọn HK</option>
@@ -56,16 +48,16 @@
                                                 <option value="3" @if ($conduct->conduct_name == 3) selected @endif>Trung bình</option>
                                             </select>
                                         </td>
-                                        <td><a href="javascript:void(0)" class="btn btn-primary editConduct" id="{{{ $conduct->id }}}">Edit</a></td>
-                                        <td><a href="javascript:void(0)" class="btn btn-success saveConduct" id="{{{ $conduct->id }}}" disabled>Save</a></td>
+                                        <td><a href="javascript:void(0)" class="btn btn-primary editConduct" id="{{{ $conduct->id }}}">Sửa</a></td>
+                                        <td><a href="javascript:void(0)" class="btn btn-success saveConduct" id="{{{ $conduct->id }}}" disabled>Lưu</a></td>
                                         {!! Form::open(['route' => ['admin.conducts.destroy', $conduct->id], 'method' => 'delete']) !!}
-                                        <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
+                                        <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa?')"]) !!}</td>
                                         {!! Form::close() !!}
                                     </tr>
                                     @endforeach
                                 </tbody>
                             @else
-                                List Conduct is empty
+                               Danh sách hạnh kiểm trống.
                             @endif
                         </table>
                     </div><!-- /.box-body -->

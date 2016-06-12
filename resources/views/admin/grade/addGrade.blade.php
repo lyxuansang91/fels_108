@@ -6,7 +6,7 @@
         <!-- Horizontal Form -->
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Create new Category</h3>
+                <h3 class="box-title">Thêm mới khối học</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
             {!! Form::open(['route'=>'admin.grades.store', 'class'=>'form-horizontal', 'files'=>true]) !!}
@@ -21,9 +21,9 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="inputName3" class="col-sm-2 control-label">Grade</label>
+                        <label for="inputName3" class="col-sm-2 control-label">Tên khối học</label>
                         <div class="col-sm-10">
-                            {!! Form::text('grade_name', '', ['class'=>'form-control', 'placeholder'=>'Input Grade']) !!}
+                            {!! Form::text('grade_name', '', ['class'=>'form-control', 'placeholder'=>'Nhập tên khối']) !!}
                         </div>
                     </div>
                     <!-- <div class="form-group">
@@ -40,7 +40,7 @@
                     </div> -->
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    {!! Form::submit('Create', ['class'=>'btn btn-primary']) !!}
+                    {!! Form::submit('Tạo mới', ['class'=>'btn btn-primary']) !!}
                 </div><!-- /.box-footer -->
             {!! Form::close() !!}
         </div><!-- /.box -->

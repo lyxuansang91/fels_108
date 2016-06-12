@@ -6,8 +6,8 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">List Grades</h3>
-                        <a href="{!! route('admin.grades.create') !!}" class="btn btn-primary pull-right">Create Grade</a>
+                        <h3 class="box-title">Danh sách khối học</h3>
+                        <a href="{!! route('admin.grades.create') !!}" class="btn btn-primary pull-right">Tạo mới</a>
 
                     </div><!-- /.box-header -->
                     <div class="box-body">
@@ -15,10 +15,10 @@
                             @if(count($grades) > 0)
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Grade Name</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>STT</th>
+                                    <th>Tên khối</th>
+                                    <th>Chỉnh sửa</th>
+                                    <th>Xóa </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,15 +26,15 @@
                                 <tr>
                                     <td>{{{ $grade->id }}}</td>
                                     <td>{!! nl2br($grade->grade_name) !!}</td>
-                                    <td><a href="{!! route('admin.grades.edit', $grade->id) !!}" class="btn btn-primary">Edit</a></td>
+                                    <td><a href="{!! route('admin.grades.edit', $grade->id) !!}" class="btn btn-primary">Sửa</a></td>
                                     {!! Form::open(['route' => ['admin.grades.destroy', $grade->id], 'method' => 'delete']) !!}
-                                    <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
+                                    <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa lớp hiện tại?')"]) !!}</td>
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
                             </tbody>
                             @else
-                                List Grades is empty
+                                Danh sách lớp học trống
                             @endif
                         </table>
                     </div><!-- /.box-body -->

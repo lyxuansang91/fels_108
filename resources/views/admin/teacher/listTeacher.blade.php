@@ -1,8 +1,8 @@
-@extends('main')
+@extends('main')s
 
 @section('content')
 <form action="" method="GET" role="form">
-    <legend>Search Teacher</legend>
+    <legend>Tìm kiếm</legend>
     <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <select name="subject" id="inputSelectLevel" class="form-control">
             @foreach ($subjects as $subject)
@@ -18,24 +18,24 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">List Teacher</h3>
-                        <a href="{!! route('admin.teachers.create') !!}" class="btn btn-primary pull-right">Create Teacher</a>
+                        <h3 class="box-title">Danh sách giáo viên</h3>
+                        <a href="{!! route('admin.teachers.create') !!}" class="btn btn-primary pull-right">Thêm mới</a>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
                             @if($teachers->count() > 0)
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>Birthday</th>
-                                    <th>Address</th>
-                                    <th>Phone</th>
-                                    <th>Subject</th>
+                                    <th>STT</th>
+                                    <th>Họ và tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Điện thoại</th>
+                                    <th>Môn dạy</th>
                                     <th>Email</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Chỉnh sửa</th>
+                                    <th>Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,15 +49,15 @@
                                     <td>{{{ $teacher->phone }}}</td>
                                     <td> @if ($teacher->subject) {{{$teacher->subject->subject_name}}} @endif</td>
                                     <td> @if ($teacher->user) {{{$teacher->user->email}}} @endif</td>
-                                    <td><a href="{!! route('admin.teachers.edit', $teacher->id) !!}" class="btn btn-primary">Edit</a></td>
+                                    <td><a href="{!! route('admin.teachers.edit', $teacher->id) !!}" class="btn btn-primary">Sửa</a></td>
                                     {!! Form::open(['route' => ['admin.teachers.destroy', $teacher->id], 'method' => 'delete']) !!}
-                                    <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>
+                                    <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa giáo viên hiện tại?')"]) !!}</td>
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
                             </tbody>
                             @else
-                                List Teacher is empty
+                                Danh sách giáo viên trống
                             @endif
                         </table>
                     </div><!-- /.box-body -->

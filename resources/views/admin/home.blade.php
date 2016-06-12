@@ -4,8 +4,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       	<h1>
-            Home
-            <small>Control panel</small>
+            Trang chủ
+            <small></small>
       	</h1>
     </section>
 
@@ -18,40 +18,14 @@
           		<div class="small-box bg-aqua">
             		<div class="inner">
               			<h3>{!! $users->count() !!}</h3>
-              			<p>Total Users</p>
+              			<p>người dùng</p>
             		</div>
             		<div class="icon">
               			<i class="ion ion-person"></i>
             		</div>
-            		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            		<a href="#" class="small-box-footer">Chi tiết <i class="fa fa-arrow-circle-right"></i></a>
           		</div>
         	</div><!-- ./col -->
-        	<div class="col-lg-3 col-xs-6">
-          		<!-- small box -->
-          		<div class="small-box bg-green">
-            		<div class="inner">
-              			<h3>{!! $words->count() !!}</h3>
-              			<p>Total Words</p>
-            		</div>
-            		<div class="icon">
-              			<i class="ion ion-stats-bars"></i>
-            		</div>
-            		<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          		</div>
-        	</div><!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          	<!-- small box -->
-          	<div class="small-box bg-yellow">
-            	<div class="inner">
-              		<h3>{!! $categories->count() !!}</h3>
-              		<p>Total Categories</p>
-            	</div>
-            	<div class="icon">
-              		<i class="ion ion-bag"></i>
-            	</div>
-            	<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          	</div>
-        </div><!-- ./col -->
       </div><!-- /.row -->
       <!-- Main row -->
     </section><!-- /.content -->
