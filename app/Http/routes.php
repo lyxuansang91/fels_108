@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/categories', 'CategoryController');
 
-        Route::resource('/grades', 'GradeController');
+        Route::resource('/grades', 'GradeController'); //resource, đủ 7 chức năng thêm mới, sửa, xóa, hiển thị 1, hiển thị nhiều, ...
 
         Route::resource('/semesters', 'SemesterController');
 
@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::post('conducts/updateConduct', ['as'=>'conducts.updateConduct', 'uses'=>'ConductController@updateConduct']);
         Route::post('points/calculatePoint', ['as'=>'points.calculatePoint', 'uses'=>'PointController@calculatePoint']);
         Route::get('points/exportExcel', ['as' => 'points.exportExcel', 'uses'=> 'PointController@exportExcel']);
+        Route::get('semester_classes/calculate', ['as' => 'admin.semester_classes.calculate', 'uses'=> 'SemesterClassController@calculate']);
         Route::resource('/points', 'PointController');
 
         Route::get('/semester_classes', ['as' => 'admin.semester_classes', 'uses' => 'SemesterClassController@index']);

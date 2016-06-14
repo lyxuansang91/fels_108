@@ -23,6 +23,10 @@ class Level extends Model
         return $this->hasMany(SemesterSubjectLevel::class);
     }
 
+    public function teacher() {
+        return $this->belongsTo(Teacher::class);
+    }
+
     protected static function boot() {
         parent::boot();
         static::deleting(function($level) {
@@ -35,10 +39,5 @@ class Level extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
-    }
-
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
     }
 }

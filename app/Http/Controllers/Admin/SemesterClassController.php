@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
 use App\Repositories\LevelRepositoryInterface as LevelRepository;
 use App\Repositories\SubjectRepositoryInterface as SubjectRepository;
+use App\Repositories\StudentRepositoryInterface as StudentRepository;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Level;
+use App\Models\Student;
 
 
 class SemesterClassController extends Controller
@@ -25,12 +27,16 @@ class SemesterClassController extends Controller
 
     protected $subjectRepository;
 
+    protected $studentRepository;
+
     public function __construct(SemesterRepository $semesterRepository,
-    LevelRepository $levelRepository, SubjectRepository $subjectRepository)
+    StudentRepository $studentRepository, LevelRepository $levelRepository,
+    SubjectRepository $subjectRepository)
     {
         $this->semesterRepository = $semesterRepository;
         $this->levelRepository = $levelRepository;
         $this->subjectRepository = $subjectRepository;
+        $this->studentRepository = $studentRepository;
     }
 
     /**
@@ -41,26 +47,33 @@ class SemesterClassController extends Controller
     public function index(Request $request)
     {
         //
+        $selectLevel = $request->selectLevel;
         $user = \Auth()->user();
+
         $teacher = Teacher::where('user_id', $user->id)->first();
         if($teacher) {
             $subjects = $this->subjectRepository->all();
             $semester = \App\Models\Semester::all()->last();
             $levels =  $this->levelRepository->getListLevelByTeacher($teacher->id);
-            $selectLevel = $request->selectLevel;
             if($selectLevel) {
-                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::where('level_id', $select_level)->select('id')->get();
+                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::where('level_id', $selectLevel)->select('id')->get();
+                $students = \App\Models\Level::find($selectLevel)->students()->get();
             } else {
                 $level_ids = \App\Models\Level::where('teacher_id', $teacher->id)->select('id')->get();
                 $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::whereIn('level_id', $level_ids)->select('id')->get();
+                $students = \App\Models\Student::whereIn('level_id', $level_ids)->get();
             }
             $points = \App\Models\Point::whereIn('semester_subject_level_id', $semester_subject_level_ids)->get();
+
+            return view('admin.semester_class.list')->with(['semester'=>$semester,
+                    'points' => $points,
+                    'students' => $students,
+                    'levels'=> $levels,
+                    'subjects' => $subjects,
+                    'selectLevel' => $selectLevel]);
         }
-        return view('admin.semester_class.list')->with(['semester'=>$semester,
-                'points' => $points,
-                'levels'=> $levels,
-                'subjects' => $subjects,
-                'selectLevel' => $selectLevel]);
+        // dd($subjects);
+
     }
 
     /**
@@ -72,6 +85,50 @@ class SemesterClassController extends Controller
     {
         //
         return view('admin.semester.addSemester');
+    }
+
+    public function calculate(Request $request) {
+
+        $selectLevel = $request->selectLevel;
+        $user = \Auth()->user();
+        $teacher = Teacher::where('user_id', $user->id)->first();
+        $semester = \App\Models\Semester::all()->last();
+        if($semester) {
+            if($selectLevel) {
+                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::where('level_id', $selectLevel)->select('id')->get();
+                $students = \App\Models\Level::find($selectLevel)->students()->get();
+            } else {
+                $level_ids = \App\Models\Level::where('teacher_id', $teacher->id)->select('id')->get();
+                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::whereIn('level_id', $level_ids)->select('id')->get();
+                $students = \App\Models\Student::whereIn('level_id', $level_ids)->get();
+            }
+            $subjects = \App\Models\Subject::all();
+            foreach($students as $key => $student) {
+                $count = 0;
+                $sum = 0;
+                foreach($subjects as $subject) {
+                    $point = $student->getPointBySubjectAndSemester($subject->id, $semester->id);
+
+                    if($point->mark_avg != NULL) {
+                        $sum += $point->mark_avg;
+                        $count++;
+                    }
+                }
+
+
+                if($count == count($subjects)) {
+                    //tinh diem trung binh hoc ky
+                    $semester_point = \App\Models\SemesterPoint::firstOrNew(
+                        ['semester_id' => $semester->id, 'student_id' => $student->id]);
+                    $semester_point->mark = $sum / $count;
+                    $semester_point->save();
+                }
+            }
+        } else {
+
+        }
+
+        return redirect()->back();
     }
 
     /**

@@ -62,7 +62,7 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="{!!Asset('images/avatar/default.png')  !!}" class="img-circle" alt="User Image">
+                    <img src="{!!Asset('images/avatar/default.png') !!}" class="img-circle" alt="User Image">
                     <p>
                       {!! auth()->user()->email !!}
                     </p>
@@ -127,16 +127,14 @@
                 <span>Quản lý DM</span>
               </a>
               <ul class="treeview-menu">
-               
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.grades.index') !!}"><i class="fa fa-circle-o"></i> Khối </a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.semesters.index') !!}"><i class="fa fa-circle-o"></i> Học kỳ</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.subjects.index') !!}"><i class="fa fa-circle-o"></i> Môn học</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.groups.index') !!}"><i class="fa fa-circle-o"></i> Ban</a></li> @endif
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.levels.index') !!}"><i class="fa fa-circle-o"></i> Lớp</a></li> @endif
-              
               </ul>
             </li>
-          
+
 
            <li class="treeview active">
               <a href="#">
@@ -147,7 +145,7 @@
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.teachers.index') !!}"><i class="fa fa-circle-o"></i> Giáo viên</a></li> @endif
               </ul>
             </li>
-          
+
 
             <li class="treeview active">
               <a href="#">
@@ -165,9 +163,10 @@
                 <span>Quản lý KQ</span>
               </a>
               <ul class="treeview-menu">
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li> @endif
-
+                <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li>
                 @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li> @endif
+                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li> @endif
+                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li> @endif
               </ul>
             </li>
           </ul>

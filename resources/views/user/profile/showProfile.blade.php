@@ -8,8 +8,8 @@
             <div class="col-md-12">
                 <div class="box">
                     <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">Profile</li>
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+                        <li class="active">Trang cá nhân</li>
                     </ol>
                     <div class="row">
                         <div class="col-md-3" style="text-align: center;">
@@ -26,19 +26,19 @@
                                 @if (count($points) > 0)
                                     <thead>
                                         <tr>
-                                            <th>Semester Name</th>
-                                            <th>Subject Name</th>
-                                            <th>Mark M 1</th>
-                                            <th>Mark M 2</th>
-                                            <th>Mark M 3</th>
-                                            <th>Mark M 4</th>
-                                            <th>Mark 15 1</th>
-                                            <th>Mark 15 2</th>
-                                            <th>Mark 15 3</th>
-                                            <th>Mark 45 1</th>
-                                            <th>Mark 45 2</th>
-                                            <th>Mark Last</th>
-                                            <th>Mark Avg</th>
+                                            <th>Học kỳ</th>
+                                            <th>Môn</th>
+                                            <th>Điểm miệng 1</th>
+                                            <th>Điểm miệng 2</th>
+                                            <th>Điểm miệng 3</th>
+                                            <th>Điểm miệng 4</th>
+                                            <th>Điểm 15 phút 1</th>
+                                            <th>Điểm 15 phút 2</th>
+                                            <th>Điểm 15 phút 3</th>
+                                            <th>Điểm 45 phút 1</th>
+                                            <th>Điểm 45 phút 2</th>
+                                            <th>Điểm thi</th>
+                                            <th>Điểm TK</th>
                                         </tr>
                                     </thead>
                                     <tbody>

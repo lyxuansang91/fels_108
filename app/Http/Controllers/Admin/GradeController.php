@@ -79,7 +79,7 @@ class GradeController extends Controller
     public function edit($id)
     {
         $grade = $this->gradeRepository->findOrFail($id);
-
+        
         return view('admin.grade.editGrade')->with(['grade'=>$grade]);
     }
 

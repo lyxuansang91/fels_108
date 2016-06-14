@@ -16,12 +16,19 @@ class Semester extends Model
         return $this->hasMany(SemesterSubjectLevel::class);
     }
 
+    public function semester_points() {
+        return $this->hasMany(SemesterPoint::class);
+    }
+
     protected static function boot() {
         parent::boot();
         static::deleting(function($semester) {
             $semester->semester_subject_levels()->delete();
+            $semester->semester_points()->delete();
         });
     }
+
+
 
     public function conducts() {
         return $this->hasMany(Conduct::class);

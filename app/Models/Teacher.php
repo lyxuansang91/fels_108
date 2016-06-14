@@ -23,6 +23,10 @@ class Teacher extends Model
         return $this->hasMany(SemesterSubjectLevel::class);
     }
 
+    public function levels() {
+        return $this->hasMany(Level::class);
+    }
+
     protected static function boot() {
         parent::boot();
         static::deleting(function($teacher) {
