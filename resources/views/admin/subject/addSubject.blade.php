@@ -27,16 +27,13 @@
                         </div>
                     </div>
 
-                    @if (count($groupArray) > 0)
-                        @foreach($groupArray as $group)
-                        <div class="form-group">
-                            <label for="inputName3" class="col-sm-2 control-label">Hệ số {{{$group->group_name}}}</label>
-                            <div class="col-sm-10">
-                                {!! Form::text('group_'.$group->id, '', ['class'=>'form-control', 'placeholder'=>'Nhập hệ số'.$group->id]) !!}
-                            </div>
+                    <div class="form-group">
+                        <label for="inputName3" class="col-sm-2 control-label">Mã môn học</label>
+                        <div class="col-sm-10">
+                            {!! Form::text('subject_code', '', ['class'=>'form-control', 'placeholder'=>'Nhập tên môn học']) !!}
                         </div>
-                        @endforeach
-                    @endif
+                    </div>
+
 
                 </div><!-- /.box-body -->
                 <div class="box-footer">

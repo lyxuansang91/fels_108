@@ -26,7 +26,7 @@
                             @if($teachers->count() > 0)
                             <thead>
                                 <tr>
-                                    <th>STT</th>
+                                    <th>Mã giáo viên</th>
                                     <th>Họ và tên</th>
                                     <th>Giới tính</th>
                                     <th>Ngày sinh</th>
@@ -41,7 +41,7 @@
                             <tbody>
                                 @foreach($teachers as $teacher)
                                 <tr>
-                                    <td>{{{ $teacher->id }}}</td>
+                                    <td>{{{ $teacher->teacher_code }}}</td>
                                     <td>{{{ $teacher->teacher_name }}}</td>
                                     <td>{{{ $teacher->gender == 0 ? 'Nam': 'Nữ' }}}</td>
                                     <td>{{{ Date('Y-m-d', strtotime($teacher->birthday)) }}}</td>

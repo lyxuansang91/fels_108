@@ -27,30 +27,42 @@
                     <div class="box-header">
                         <h3 class="box-title">
                             @if ($semester)
-                                {{ 'Kỳ '. $semester->semester_number.' năm học ' . $semester->year }}
+                                {{ 'Năm học ' . $semester->year }}
                             @endif
                         </h3>
                     </div><!-- /.box-header -->
 
-                    <a href=" @if ($selectLevel)
+                    <!-- <a href=" @if ($selectLevel)
                         {{ route('admin.semester_classes.calculate', ['selectLevel'=> $selectLevel]) }}
                     @else
                     {{ route('admin.semester_classes.calculate') }}
                     @endif "
-                    class="btn btn-primary"> Tính điểm TK</a>
+                    class="btn btn-primary"> Tính điểm TK</a> -->
 
-                    <div class="box-body">
+                    <div class="box-body table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             @if ( count($students) > 0 && $semester)
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Mã học sinh</th>
-                                        <th width="150px">Tên học sinh</th>
+                                        <th rowspan="2">ID</th>
+                                        <th rowspan="2">Mã học sinh</th>
+                                        <th rowspan="2" width="150">Tên học sinh</th>
                                         @foreach ($subjects as $subject)
-                                            <th>{{ $subject->subject_name }}</th>
+                                            <th colspan="3">
+                                                {{ $subject->subject_name }}
+                                            </th>
                                         @endforeach
-                                        <th>Điểm tổng kết</th>
+                                        <th colspan="3">Điểm tổng kết</th>
+                                    </tr>
+                                    <tr>
+                                        @foreach ($subjects as $subject)
+                                            <th>Kỳ 1</th>
+                                            <th>Kỳ 2</th>
+                                            <th>Cả năm</th>
+                                        @endforeach
+                                        <th>Kỳ 1</th>
+                                        <th>Kỳ 2</th>
+                                        <th>Cả năm</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,18 +72,45 @@
                                         <td>{{{ $student->student_code }}}</td>
                                         <td>{{{ $student->name }}}</td>
                                         @foreach($subjects as $subject)
+                                            <?php $_points = array(); ?>
+                                            @for($i = 0; $i < 2; $i++)
+                                                <td>
+                                                    <?php $point = $student->getPointBySubjectAndYear($subject->id, $semester->year, $i + 1); ?>
+                                                    @if ($point->mark_avg)
+                                                        <?php $_points[] = $point; ?>
+                                                        {{ $point->mark_avg }}
+                                                    @endif
+                                                </td>
+                                            @endfor
                                             <td>
-                                                <?php $point = $student->getPointBySubjectAndSemester($subject->id, $semester->id); ?>
-                                                @if ($point)
-                                                    {{ $point->mark_avg }}
+                                                <?php
+                                                    $point_last = 0;
+                                                    for($i = 0; $i < count($_points); $i++) $point_last += $_points[$i]->mark_avg * ($i+1);
+                                                ?>
+                                                @if (count($_points) == 2)
+                                                    {{ number_format($point_last / 3, 1) }}
                                                 @endif
                                             </td>
                                         @endforeach
                                         <td>
-                                            <?php if($semester) $semester_point = $student->semester_points()->where('semester_id', $semester->id)->first(); ?>
-                                            @if ($semester_point)
-                                                {{ $semester_point->mark }}
+                                            <?php $semester_point_1 = $student->getSemesterPointBySemester($semester->year, 1); ?>
+                                            @if ($semester_point_1)
+                                                {{ $semester_point_1->mark }}
                                             @endif
+                                        </td>
+                                        <td>
+                                            <?php $semester_point_2 = $student->getSemesterPointBySemester($semester->year, 2); ?>
+                                            @if ($semester_point_2)
+                                                {{ $semester_point_2->mark }}
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            @if ($semester_point_1 && $semester_point_2)
+                                                {{ number_format(($semester_point_1->mark + $semester_point_2->mark * 2) / 3, 1) }}
+                                            @endif
+
+                                            <!-- tính điểm TK năm học-->
                                         </td>
                                     </tr>
                                     @endforeach

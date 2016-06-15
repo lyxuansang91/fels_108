@@ -38,6 +38,22 @@ class Student extends Model
         return $this->hasMany(SemesterPoint::class);
     }
 
+    public function getPointBySubjectAndYear($subject_id, $semester_year, $semester_number) {
+        $point = $this->points()->whereRaw('semester_subject_level_id in (select
+         id from semester_subject_levels where semester_subject_levels.subject_id
+         = ? and semester_subject_levels.semester_id = (select id from semesters
+          where year = ? and semester_number = ?))',
+         array($subject_id, $semester_year, $semester_number))->select('mark_avg')->first();
+         return $point;
+    }
+
+    public function getSemesterPointBySemester($semester_year, $semester_number) {
+        $semester_point = $this->semester_points()->whereRaw('semester_id in (select id from
+            semesters where year = ? and semester_number = ?)',
+            array($semester_year, $semester_number))->first();
+        return $semester_point;
+    }
+
     protected static function boot() {
         parent::boot();
         static::deleting(function($student) {

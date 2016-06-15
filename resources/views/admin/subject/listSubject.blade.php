@@ -14,8 +14,8 @@
                             @if(count($subjects) > 0)
                             <thead>
                                 <tr>
-                                    <th>STT</th>
                                     <th>Tên môn học</th>
+                                    <th>Mã môn học</th>
                                     <th>Chỉnh sửa</th>
                                     <th>Xóa</th>
                                 </tr>
@@ -23,8 +23,8 @@
                             <tbody>
                                 @foreach($subjects as $subject)
                                 <tr>
-                                    <td>{{{ $subject->id }}}</td>
                                     <td>{!! nl2br($subject->subject_name) !!}</td>
+                                    <td>{{{ $subject->subject_code }}}</td>
                                     <td><a href="{!! route('admin.subjects.edit', $subject->id) !!}" class="btn btn-primary">Sửa</a></td>
                                     {!! Form::open(['route' => ['admin.subjects.destroy', $subject->id], 'method' => 'delete']) !!}
                                     <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Are you sure you want to delete this item?')"]) !!}</td>

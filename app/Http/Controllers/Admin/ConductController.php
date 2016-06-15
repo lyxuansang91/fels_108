@@ -38,13 +38,21 @@ class ConductController extends Controller
         $user = \Auth()->user();
 
         $selectLevel = $request->selectLevel;
-        if($user->role == \App\Models\User::ROLE_TEACHER) {
-            $teacher = \App\Models\Teacher::where('user_id', $user->id)->first();
-            $semester = $this->semesterRepository->all()->last();
-            $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel, $teacher->id);
-
-            $levels = \App\Models\Level::where('teacher_id', $teacher->id)->get();
-        }
+        $semester = $this->semesterRepository->all()->last();
+            if($user->role == \App\Models\User::ROLE_TEACHER) {
+                $teacher = \App\Models\Teacher::where('user_id', $user->id)->first();
+                $levels = \App\Models\Level::where('teacher_id', $teacher->id)->get();
+                if($selectLevel && $semester)
+                    $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel, $teacher->id);
+                else
+                    $conducts = array();
+            } else {
+                $levels = \App\Models\Level::all();
+                if($semester && $selectLevel)
+                    $conducts = $this->conductRepository->getListConductByLevel($semester->id, $selectLevel, NULL);
+                else
+                    $conducts = array();
+            }
 
 
         return view('admin.conduct.list')->with([

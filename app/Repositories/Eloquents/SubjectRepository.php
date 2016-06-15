@@ -11,7 +11,8 @@ class SubjectRepository extends Repository implements SubjectRepositoryInterface
 {
 
     public $ruleAdd = [
-        'subject_name' => 'required'
+        'subject_name' => 'required',
+        'subject_code' => 'required'
     ];
 
 
@@ -27,22 +28,7 @@ class SubjectRepository extends Repository implements SubjectRepositoryInterface
 
     public function createSubject($data)
     {
-        $group_ids = array();
-        foreach($data as $key => $value) {
-            $pos = strpos($key, 'group');
-            if(strpos($key, 'group') === false) {
-
-            } else {
-                $group_id = intval(substr($key, $pos + 6));
-                $group_ids[$group_id] = $value;
-            }
-        }
-        $subject = $this->create($data);
-        if($subject) {
-            foreach($group_ids as $group_id => $val) {
-                SubjectGroup::create(['subject_id'=> $subject->id, 'group_id'=> $group_id, 'factor'=> $val]);
-            }
-        }
+        $subject = $this->create($data);    
     }
 
     public function updateSubject($id, $data)
@@ -57,25 +43,7 @@ class SubjectRepository extends Repository implements SubjectRepositoryInterface
         // $category->name = $data['name'];
         // $category->content = $data['content'];
         $subject->subject_name = $data['subject_name'];
+        $subject->subject_code = $data['subject_code'];
         $subject->save();
-
-        $group_ids = array();
-        foreach($data as $key => $value) {
-            $pos = strpos($key, 'group');
-            if(strpos($key, 'group') === false) {
-
-            } else {
-                $group_id = intval(substr($key, $pos + 6));
-                $group_ids[$group_id] = $value;
-            }
-        }
-
-        if($subject) {
-            foreach($group_ids as $group_id => $val) {
-                $subject_group = SubjectGroup::firstOrNew(['subject_id'=> $subject->id, 'group_id'=> $group_id]);
-                $subject_group->factor = $val;
-                $subject_group->save();
-            }
-        }
     }
 }

@@ -20,6 +20,7 @@ class LevelTableSeeder extends Seeder
             'gender' => 0,
             'user_id'=> 2,
             'subject_id'=> 1,
+            'birthday' => \Carbon\Carbon::now(),
             'created_at'=> \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);

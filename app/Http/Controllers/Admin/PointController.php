@@ -50,7 +50,7 @@ class PointController extends Controller
             $selectLevel = $request->selectLevel;
             $selectSubject = $request->selectSubject;
             if($selectLevel == NULL && $selectSubject == NULL)
-                $points = $this->pointRepository->getAllPoint();
+                $points = array();
             else
                 $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject);
             $levels = $this->levelRepository->all();
@@ -67,7 +67,7 @@ class PointController extends Controller
             $selectLevel = $request->selectLevel;
             $selectSubject = $request->selectSubject;
             if($selectLevel == NULL) {
-                $points = $this->pointRepository->getAllPoint($teacher->id);
+                $points = array();
             } else {
                 $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject, $teacher->id);
             }
@@ -79,7 +79,7 @@ class PointController extends Controller
             $subjects = \App\Models\Subject::whereIn('id', $subject_ids)->get();
             return view('admin.point.list')->with([
                 'points' => $points,
-                'levels'=>$levels,
+                'levels'=> $levels,
                 'selectSubject'=>$selectSubject,
                 'subjects' => $subjects,
                 'selectLevel'=>$selectLevel]);

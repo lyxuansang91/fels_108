@@ -57,7 +57,14 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
             $user = $userRepository->create($user_data);
             if($user) {
                 $data['user_id'] = $user->id;
-                $this->create($data);
+                $teacher = $this->create($data);
+                if($teacher) {
+                    $subject_code = $teacher->subject->subject_code;
+                    $result = strval($teacher->id);
+                    while(strlen($result) < 3) $result = '0'.$result;
+                    $teacher->teacher_code = 'GV'.$subject_code.$result;
+                    $teacher->save();
+                }
             }
             return true;
         }
@@ -80,6 +87,10 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
         $teacher->gender = $data['gender'];
         $teacher->address = $data['address'];
         $teacher->birthday = $data['birthday'];
+        $result = strval($teacher->id);
+        $subject_code = $teacher->subject->subject_code;
+        while(strlen($result) < 3) $result = '0'.$result;
+        $teacher->teacher_code = 'GV'.$subject_code.$result;
         $teacher->save();
     }
 

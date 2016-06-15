@@ -155,21 +155,23 @@ class PointRepository extends Repository implements PointRepositoryInterface
         $points = array();
         $semester = Semester::all()->last();
     //    dd($semester);
-        if($teacher_id == NULL) {
-            $semester_subject_levels = SemesterSubjectLevel::
-                where('level_id', $level_id)
-                ->where('semester_id', $semester->id)
-                ->where('subject_id', $subject_id)->select('id')->get();
-        } else  {
-            $semester_subject_levels = SemesterSubjectLevel::
-                where('level_id', $level_id)
-                ->where('teacher_id', $teacher_id)
-                ->where('subject_id', $subject_id)
-                ->where('semester_id', $semester->id)->select('id')->get();
-        }
+        if($semester) {
+            if($teacher_id == NULL) {
+                $semester_subject_levels = SemesterSubjectLevel::
+                    where('level_id', $level_id)
+                    ->where('semester_id', $semester->id)
+                    ->where('subject_id', $subject_id)->select('id')->get();
+            } else  {
+                $semester_subject_levels = SemesterSubjectLevel::
+                    where('level_id', $level_id)
+                    ->where('teacher_id', $teacher_id)
+                    ->where('subject_id', $subject_id)
+                    ->where('semester_id', $semester->id)->select('id')->get();
+            }
 
-        if($semester_subject_levels) {
-            $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_id')->get();
+            if($semester_subject_levels) {
+                $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_id')->get();
+            }
         }
 
         return $points;

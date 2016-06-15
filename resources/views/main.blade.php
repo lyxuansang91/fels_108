@@ -164,9 +164,9 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="{!! route('admin.points.index') !!}"><i class="fa fa-circle-o"></i> Điểm</a></li>
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li> @endif
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li> @endif
-                @if (auth()->user()->role == \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li> @endif
+                <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li>
+                <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li>
+                <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li>
               </ul>
             </li>
           </ul>

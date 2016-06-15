@@ -50,14 +50,6 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
             $conduct->semester_id = $semester->id;
             $conduct->save();
         }
-        //prepare level
-        if(count($teachers) > 0) {
-            foreach($levels as $level) {
-                $teacher = $teachers[rand(0, count($teachers)-1)];
-                $level->teacher_id = $teacher->id;
-                $level->save();
-            }
-        }
         //prepare point
         foreach($subjects as $subject) {
             foreach($levels as $level) {

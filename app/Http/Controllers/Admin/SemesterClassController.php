@@ -51,27 +51,29 @@ class SemesterClassController extends Controller
         $user = \Auth()->user();
 
         $teacher = Teacher::where('user_id', $user->id)->first();
+        $semester = \App\Models\Semester::all()->last();
+        $subjects = $this->subjectRepository->all();
         if($teacher) {
-            $subjects = $this->subjectRepository->all();
-            $semester = \App\Models\Semester::all()->last();
             $levels =  $this->levelRepository->getListLevelByTeacher($teacher->id);
             if($selectLevel) {
-                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::where('level_id', $selectLevel)->select('id')->get();
                 $students = \App\Models\Level::find($selectLevel)->students()->get();
             } else {
-                $level_ids = \App\Models\Level::where('teacher_id', $teacher->id)->select('id')->get();
-                $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::whereIn('level_id', $level_ids)->select('id')->get();
-                $students = \App\Models\Student::whereIn('level_id', $level_ids)->get();
+                $students = array();
             }
-            $points = \App\Models\Point::whereIn('semester_subject_level_id', $semester_subject_level_ids)->get();
-
-            return view('admin.semester_class.list')->with(['semester'=>$semester,
-                    'points' => $points,
-                    'students' => $students,
-                    'levels'=> $levels,
-                    'subjects' => $subjects,
-                    'selectLevel' => $selectLevel]);
+        } else {
+            $levels = $this->levelRepository->all();
+            if($selectLevel) {
+                $students = \App\Models\Level::find($selectLevel)->students()->get();
+            } else {
+                $students = array();
+            }
         }
+
+        return view('admin.semester_class.list')->with(['semester'=>$semester,
+                'students' => $students,
+                'levels'=> $levels,
+                'subjects' => $subjects,
+                'selectLevel' => $selectLevel]);
         // dd($subjects);
 
     }
@@ -114,8 +116,6 @@ class SemesterClassController extends Controller
                         $count++;
                     }
                 }
-
-
                 if($count == count($subjects)) {
                     //tinh diem trung binh hoc ky
                     $semester_point = \App\Models\SemesterPoint::firstOrNew(

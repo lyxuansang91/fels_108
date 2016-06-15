@@ -8,7 +8,7 @@ class Subject extends Model
 {
     //
     protected $table = 'subjects';
-    protected $fillable = ['subject_name'];
+    protected $fillable = ['subject_name', 'subject_code'];
     public $timestamps = true;
 
     public function subject_groups() {
