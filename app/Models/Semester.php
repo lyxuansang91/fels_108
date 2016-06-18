@@ -23,7 +23,9 @@ class Semester extends Model
     protected static function boot() {
         parent::boot();
         static::deleting(function($semester) {
-            $semester->semester_subject_levels()->delete();
+            foreach($semester->semester_subject_levels as $semester_subject_level)
+                $semester_subject_level->delete();
+            $semester->conducts()->delete();
             $semester->semester_points()->delete();
         });
     }

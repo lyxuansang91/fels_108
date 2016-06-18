@@ -72,41 +72,39 @@
                                         <td>{{{ $student->student_code }}}</td>
                                         <td>{{{ $student->name }}}</td>
                                         @foreach($subjects as $subject)
-                                            <?php $_points = array(); ?>
-                                            @for($i = 0; $i < 2; $i++)
-                                                <td>
-                                                    <?php $point = $student->getPointBySubjectAndYear($subject->id, $semester->year, $i + 1); ?>
-                                                    @if ($point->mark_avg)
-                                                        <?php $_points[] = $point; ?>
-                                                        {{ $point->mark_avg }}
-                                                    @endif
-                                                </td>
-                                            @endfor
                                             <td>
-                                                <?php
-                                                    $point_last = 0;
-                                                    for($i = 0; $i < count($_points); $i++) $point_last += $_points[$i]->mark_avg * ($i+1);
-                                                ?>
-                                                @if (count($_points) == 2)
-                                                    {{ number_format($point_last / 3, 1) }}
+                                                <?php $point_1 = $student->getPointBySubjectAndYear($subject->id, $semester->year, 1); ?>
+                                                    @if ($point_1 && $point_1->mark_avg != NULL)
+                                                        {{ $point_1->mark_avg }}
+                                                    @endif
+                                            </td>
+                                            <td>
+                                                <?php $point_2 = $student->getPointBySubjectAndYear($subject->id, $semester->year, 2); ?>
+                                                    @if ($point_2 && $point_2->mark_avg != NULL)
+                                                        {{ $point_2->mark_avg }}
+                                                    @endif
+                                            </td>
+                                            <td>
+                                                @if ($point_1 && $point_2 && $point_1->mark_avg != NULL && $point_2->mark_avg != NULL)
+                                                    {{ number_format(($point_1->mark_avg + ($point_2->mark_avg * 2)) / 3, 1) }}
                                                 @endif
                                             </td>
                                         @endforeach
                                         <td>
                                             <?php $semester_point_1 = $student->getSemesterPointBySemester($semester->year, 1); ?>
-                                            @if ($semester_point_1)
+                                            @if ($semester_point_1 && $semester_point_1->mark != NULL)
                                                 {{ $semester_point_1->mark }}
                                             @endif
                                         </td>
                                         <td>
                                             <?php $semester_point_2 = $student->getSemesterPointBySemester($semester->year, 2); ?>
-                                            @if ($semester_point_2)
+                                            @if ($semester_point_2 && $semester_point_2->mark != NULL)
                                                 {{ $semester_point_2->mark }}
                                             @endif
 
                                         </td>
                                         <td>
-                                            @if ($semester_point_1 && $semester_point_2)
+                                            @if ($semester_point_1 && $semester_point_1->mark != NULL && $semester_point_2 && $semester_point_2->mark != NULL)
                                                 {{ number_format(($semester_point_1->mark + $semester_point_2->mark * 2) / 3, 1) }}
                                             @endif
 

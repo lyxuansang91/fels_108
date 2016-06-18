@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Absence extends Model
 {
     //
-    protected $fillable = ['student_id', 'teacher_id', 'reason', 'semester_id'];
+    protected $fillable = ['student_id', 'subject_id', 'reason', 'semester_id', 'absence_day'];
     protected $table = 'absences';
     public $timestamps = true;
 
@@ -15,8 +15,8 @@ class Absence extends Model
         return $this->belongsTo(Student::class);
     }
 
-    public function teacher() {
-        return $this->belongsTo(Teacher::class);
+    public function subject() {
+        return $this->belongsTo(Subject::class);
     }
 
     public function semester() {

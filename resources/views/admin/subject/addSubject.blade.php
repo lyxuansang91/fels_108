@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Mã môn học</label>
                         <div class="col-sm-10">
-                            {!! Form::text('subject_code', '', ['class'=>'form-control', 'placeholder'=>'Nhập tên môn học']) !!}
+                            {!! Form::text('subject_code', '', ['class'=>'form-control', 'placeholder'=>'Nhập mã môn học']) !!}
                         </div>
                     </div>
 

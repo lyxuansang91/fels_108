@@ -123,7 +123,7 @@
             </li>
             <li class="treeview active">
               <a href="#">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-gg"></i>
                 <span>Quản lý DM</span>
               </a>
               <ul class="treeview-menu">
@@ -138,28 +138,30 @@
 
            <li class="treeview active">
               <a href="#">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-gg"></i>
                 <span>Quản lý GV</span>
               </a>
               <ul class="treeview-menu">
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.teachers.index') !!}"><i class="fa fa-circle-o"></i> Giáo viên</a></li> @endif
+                <li><a href="#"><i class="fa fa-circle-o"></i>Lịch dạy giáo viên</a></li>
               </ul>
             </li>
 
 
             <li class="treeview active">
               <a href="#">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-gg"></i>
                 <span>Quản lý HS</span>
               </a>
               <ul class="treeview-menu">
-                @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i> Học sinh</a></li> @endif
+                @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i>Thông tin học sinh</a></li> @endif
+                <li><a href="#"><i class="fa fa-circle-o"></i>Học phí</a></li>
               </ul>
             </li>
 
             <li class="treeview active">
               <a href="#">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-gg"></i>
                 <span>Quản lý KQ</span>
               </a>
               <ul class="treeview-menu">
@@ -167,6 +169,22 @@
                 <li><a href="{!! route('admin.conducts.index') !!}"><i class="fa fa-circle-o"></i> Hạnh kiểm</a></li>
                 <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li>
                 <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li>
+                <li><a href="{!! route('admin.absences.index') !!}"><i class="fa fa-circle-o"></i>Chuyên cần</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Xét lên lớp</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i>Gửi thông tin HS</a></li>
+              </ul>
+            </li>
+
+
+            <li class="treeview active">
+              <a href="#">
+                <i class="fa fa-gg"></i>
+                <span>Báo cáo</span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#"><i class="fa fa-circle-o"></i>Báo cáo kết quả học tập</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Báo cáo kết quả hạnh kiểm</a></li>
+                <li><a href="#"><i class="fa fa-circle-o"></i> Báo cáo chung</a></li>
               </ul>
             </li>
           </ul>

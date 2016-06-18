@@ -9,15 +9,17 @@ class AbsenceRepository extends Repository implements AbsenceRepositoryInterface
 {
 
     public $ruleAdd = [
-        'absence_name' => 'required',
-        'grade_id' => 'required',
-        'group_id' => 'required'
+        'absence_day' => 'required',
+        'subject_id' => 'required',
+        'semester_id' => 'required',
+        'student_id' => 'required'
     ];
 
     public $ruleUpdate = [
-        'absence_name' => 'required',
-        'grade_id' => 'required',
-        'group_id' => 'required'
+        'absence_day' => 'required',
+        'subject_id' => 'required',
+        'semester_id' => 'required',
+        'student_id' => 'required'
     ];
 
 
@@ -46,9 +48,18 @@ class AbsenceRepository extends Repository implements AbsenceRepositoryInterface
         // $category->name = $data['name'];
         // $category->content = $data['content'];
         $absence->student_id = $data['student_id'];
-        $absence->teacher_id = $data['teacher_id'];
+        $absence->subject_id = $data['subject_id'];
         $absence->reason = $data['reason'];
         $absence->semester_id = $data['semester_id'];
+        $absence->absence_day = $data['absence_day'];
         $absence->save();
+    }
+
+    public function getListAbsenceByLevelAndSemester($semester_id, $level_id) {
+        $query = 'semester_id = ? and student_id in (select id from students where
+            level_id = ?)';
+        $absences = $this->model->whereRaw($query, array($semester_id,
+            $level_id))->get();
+        return $absences;
     }
 }

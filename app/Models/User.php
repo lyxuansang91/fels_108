@@ -44,6 +44,11 @@ class User extends Model implements AuthenticatableContract,
     const ROLE_ADMIN = 1;
     const PER_PAGE = 10;
 
+    public function teacher() {
+        $teacher = \App\Models\Teacher::where('user_id', $this->id)->first();
+        return $teacher;
+    }
+
     public function userWords()
     {
         return $this->hasMany(UserWord::class);

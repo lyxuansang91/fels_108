@@ -11,10 +11,12 @@ use App\Repositories\AbsenceRepositoryInterface as AbsenceRepository;
 use App\Repositories\SemesterRepositoryInterface as SemesterRepository;
 use App\Repositories\StudentRepositoryInterface as StudentRepository;
 use App\Repositories\TeacherRepositoryInterface as TeacherRepository;
+use App\Repositories\LevelRepositoryInterface as LevelRepository;
+use App\Repositories\SubjectRepositoryInterface as SubjectRepository;
 
 class AbsenceController extends Controller
 {
-    protected $teacherRepository;
+    protected $studentRepository;
 
     protected $semesterRepository;
 
@@ -22,16 +24,24 @@ class AbsenceController extends Controller
 
     protected $absenceRepository;
 
+    protected $levelRepository;
+
+    protected $subjectRepository;
+
     public function __construct(
         AbsenceRepository $absenceRepository,
         StudentRepository $studentRepository,
         TeacherRepository $teacherRepository,
-        SemesterRepository $semesterRepository
+        SemesterRepository $semesterRepository,
+        LevelRepository $levelRepository,
+        SubjectRepository $subjectRepository
     ) {
         $this->absenceRepository = $absenceRepository;
         $this->studentRepository = $studentRepository;
         $this->teacherRepository = $teacherRepository;
         $this->semesterRepository = $semesterRepository;
+        $this->levelRepository = $levelRepository;
+        $this->subjectRepository = $subjectRepository;
     }
 
     /**
@@ -39,15 +49,33 @@ class AbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $selectLevel = $request->selectLevel;
+        $semester = $this->semesterRepository->all()->last();
         if(\Auth()->user()->role == \App\Models\User::ROLE_TEACHER) {
-            $teacher = $this->teacherRepository->model->where('user_id', \Auth()->user()->id)->first();
-            $semester = \App\Models\Semester::all()->last();
+            $teacher = \Auth()->user()->teacher();
+            $level_ids = $teacher->semester_subject_levels()
+                ->where('semester_id', $semester->id)->select('level_id')->get();
+            $levels = \App\Models\Level::whereIn('id', $level_ids)->get();
+
+        } else {
+            $levels = $this->levelRepository->all();
         }
-        $levels = $this->levelRepository->all();
+        if($selectLevel) {
+            $absences = $this->absenceRepository->getListAbsenceByLevelAndSemester($semester->id,
+                $selectLevel);
+        } else {
+            $absences = array();
+        }
+
         //$gradeArray = $this->gradeRepository->gradeSelection();
-        return view('admin.level.listLevel')->with(['levels' => $levels]);
+        return view('admin.absence.list')->with([
+            'levels' => $levels,
+            'semester' => $semester,
+            'selectLevel' => $selectLevel,
+            'absences' => $absences]);
     }
 
     /**
@@ -55,12 +83,42 @@ class AbsenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-        $gradeArray = $this->gradeRepository->gradeSelection();
-        $groupArray = $this->groupRepository->groupSelection();
-        return view('admin.level.addLevel')->with(['gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
+        $selectLevel = $request->selectLevel;
+        $semester = $this->semesterRepository->all()->last();
+        $teacher = \Auth()->user()->teacher();
+
+        if($selectLevel) {
+            $students = $this->levelRepository->findOrFail($selectLevel)
+                ->students()->lists('student_code', 'id');
+
+        } else {
+            $students = array();
+        }
+
+        $subjects = array();
+        if($teacher) {
+            if($semester) {
+                $level_ids = $teacher->semester_subject_levels()
+                    ->where('semester_id', $semester->id)->select('level_id')->get();
+                $levels = $this->levelRepository->whereIn('id', $level_ids)->get();
+            } else $levels = array();
+            $subjects[$teacher->subject->id] = $teacher->subject->subject_name;
+
+        } else {
+            $levels = $this->levelRepository->all();
+            $subjects = $this->subjectRepository->all()->lists('subject_name', 'id');
+        }
+
+
+        return view('admin.absence.add')->with([
+            'selectLevel' => $selectLevel,
+            'semester' => $semester,
+            'students' => $students,
+            'subjects' => $subjects,
+            'levels' => $levels
+        ]);
     }
 
     /**
@@ -72,16 +130,16 @@ class AbsenceController extends Controller
     public function store(Request $request)
     {
 
-        $ruleAdd = $this->levelRepository->ruleAdd;
+        $ruleAdd = $this->absenceRepository->ruleAdd;
         $validation = \Validator::make($request->all(), $ruleAdd);
         if($validation->fails()) {
             $errors = $validation->messages();
-            return redirect()->route('admin.levels.index')->with(['errors' => $errors]);
+            return redirect()->route('admin.absences.index')->with(['errors' => $errors]);
         }
 
-        $this->levelRepository->createLevel($request->all());
+        $this->absenceRepository->createAbsence($request->all());
 
-        return redirect()->route('admin.levels.index');
+        return redirect()->route('admin.absences.index');
     }
 
     /**
@@ -103,11 +161,9 @@ class AbsenceController extends Controller
      */
     public function edit($id)
     {
-        $level = $this->levelRepository->findOrFail($id);
-        $gradeArray = $this->gradeRepository->gradeSelection();
-        $groupArray = $this->groupRepository->groupSelection();
-
-        return view('admin.level.editLevel')->with(['level' => $level, 'gradeArray' => $gradeArray, 'groupArray'=> $groupArray]);
+        $absence = $this->absenceRepository->findOrFail($id);
+        $semester = $this->semesterRepository->all()->last();
+        return view('admin.absence.edit')->with(['absence' => $absence, 'semester' => $semester]);
     }
 
     /**
@@ -119,16 +175,16 @@ class AbsenceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rule = $this->levelRepository->ruleUpdate;
+        $rule = $this->absenceRepository->ruleUpdate;
         $validation = \Validator::make($request->all(), $rule);
         if($validation->fails()) {
             $errors = $validation->messages();
 
-            return redirect()->route('admin.levels.edit', $id)->with(['errors' => $errors]);
+            return redirect()->route('admin.absences.edit', $id)->with(['errors' => $errors]);
         }
-        $this->levelRepository->update($id, $request->all());
+        $this->absenceRepository->update($id, $request->all());
 
-        return redirect()->route('admin.levels.index');
+        return redirect()->route('admin.absences.index');
     }
 
     /**
@@ -139,8 +195,8 @@ class AbsenceController extends Controller
      */
     public function destroy($id)
     {
-        $this->levelRepository->delete($id);
+        $this->absenceRepository->delete($id);
 
-        return redirect()->route('admin.levels.index');
+        return redirect()->route('admin.absenceRepository.index');
     }
 }

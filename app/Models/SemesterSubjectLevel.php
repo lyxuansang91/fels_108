@@ -38,7 +38,7 @@ class SemesterSubjectLevel extends Model
     protected static function boot() {
         parent::boot();
         static::deleting(function($semester_subject_level) {
-            $semester_subject_level->points()->delete(); 
+            $semester_subject_level->points()->delete();
         });
     }
 }

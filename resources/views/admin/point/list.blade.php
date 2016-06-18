@@ -14,12 +14,13 @@
     </div>
 
     <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <select name="selectSubject" id="inputSelectLevel" class="form-control">
+        <select name="selectSubject" id="inputSelectSubject" class="form-control">
             @foreach ($subjects as $item)
                 <option value="{{ $item->id }}" @if($item->id == $selectSubject) selected @endif>{{ $item->subject_name }}</option>
             @endforeach
         </select>
     </div>
+
     <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
 </form>
 
