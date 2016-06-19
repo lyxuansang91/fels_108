@@ -94,7 +94,6 @@ class TeacherSubjectController extends Controller
             }
             \DB::commit();
         } catch(\Exception $e) {
-
             \DB::rollback();
             $valid = false;
         }

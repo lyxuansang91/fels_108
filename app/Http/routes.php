@@ -45,6 +45,8 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/teachers', 'TeacherController');
 
+        Route::resource('/messages', 'MessageController');
+
         Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
         Route::post('conducts/updateConduct', ['as'=>'conducts.updateConduct', 'uses'=>'ConductController@updateConduct']);
         Route::post('points/calculatePoint', ['as'=>'points.calculatePoint', 'uses'=>'PointController@calculatePoint']);

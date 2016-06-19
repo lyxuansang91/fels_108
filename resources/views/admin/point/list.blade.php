@@ -3,35 +3,42 @@
 @section('content')
 <div class="container">
     <div class="row">
-<form action="" method="GET" role="form" class="col-md-6">
-    <legend>Tìm kiếm</legend>
-    <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <select name="selectLevel" id="inputSelectLevel" class="form-control">
-            @foreach ($levels as $item)
-                <option value="{{ $item->id }}" @if($item->id == $selectLevel) selected @endif>{{ $item->grade->grade_name }} {{ $item->level_name }}</option>
-            @endforeach
-        </select>
+        <form action="" method="GET" role="form" class="col-md-6">
+            <legend>Tìm kiếm</legend>
+            <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <select name="selectLevel" id="inputSelectLevel" class="form-control">
+                    @foreach ($levels as $item)
+                        <option value="{{ $item->id }}" @if($item->id == $selectLevel) selected @endif>{{ $item->grade->grade_name }} {{ $item->level_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <select name="selectSubject" id="inputSelectSubject" class="form-control">
+                    @foreach ($subjects as $item)
+                        <option value="{{ $item->id }}" @if($item->id == $selectSubject) selected @endif>{{ $item->subject_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+        </form>
+
+        <form action="{{route('points.calculatePoint')}}" method="POST" role="form" class="col-md-3">
+            <legend>Tính điểm</legend>
+            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+            <input type="hidden" name="selectLevel" value="{{ $selectLevel }}">
+            <input type="hidden" name="selectSubject" value="{{ $selectSubject }}">
+            <input type="submit" class="btn btn-primary" name="calculate" value="Tính điểm" />
+        </form>
+
+        <div class="col-md-3">
+            <legend>Liên lạc</legend>
+            <a href="{{route('admin.messages.create', ['level' => $selectLevel])}}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+            </a>
+        </div>
     </div>
-
-    <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <select name="selectSubject" id="inputSelectSubject" class="form-control">
-            @foreach ($subjects as $item)
-                <option value="{{ $item->id }}" @if($item->id == $selectSubject) selected @endif>{{ $item->subject_name }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
-</form>
-
-<form action="{{route('points.calculatePoint')}}" method="POST" role="form" class="col-md-6">
-    <legend>Tính điểm</legend>
-    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-    <input type="hidden" name="selectLevel" value="{{ $selectLevel }}">
-    <input type="hidden" name="selectSubject" value="{{ $selectSubject }}">
-    <input type="submit" class="btn btn-primary" name="calculate" value="Tính điểm" />
-</form>
-</div>
 </div>
     <section class="content">
         <div class="row">
@@ -61,7 +68,7 @@
                                         <th>Điểm tổng kết</th>
                                         <th>Chỉnh sửa</th>
                                         <th>Lưu</th>
-                                        <th>Xóa</th>
+                                        <th>Liên lạc</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,9 +96,7 @@
                                         <td><a href="javascript:void(0)" class="btn btn-primary editPoint" id="{{{ $point->id }}}">Edit</a></td>
                                         <!-- <td><a href="{!! route('admin.points.edit', $point->id) !!}" class="btn btn-primary">Edit</a></td> -->
                                         <td><a href="javascript:void(0)" class="btn btn-success savePoint" id="{{{ $point->id }}}" disabled>Save</a></td>
-                                        {!! Form::open(['route' => ['admin.points.destroy', $point->id], 'method' => 'delete']) !!}
-                                        <td>{!! Form::submit('Delete', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa?')"]) !!}</td>
-                                        {!! Form::close() !!}
+                                        <td><a href="{{route('admin.messages.create', ['student' => $point->student_id])}}" class="btn btn-primary">Liên lạc</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

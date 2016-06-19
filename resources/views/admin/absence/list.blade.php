@@ -2,18 +2,24 @@
 
 @section('content')
 
-<form action="" method="GET" role="form" class="col-md-6">
-    <legend>Tìm kiếm</legend>
-    <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
-        <select name="selectLevel" id="inputSelectLevel" class="form-control">
-            @foreach ($levels as $item)
-                <option value="{{ $item->id }}" @if($item->id == $selectLevel) selected @endif>{{ $item->grade->grade_name }} {{ $item->level_name }}</option>
-            @endforeach
-        </select>
-    </div>
+        <form action="" method="GET" role="form" class="col-md-6">
+            <legend>Tìm kiếm</legend>
+            <div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <select name="selectLevel" id="inputSelectLevel" class="form-control">
+                    @foreach ($levels as $item)
+                        <option value="{{ $item->id }}" @if($item->id == $selectLevel) selected @endif>{{ $item->grade->grade_name }} {{ $item->level_name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
-</form>
+            <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+        </form>
+        <div class="col-md-6">
+            <legend>Gửi tin nhắn</legend>
+            <a href="{{route('admin.messages.create', ['level' => $selectLevel])}}" class="btn btn-primary">
+                <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+            </a>
+        </div>
 
     <section class="content">
         <div class="row">
@@ -36,7 +42,7 @@
                                         <th>Môn học</th>
                                         <th>Lý do</th>
                                         <th>Sửa</th>
-                                        <th>Xóa</th>
+                                        <th>Liên lạc</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,9 +55,7 @@
                                         <td>{{{ $absence->subject->subject_name }}}</td>
                                         <td>{{{ $absence->reason }}}</td>
                                         <td><a href="{!! route('admin.absences.edit', $absence->id) !!}" class="btn btn-primary">Sửa</a></td>
-                                        {!! Form::open(['route' => ['admin.absences.destroy', $absence->id], 'method' => 'delete']) !!}
-                                        <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa?')"]) !!}</td>
-                                        {!! Form::close() !!}
+                                        <td><a href="{{ route('admin.messages.create', ['student' => $absence->student_id]) }}" class="btn btn-success">Gửi tin nhắn</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
