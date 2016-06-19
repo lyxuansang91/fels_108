@@ -14,4 +14,8 @@ class Subject extends Model
     public function subject_groups() {
         $this->hasMany(SubjectGroup::class);
     }
+
+    public function teachers() {
+        return $this->hasMany(Teacher::class);
+    }
 }

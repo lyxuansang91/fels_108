@@ -52,6 +52,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::get('semester_classes/calculate', ['as' => 'admin.semester_classes.calculate', 'uses'=> 'SemesterClassController@calculate']);
         Route::resource('/points', 'PointController');
 
+
+        Route::get('/teacher_subjects', ['as' => 'admin.teacher_subjects', 'uses' => 'TeacherSubjectController@index']);
+        Route::post('/teacher_subjects/calculate', ['as' => 'admin.teacher_subjects.calculate', 'uses' => 'TeacherSubjectController@calculate']);
         Route::get('/semester_classes', ['as' => 'admin.semester_classes', 'uses' => 'SemesterClassController@index']);
         Route::get('/year_classes', ['as' => 'admin.year_classes', 'uses' => 'YearClassController@index']);
 

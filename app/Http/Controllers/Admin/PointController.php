@@ -46,27 +46,21 @@ class PointController extends Controller
      */
     public function index(Request $request)
     {
+        $selectLevel = $request->selectLevel;
+        $selectSubject = $request->selectSubject;
         if(\Auth()->user()->role == \App\Models\User::ROLE_ADMIN)  {
-            $selectLevel = $request->selectLevel;
-            $selectSubject = $request->selectSubject;
+            //admin
             if($selectLevel == NULL && $selectSubject == NULL)
                 $points = array();
             else
                 $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject);
             $levels = $this->levelRepository->all();
             $subjects = $this->subjectRepository->all();
-            return view('admin.point.list')->with([
-                'points' => $points,
-                'levels'=>$levels,
-                'selectSubject'=>$selectSubject,
-                'subjects' => $subjects,
-                'selectLevel'=>$selectLevel]);
+
         } else {
             //handler teacher
             $teacher = Teacher::where('user_id', \Auth()->user()->id)->first();
-            $selectLevel = $request->selectLevel;
-            $selectSubject = $request->selectSubject;
-            if($selectLevel == NULL) {
+            if($selectLevel == NULL && $selectSubject == NULL) {
                 $points = array();
             } else {
                 $points = $this->pointRepository->getListPoinByLevel($selectLevel, $selectSubject, $teacher->id);
@@ -77,14 +71,14 @@ class PointController extends Controller
 
             $subject_ids = \App\Models\SemesterSubjectLevel::where('teacher_id', $teacher->id)->select('subject_id')->get();
             $subjects = \App\Models\Subject::whereIn('id', $subject_ids)->get();
-            return view('admin.point.list')->with([
-                'points' => $points,
-                'levels'=> $levels,
-                'selectSubject'=>$selectSubject,
-                'subjects' => $subjects,
-                'selectLevel'=>$selectLevel]);
-
         }
+
+        return view('admin.point.list')->with([
+            'points' => $points,
+            'levels'=>$levels,
+            'selectSubject'=>$selectSubject,
+            'subjects' => $subjects,
+            'selectLevel'=>$selectLevel]);
     }
 
     /**

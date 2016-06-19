@@ -61,5 +61,38 @@ class Student extends Model
             $student->conducts()->delete();
             $student->semester_points()->delete();
         });
+
+        static::created(function($student) {
+            //when creating $student
+            $level_id = $student->level_id;
+            $semester = \App\Models\Semester::all()->last();
+            \DB::beginTransaction();
+            try {
+                if($semester) {
+                    //khi da co ky moi, cap nhat diem
+                    $subjects = \App\Models\Subject::all();
+                    foreach($subjects as $subject) {
+                        $semester_subject_level = $semester->semester_subject_levels()
+                            ->where('level_id', $level_id)
+                            ->where('subject_id', $subject->id)
+                            ->where('semester_id', $semester->id)->first();
+                        if($semester_subject_level) {
+                            $point = new \App\Models\Point([
+                                'semester_subject_level_id' => $semester_subject_level->id,
+                                'student_id' => $student->id
+                            ]);
+                            if(!$point->save()) {
+                                throw new Exception("Error Processing Request", 1);
+                            }
+                        }
+                    }
+                }
+                \DB::commit();
+                return true;
+            } catch(\Exception $e) {
+                \DB::rollback();
+                return false;
+            }
+        });
     }
 }

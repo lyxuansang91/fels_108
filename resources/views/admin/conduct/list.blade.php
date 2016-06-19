@@ -57,7 +57,7 @@
                                     @endforeach
                                 </tbody>
                             @else
-                               Danh sách hạnh kiểm trống.
+                               Danh sách hạnh kiểm trống
                             @endif
                         </table>
                     </div><!-- /.box-body -->

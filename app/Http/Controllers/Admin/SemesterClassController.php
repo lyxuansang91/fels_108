@@ -78,16 +78,6 @@ class SemesterClassController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        return view('admin.semester.addSemester');
-    }
 
     public function calculate(Request $request) {
 
@@ -129,90 +119,5 @@ class SemesterClassController extends Controller
         }
 
         return redirect()->back();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        $rule = $this->semesterRepository->ruleAdd;
-        $validation = \Validator::make($request->all(), $rule);
-        if($validation->fails()) {
-            $errors = $validation->messages();
-
-            return redirect()->route('admin.semesters.create')->with(['errors'=>$errors]);
-        }
-        $this->semesterRepository->createSemester($request->all());
-
-        return redirect()->route('admin.semesters.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $semester = $this->semesterRepository->findOrFail($id);
-
-        return view('admin.semester.editSemester')->with(['semester'=>$semester]);
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-        $rule = [
-            'semester_number' => 'required',
-            'year' => 'required'
-        ];
-        $validation = \Validator::make($request->all(), $rule);
-        if($validation->fails()) {
-            $errors = $validation->messages();
-
-            return \Redirect::route('admin.semesters.edit', $id)->with(['errors'=>$errors]);
-        }
-        $this->semesterRepository->updateSemester($id, $request->all());
-
-        return redirect()->route('admin.semesters.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-        $this->semesterRepository->delete($id);
-
-        return redirect()->route('admin.semesters.index');
     }
 }

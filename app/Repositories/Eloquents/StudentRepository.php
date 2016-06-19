@@ -85,15 +85,6 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
             //save in point
             $semester = \App\Models\Semester::all()->last();
             if($semester) {
-                $semester_subject_levels = \App\Models\SemesterSubjectLevel::where('semester_id', $semester->id)
-                    ->where('level_id', $student->level_id)->get();
-                foreach($semester_subject_levels as $semester_subject_level) {
-                    $point = new \App\Models\Point();
-                    $point->student_id = $student->id;
-                    $point->semester_subject_level_id = $semester_subject_level->id;
-                    $point->save();
-                }
-
                 //save in conduct
                 $conduct = new \App\Models\Conduct();
                 $conduct->student_id = $student->id;

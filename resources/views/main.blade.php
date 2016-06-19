@@ -143,7 +143,7 @@
               </a>
               <ul class="treeview-menu">
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.teachers.index') !!}"><i class="fa fa-circle-o"></i> Giáo viên</a></li> @endif
-                <li><a href="#"><i class="fa fa-circle-o"></i>Lịch dạy giáo viên</a></li>
+                <li><a href="{{ route('admin.teacher_subjects') }}"><i class="fa fa-circle-o"></i>Lịch dạy giáo viên</a></li>
               </ul>
             </li>
 

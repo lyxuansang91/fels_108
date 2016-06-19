@@ -22,7 +22,7 @@ class Grade extends Model
      */
     protected $fillable = ['grade_name'];
 
-    public function classes()
+    public function levels()
     {
         return $this->hasMany(Level::class);
     }
