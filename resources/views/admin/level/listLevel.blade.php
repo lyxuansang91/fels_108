@@ -43,7 +43,7 @@
                                     @endforeach
                                 </tbody>
                             @else
-                                List Level is empty
+                                Chưa có dữ liệu
                             @endif
                         </table>
                     </div><!-- /.box-body -->

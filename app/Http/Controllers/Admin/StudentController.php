@@ -131,11 +131,12 @@ class StudentController extends Controller
     }
 
     public function importExcel(Request $request) {
+        $valid= true;
         if(\Input::hasFile('excel_file')) {
             $path = \Input::file('excel_file')->getRealPath();
             $data = \Excel::load($path, function($reader) {})->get();
             \DB::beginTransaction();
-            $valid= true;
+
             try {
                 if(!empty($data) && $data->count()){
                     foreach ($data as $key => $value) {
@@ -145,13 +146,13 @@ class StudentController extends Controller
                         $level_name = $lop[1];
                         $grade = \App\Models\Grade::where('grade_name', $grade_name)->first();
                         $level = $grade->levels()->where('level_name', $level_name)->first();
-                        $student = \App\Models\Student::firstOrCreate([
+                        $student = $this->studentRepository->createStudent([
                             'name' => $value->ho_ten,
                             'address' => $value->dia_chi,
                             'phone' => $value->dien_thoai,
                             'gender' => $value->gioi_tinh == 'Nam' ? 0 : 1,
                             'birthday' => $value->ngay_sinh,
-                            'level_id' => $level_id
+                            'level_id' => $level->id
                         ]);
                     }
                 }

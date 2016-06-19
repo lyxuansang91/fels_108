@@ -208,24 +208,26 @@ class PointController extends Controller
                         $level_name = $lop[1];
                         $grade = \App\Models\Grade::where('grade_name', $grade_name)->first();
                         $level = $grade->levels()->where('level_name', $level_name)->first();
-                        $semester_subject_level = \App\Models\SemesterSubjectLevel::where('semester_id', $semester->id)
-                            ->where('subject_id', $subject->id)
-                            ->where('level_id', $level->id)->first();
+                        if($semester && $subject && $level) {
+                            $semester_subject_level = \App\Models\SemesterSubjectLevel::where('semester_id', $semester->id)
+                                ->where('subject_id', $subject->id)
+                                ->where('level_id', $level->id)->first();
 
-                        $point = \App\Models\Point::where('semester_subject_level_id', $semester_subject_level->id)
-                            ->where('student_id', $student->id)->first();
-                        $point->mark_m1 = $value->mieng_1;
-                        $point->mark_m2 = $value->mieng_2;
-                        $point->mark_m3 = $value->mieng_3;
-                        $point->mark_m4 = $value->mieng_4;
-                        $point->mark_15_1 = $value->diem_15_phut_1;
-                        $point->mark_15_2 = $value->diem_15_phut_2;
-                        $point->mark_15_3 = $value->diem_15_phut_3;
-                        $point->mark_45_1 = $value->diem_45_phut_1;
-                        $point->mark_45_2 = $value->diem_45_phut_2;
-                        $point->mark_last = $value->thi;
-                        if(!$point->save()) {
-                            throw new \Exception("Error Processing Request", 1);
+                            $point = \App\Models\Point::where('semester_subject_level_id', $semester_subject_level->id)
+                                ->where('student_id', $student->id)->first();
+                            $point->mark_m1 = $value->mieng_1;
+                            $point->mark_m2 = $value->mieng_2;
+                            $point->mark_m3 = $value->mieng_3;
+                            $point->mark_m4 = $value->mieng_4;
+                            $point->mark_15_1 = $value->diem_15_phut_1;
+                            $point->mark_15_2 = $value->diem_15_phut_2;
+                            $point->mark_15_3 = $value->diem_15_phut_3;
+                            $point->mark_45_1 = $value->diem_45_phut_1;
+                            $point->mark_45_2 = $value->diem_45_phut_2;
+                            $point->mark_last = $value->thi;
+                            if(!$point->save()) {
+                                throw new \Exception("Error Processing Request", 1);
+                            }
                         }
                     }
                 }

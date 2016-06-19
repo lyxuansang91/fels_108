@@ -26,4 +26,12 @@ class Grade extends Model
     {
         return $this->hasMany(Level::class);
     }
+
+    protected static function boot() {
+        parent::boot();
+        static::deleting(function($grade) {
+            if(count($grade->levels()) > 0)
+                return false;
+        });
+    }
 }

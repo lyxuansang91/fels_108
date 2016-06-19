@@ -152,6 +152,7 @@ class TeacherController extends Controller
                     $new_teacher['Giới tính'] = $teacher->gender == 0 ? 'Nam' : 'Nữ';
                     $new_teacher['Ngày sinh'] = $teacher->birthday;
                     $new_teacher['Môn học'] = $teacher->subject->subject_code;
+                    $new_teacher['Email'] = $teacher->user->email;
                     $teachers[] = $new_teacher;
                 }
                 // $headers = $this->getColumnNames($teachers);
@@ -183,14 +184,16 @@ class TeacherController extends Controller
                 if(!empty($data) && $data->count()){
     				foreach ($data as $key => $value) {
                         $subject = \App\Models\Subject::where('subject_code', $value->mon_hoc)->first();
-    					$teacher = \App\Models\Teacher::firstOrCreate([
+                        $data = [
                             'teacher_name' => $value->ten_gv,
                             'address' => $value->dia_chi,
                             'phone' => $value->dien_thoai,
                             'gender' => $value->gioi_tinh == 'Nam' ? 0 : 1,
                             'birthday'=> $value->ngay_sinh,
-                            'subject_id' => $subject->id
-                        ]);
+                            'subject_id' => $subject->id,
+                            'email' => $value->email
+                        ];
+    					$this->teacherRepository->createTeacher($data);
     				}
     			}
                 \DB::commit();
