@@ -36,9 +36,9 @@ class TeacherController extends Controller
     {
         $selectSubject = $request->subject;
         if($selectSubject == NULL)
-            $teachers = $this->teacherRepository->allTeacher();
+            $teachers = $this->teacherRepository->allTeacher()->paginate(10);
         else
-            $teachers = $this->teacherRepository->getListTeacherBySubject($selectSubject);
+            $teachers = $this->teacherRepository->getListTeacherBySubject($selectSubject)->paginate(10);
         $subjects = $this->subjectRepository->all();
 
         return view('admin.teacher.listTeacher')->with(['teachers'=>$teachers, 'subjects'=> $subjects, 'selectSubject'=> $selectSubject]);
@@ -130,5 +130,81 @@ class TeacherController extends Controller
         $this->teacherRepository->delete($id);
 
         return redirect()->route('admin.teachers.index');
+    }
+
+    public function exportExcel(Request $request) {
+        // dd("123");
+        $selectSubject = $request->selectSubject;
+        \Excel::create('teachers', function($excel) use($selectSubject)  {
+            $excel->sheet('teachers', function($sheet) use($selectSubject) {
+                $teachers = array();
+                if($selectSubject) {
+                    $teacherArray = \App\Models\Teacher::where('subject_id', $selectSubject)->get();
+                } else {
+                    $teacherArray = \App\Models\Teacher::all();
+                }
+                foreach($teacherArray as $teacher) {
+                    $new_teacher = array();
+                    $new_teacher['Mã GV'] = $teacher->teacher_code;
+                    $new_teacher['Tên GV'] = $teacher->teacher_name;
+                    $new_teacher['Địa chỉ'] = $teacher->address;
+                    $new_teacher['Điện thoại'] = $teacher->phone;
+                    $new_teacher['Giới tính'] = $teacher->gender == 0 ? 'Nam' : 'Nữ';
+                    $new_teacher['Ngày sinh'] = $teacher->birthday;
+                    $new_teacher['Môn học'] = $teacher->subject->subject_code;
+                    $teachers[] = $new_teacher;
+                }
+                // $headers = $this->getColumnNames($teachers);
+                $sheet->with($teachers);
+            });
+        })->export('xls');
+
+    }
+
+    public function getColumnNames($object)
+    {
+        $keys = array_keys($object[0]);
+        foreach($keys as $value) {
+            $headers[$value] = $value;
+        }
+        return array($headers);
+        # code...
+    }
+
+    public function importExcel(Request $request) {
+        if(\Input::hasFile('excel_file')) {
+            $path = \Input::file('excel_file')->getRealPath();
+            $data = \Excel::load($path, function($reader) {
+			})->get();
+            \DB::beginTransaction();
+            $valid = true;
+            try {
+
+                if(!empty($data) && $data->count()){
+    				foreach ($data as $key => $value) {
+                        $subject = \App\Models\Subject::where('subject_code', $value->mon_hoc)->first();
+    					$teacher = \App\Models\Teacher::firstOrCreate([
+                            'teacher_name' => $value->ten_gv,
+                            'address' => $value->dia_chi,
+                            'phone' => $value->dien_thoai,
+                            'gender' => $value->gioi_tinh == 'Nam' ? 0 : 1,
+                            'birthday'=> $value->ngay_sinh,
+                            'subject_id' => $subject->id
+                        ]);
+    				}
+    			}
+                \DB::commit();
+
+            } catch (\Exception $e) {
+                \DB::rollback();
+                $valid = false;
+            }
+        }
+        if($valid) {
+            $request->session()->flash('success', 'Import dữ liệu thành công');
+        } else {
+            $request->session()->flash('success', 'Import dữ liệu không thành công');
+        }
+        return redirect()->back();
     }
 }

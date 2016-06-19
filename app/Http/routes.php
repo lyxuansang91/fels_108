@@ -41,15 +41,23 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/conducts', 'ConductController');
 
+        Route::post('students/importExcel', ['as' => 'students.importExcel', 'uses' => 'StudentController@importExcel']);
+        Route::get('students/exportExcel', ['as' => 'students.exportExcel', 'uses'=> 'StudentController@exportExcel']);
+
         Route::resource('/students', 'StudentController');
+
+        Route::post('teachers/importExcel', ['as' => 'teachers.importExcel', 'uses' => 'TeacherController@importExcel']);
+        Route::get('teachers/exportExcel', ['as' => 'teachers.exportExcel', 'uses'=> 'TeacherController@exportExcel']);
 
         Route::resource('/teachers', 'TeacherController');
 
         Route::resource('/messages', 'MessageController');
 
+
         Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
         Route::post('conducts/updateConduct', ['as'=>'conducts.updateConduct', 'uses'=>'ConductController@updateConduct']);
         Route::post('points/calculatePoint', ['as'=>'points.calculatePoint', 'uses'=>'PointController@calculatePoint']);
+        Route::post('points/importExcel', ['as' => 'points.importExcel', 'uses' => 'PointController@importExcel']);
         Route::get('points/exportExcel', ['as' => 'points.exportExcel', 'uses'=> 'PointController@exportExcel']);
         Route::get('semester_classes/calculate', ['as' => 'admin.semester_classes.calculate', 'uses'=> 'SemesterClassController@calculate']);
         Route::resource('/points', 'PointController');

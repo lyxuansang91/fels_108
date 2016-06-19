@@ -23,6 +23,21 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table id="example1" class="table table-bordered table-striped">
+                            @if(session()->has('failed'))
+                                <div class="alert alert-warning alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                                    {!! session('failed') !!}
+                                </div>
+                            @endif
+
+                            @if(session()->has('success'))
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4>Success!</h4>
+                                    {!! session('success') !!}
+                                </div>
+                            @endif
                             @if($students->count() > 0)
                             <thead>
                                 <tr>
@@ -55,6 +70,7 @@
                                     {!! Form::close() !!}
                                 </tr>
                                 @endforeach
+                                {!! $students->render() !!}
                             </tbody>
                             @else
                                 Danh sách học sinh trống
@@ -66,8 +82,12 @@
         </div><!-- /.row -->
         <div class="row">
             <div class="col-xs-12">
-                <a href="#" class="btn btn-primary">Nhập excel</a>
-                <a href="#" class="btn btn-primary">Xuất excel</a>
+                <form class="col-md-6" action="{{ route('students.importExcel') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+        			<input type="file" name="excel_file" />
+        			<button class="btn btn-primary">Nhập excel</button>
+                    <a href="{{ route('students.exportExcel', ['selectLevel'=> $selectLevel]) }}" class="btn btn-primary">Xuất excel</a>
+		        </form>
             </div>
         </div>
     </section><!-- /.content -->

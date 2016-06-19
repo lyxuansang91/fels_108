@@ -95,7 +95,7 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
     }
 
     public function allStudent() {
-        $students = $this->model->all();
+        $students = $this->model->paginate(10);
         return $students;
     }
 
@@ -109,7 +109,7 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
     }
 
     public function getListStudentByLevel($level_id) {
-        $students = $this->model->where('level_id', $level_id)->get();
+        $students = $this->model->where('level_id', $level_id)->paginate(10);
         return $students;
     }
 }

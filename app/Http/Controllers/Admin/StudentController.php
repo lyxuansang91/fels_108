@@ -129,4 +129,76 @@ class StudentController extends Controller
 
         return redirect()->route('admin.students.index');
     }
+
+    public function importExcel(Request $request) {
+        if(\Input::hasFile('excel_file')) {
+            $path = \Input::file('excel_file')->getRealPath();
+            $data = \Excel::load($path, function($reader) {})->get();
+            \DB::beginTransaction();
+            $valid= true;
+            try {
+                if(!empty($data) && $data->count()){
+                    foreach ($data as $key => $value) {
+                        $level_id = intval($value->ma_lop);
+                        $lop = explode('-', $value->ten_lop);
+                        $grade_name = $lop[0];
+                        $level_name = $lop[1];
+                        $grade = \App\Models\Grade::where('grade_name', $grade_name)->first();
+                        $level = $grade->levels()->where('level_name', $level_name)->first();
+                        $student = \App\Models\Student::firstOrCreate([
+                            'name' => $value->ho_ten,
+                            'address' => $value->dia_chi,
+                            'phone' => $value->dien_thoai,
+                            'gender' => $value->gioi_tinh == 'Nam' ? 0 : 1,
+                            'birthday' => $value->ngay_sinh,
+                            'level_id' => $level_id
+                        ]);
+                    }
+                }
+                \DB::commit();
+
+            } catch (\Exception $e) {
+                \DB::rollback();
+                $valid = false;
+            }
+        }
+        if($valid)
+            $request->session()->flash('success', 'Import dữ liệu thành công');
+        else
+            $request->session()->flash('failed', 'Import dữ liệu không thành công');
+        return redirect()->back();
+    }
+
+    public function exportExcel(Request $request) {
+        // dd("123");
+        $selectLevel = $request->selectLevel;
+        \Excel::create('students', function($excel) use($selectLevel)  {
+            $excel->sheet('students', function($sheet) use($selectLevel) {
+                $students = array();
+                $semester = \App\Models\Semester::all()->last();
+                if($selectLevel && $semester) {
+                    $studentArray = \App\Models\Level::find($selectLevel)->students;
+                } else {
+                    $studentArray = \App\Models\Student::all();
+                }
+                foreach($studentArray as $student) {
+                    $new_student = array();
+                    $new_student['Mã HS'] = $student->student_code;
+                    $new_student['Họ tên'] = $student->name;
+                    $new_student['Giới tính'] = $student->gender == 0 ? 'Nam' : 'Nữ';
+                    $new_student['Ngày sinh'] = $student->birthday;
+                    $new_student['Địa chỉ'] = $student->address;
+                    $new_student['Điện thoại'] = $student->phone;
+                    $new_student['Tên lớp'] = $student->level->grade->grade_name.'-'.$student->level->level_name;
+                    $new_student['Mã lớp'] = $student->level->id;
+
+
+                    $students[] = $new_student;
+                }
+                // $headers = $this->getColumnNames($teachers);
+                $sheet->with($students);
+            });
+        })->export('xls');
+
+    }
 }

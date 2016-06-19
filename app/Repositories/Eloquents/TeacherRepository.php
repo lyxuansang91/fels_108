@@ -30,7 +30,7 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
 
     public function allTeacher() {
         $users = User::where('role', User::ROLE_TEACHER)->select('id')->get();
-        $teachers = $this->model->whereIn('user_id', $users)->get();
+        $teachers = $this->model->whereIn('user_id', $users);
         return $teachers;
     }
 
@@ -75,7 +75,7 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
     public function getListTeacherBySubject($subject_id){
         $users = User::where('role', User::ROLE_TEACHER)->select('id')->get();
         $teachers = $this->model->whereIn('user_id', $users)
-                        ->where('subject_id', $subject_id)->get();
+                        ->where('subject_id', $subject_id);
         return $teachers;
     }
 
