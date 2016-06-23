@@ -99,10 +99,11 @@ class SemesterClassController extends Controller
             foreach($students as $key => $student) {
                 $count = 0;
                 $sum = 0;
+                $min_point = 11;
                 foreach($subjects as $subject) {
                     $point = $student->getPointBySubjectAndSemester($subject->id, $semester->id);
-
                     if($point->mark_avg != NULL) {
+                        if($min_point > $point->mark_avg) $min_point = $point->mark_avg;
                         $sum += $point->mark_avg;
                         $count++;
                     }
@@ -111,7 +112,20 @@ class SemesterClassController extends Controller
                     //tinh diem trung binh hoc ky
                     $semester_point = \App\Models\SemesterPoint::firstOrNew(
                         ['semester_id' => $semester->id, 'student_level_id' => $student->active_student_level()->id]);
+                    $mark = $sum / $count;
                     $semester_point->mark = $sum / $count;
+                    if($mark >= 8.0 && $min_point >= 6.5)
+                        $semester_point->evaluate = 'Giỏi';
+                    else if($mark >= 6.5 && $min_point >= 5.0)
+                        $semester_point->evaluate = 'Khá';
+                    else if($mark >= 5.0 && $min_point >= 3.5)
+                        $semester_point->evaluate = 'Trung bình';
+                    else if($mark >= 3.5 && $min_point >= 2.0)
+                        $semester_point->evaluate = 'Yếu';
+                    else
+                        $semester_point->evaluate = 'Kém';
+
+                    //xet hoc luc
                     $semester_point->save();
                 }
             }

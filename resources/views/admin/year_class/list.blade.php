@@ -53,6 +53,7 @@
                                             </th>
                                         @endforeach
                                         <th colspan="3">Điểm tổng kết</th>
+                                        <th colspan="3">Học lực</th>
                                     </tr>
                                     <tr>
                                         @foreach ($subjects as $subject)
@@ -60,6 +61,9 @@
                                             <th>Kỳ 2</th>
                                             <th>Cả năm</th>
                                         @endforeach
+                                        <th>Kỳ 1</th>
+                                        <th>Kỳ 2</th>
+                                        <th>Cả năm</th>
                                         <th>Kỳ 1</th>
                                         <th>Kỳ 2</th>
                                         <th>Cả năm</th>
@@ -106,6 +110,27 @@
                                         <td>
                                             @if ($semester_point_1 && $semester_point_1->mark != NULL && $semester_point_2 && $semester_point_2->mark != NULL)
                                                 {{ number_format(($semester_point_1->mark + $semester_point_2->mark * 2) / 3, 1) }}
+                                            @endif
+
+                                            <!-- tính điểm TK năm học-->
+                                        </td>
+
+                                        <td>
+                                            <?php $semester_point_1 = $student->getSemesterPointBySemester($semester->year, 1); ?>
+                                            @if ($semester_point_1 && $semester_point_1->evaluate != NULL)
+                                                {{ $semester_point_1->evaluate }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <?php $semester_point_2 = $student->getSemesterPointBySemester($semester->year, 2); ?>
+                                            @if ($semester_point_2 && $semester_point_2->evaluate != NULL)
+                                                {{ $semester_point_2->evaluate }}
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            @if ($semester_point_1 && $semester_point_1->evaluate != NULL && $semester_point_2 && $semester_point_2->evaluate != NULL)
+                                                {{ $semester_point_2->evaluate }}
                                             @endif
 
                                             <!-- tính điểm TK năm học-->

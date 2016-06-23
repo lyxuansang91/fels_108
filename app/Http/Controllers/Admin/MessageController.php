@@ -17,6 +17,7 @@ use App\Repositories\PointRepositoryInterface as PointRepository;
 use App\Repositories\LevelRepositoryInterface as LevelRepository;
 use App\Models\Teacher;
 use App\Utils\MySMS;
+use App\Models\Message;
 
 class MessageController extends Controller
 {
@@ -116,15 +117,14 @@ class MessageController extends Controller
             $student_level = \App\Models\StudentLevel::find($student_level_id);
             if($student_level && $student_level->student->phone) {
                 $result = MySMS::sendSMS($student_level->student->phone, $request->text_message);
-                if($result == 100) {
-                    $message = new \App\Models\Message();
-                    $message->student_level_id = $student_level_id;
-                    $message->text_message = $text_message;
-                    if($message->save()) {
-                        $request->session()->flash('success', 'Gửi tin nhắn thành công');
-                    } else {
-                        $request->session()->flash('failed', 'Gửi tin nhắn thành công');
-                    }
+                $message = new \App\Models\Message();
+                $message->student_level_id = $student_level_id;
+                $message->text_message = $text_message;
+                $message->status = ($result == 100 ?  1 : 0);
+                if($message->save()) {
+                    $request->session()->flash('success', 'Gửi tin nhắn thành công');
+                } else {
+                    $request->session()->flash('failed', 'Gửi tin nhắn không thành công');
                 }
             }
         } else if($level_id) {
@@ -132,15 +132,14 @@ class MessageController extends Controller
             if($level) {
                 foreach($level->active_student_levels() as $student_level) {
                     $result = MySMS::sendSMS($student_level->student->phone, $request->text_message);
-                    if($result == 100) {
-                        $message = new \App\Models\Message();
-                        $message->student_level_id = $student_level->id;
-                        $message->text_message = $text_message;
-                        if($message->save()) {
-                            $request->session()->flash('success', 'Gửi tin nhắn thành công');
-                        } else {
-                            $request->session()->flash('failed', 'Gửi tin nhắn thành công');
-                        }
+                    $message = new \App\Models\Message();
+                    $message->student_level_id = $student_level->id;
+                    $message->text_message = $text_message;
+                    $message->status = ($result == 100 ?  1 : 0);
+                    if($message->save()) {
+                        $request->session()->flash('success', 'Gửi tin nhắn thành công');
+                    } else {
+                        $request->session()->flash('failed', 'Gửi tin nhắn không thành công');
                     }
                 }
             }

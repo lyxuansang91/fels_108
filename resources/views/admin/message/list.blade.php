@@ -48,6 +48,7 @@
                                         <th>Tên học sinh</th>
                                         <th>Nội dung tin nhắn</th>
                                         <th>Ngày gửi</th>
+                                        <th>Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,6 +60,13 @@
                                         <td>{{{ $message->student_level->student->name }}}</td>
                                         <td>{{ $message->text_message }}</td>
                                         <td>{{ Date('d/m/Y', strtotime($message->created_at)) }}</td>
+                                        <td>
+                                            @if ($message && $message->status == \App\Models\Message::RECEIVED)
+                                                Đã gửi thành công
+                                            @else
+                                                Có lỗi xảy ra
+                                            @endif
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>

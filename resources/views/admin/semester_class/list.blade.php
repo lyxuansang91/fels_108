@@ -51,6 +51,7 @@
                                             <th>{{ $subject->subject_name }}</th>
                                         @endforeach
                                         <th>Điểm tổng kết</th>
+                                        <th>Học lực</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +72,12 @@
                                             <?php if($semester) $semester_point = $student->active_student_level()->semester_points()->where('semester_id', $semester->id)->first(); ?>
                                             @if ($semester_point)
                                                 {{ $semester_point->mark }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <?php if($semester) $semester_point = $student->active_student_level()->semester_points()->where('semester_id', $semester->id)->first(); ?>
+                                            @if ($semester_point)
+                                                {{ $semester_point->evaluate }}
                                             @endif
                                         </td>
                                     </tr>
