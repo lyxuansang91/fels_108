@@ -15,8 +15,20 @@ class Level extends Model
         return $this->belongsTo(Grade::class);
     }
 
+    public function student_levels() {
+        return $this->hasMany(StudentLevel::class);
+    }
+
     public function students() {
-        return $this->hasMany(Student::class);
+        $student_ids = $this->student_levels()->where('status',
+            \App\Models\StudentLevel::ACTIVE)->select('student_id')->get();
+        $students = \App\Models\Student::whereIn('id', $student_ids)->get();
+        return $students;
+    }
+
+    public function active_student_levels() {
+        $student_levels = $this->student_levels()->where('status', \App\Models\StudentLevel::ACTIVE)->get();
+        return $student_levels;
     }
 
     public function semester_subject_levels() {
@@ -30,8 +42,7 @@ class Level extends Model
     protected static function boot() {
         parent::boot();
         static::deleting(function($level) {
-            $level->students()->delete();
-            $level->semester_subject_levels()->delete();
+            // $level->semester_subject_levels()->delete();
         });
     }
 

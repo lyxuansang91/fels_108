@@ -197,9 +197,7 @@ class PointController extends Controller
             \DB::beginTransaction();
             try {
                 if(!empty($data) && $data->count()){
-
                     foreach ($data as $key => $value) {
-
                         $semester = \App\Models\Semester::where('semester_code', $value->ma_ky)->first();
                         $subject = \App\Models\Subject::where('subject_code', $value->ma_mon_hoc)->first();
                         $student = \App\Models\Student::where('student_code', $value->ma_hoc_sinh)->first();
@@ -212,9 +210,10 @@ class PointController extends Controller
                             $semester_subject_level = \App\Models\SemesterSubjectLevel::where('semester_id', $semester->id)
                                 ->where('subject_id', $subject->id)
                                 ->where('level_id', $level->id)->first();
-
+                            $student_level = $level->student_levels()->where('student_id', $student->id)
+                                ->where('status', \App\Models\StudentLevel::ACTIVE)->first();
                             $point = \App\Models\Point::where('semester_subject_level_id', $semester_subject_level->id)
-                                ->where('student_id', $student->id)->first();
+                                ->where('student_level_id', $student_level->id)->first();
                             $point->mark_m1 = $value->mieng_1;
                             $point->mark_m2 = $value->mieng_2;
                             $point->mark_m3 = $value->mieng_3;
@@ -266,8 +265,8 @@ class PointController extends Controller
                         $new_point['Mã lớp'] = $point->semester_subject_level->level_id;
                         $new_point['Tên lớp'] = $point->semester_subject_level->level->grade->grade_name .'-'. $point->semester_subject_level->level->level_name;
                         $new_point['Mã môn học'] = $point->semester_subject_level->subject->subject_code;
-                        $new_point['Mã học sinh'] = $point->student->student_code;
-                        $new_point['Tên học sinh'] = $point->student->name;
+                        $new_point['Mã học sinh'] = $point->student_level->student->student_code;
+                        $new_point['Tên học sinh'] = $point->student_level->student->name;
                         $new_point['Miệng 1'] = $point->mark_m1;
                         $new_point['Miệng 2'] = $point->mark_m2;
                         $new_point['Miệng 3'] = $point->mark_m3;

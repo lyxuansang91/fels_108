@@ -178,7 +178,7 @@ class StudentController extends Controller
                 $students = array();
                 $semester = \App\Models\Semester::all()->last();
                 if($selectLevel && $semester) {
-                    $studentArray = \App\Models\Level::find($selectLevel)->students;
+                    $studentArray = \App\Models\Level::find($selectLevel)->students();
                 } else {
                     $studentArray = \App\Models\Student::all();
                 }
@@ -190,16 +190,78 @@ class StudentController extends Controller
                     $new_student['Ngày sinh'] = $student->birthday;
                     $new_student['Địa chỉ'] = $student->address;
                     $new_student['Điện thoại'] = $student->phone;
-                    $new_student['Tên lớp'] = $student->level->grade->grade_name.'-'.$student->level->level_name;
-                    $new_student['Mã lớp'] = $student->level->id;
-
-
+                    $student_level = $student->active_student_level();
+                    $new_student['Tên lớp'] = $student_level->level->grade->grade_name.'-'.$student_level->level->level_name;
+                    $new_student['Mã lớp'] = $student_level->level->id;
                     $students[] = $new_student;
                 }
                 // $headers = $this->getColumnNames($teachers);
                 $sheet->with($students);
             });
         })->export('xls');
+
+    }
+
+
+    public function upgradeStudent(Request $request) {
+        //get all active student level
+        $student_levels = \App\Models\StudentLevel::where('status', \App\Models\StudentLevel::ACTIVE)->get();
+        $semester = \App\Models\Semester::all()->last();
+        if($semester && $semester->semester_numer == 2) {
+            $prev_semester = \App\Models\Semester::where('year', $semester->year)
+                ->where('semester_number', 1)->first();
+            foreach($student_levels as $student_level) {
+                $conduct = $student_level->conducts()->where('semester_id', $semester->id)->first();
+                $current_point = $student_level->semester_points()->where('semester_id', $semester->id)->first();
+                $prev_point  = $student_level->semester_points()->where('semester_id', $prev_semester->id)->first();
+                if($current_point && $prev_point && $prev_point->mark && $current_point->mark) {
+                    $mark_avg = ($prev_point->mark + $current_point->mark * 2) / 3.0;
+                    if($conduct->conduct_name < 4 && $mark_avg > 4.5) {
+                        //duoc len lop
+                        $grade = $student_level->level->grade;
+                        if($grade->grade_name == 'K12') {
+                            //neu la lop 12
+                            $next_student_level = \App\Models\StudentLevel::create([
+                                'level_id' => $student_level->level_id,
+                                'student_id' => $student_level->student_id,
+                                'status' => \App\Models\StudentLevel::FINISH
+                            ]);
+                        } else {
+                            if($grade->grade_name == 'K10') $next_grade_name = 'K11';
+                            if($grade->grade_name == 'K11') $next_grade_name = 'K12';
+                            $level_name = $student->level->level_name;
+                            $next_grade = \App\Models\Grade::where('grade_name', $next_grade_name)->first();
+                            $next_level = \App\Models\Level::firstOrCreate([
+                                'grade_id' => $next_grade->id,
+                                'level_name' => $level_name
+                            ]);
+
+                            if($next_level) {
+                                $next_student_level = \App\Models\StudentLevel::create([
+                                    'level_id' => $next_level->id
+                                    'student_id' => $student_level->student_id,
+                                    'status' => \App\Models\StudentLevel::IN_PROGRESS
+                                ]);
+                            }
+
+                        }
+                    } else {
+
+                        $next_student_level = \App\Models\StudentLevel::create([
+                            'level_id' => $student_level->level_id,
+                            'student_id' => $student_level->student_id,
+                            'status' => \App\Models\StudentLevel::IN_PROGRESS
+                        ]);
+                        //khong duoc len lop
+                    }
+                }
+
+            }
+            $request->session()->flash('success', 'Cập nhật lên lớp thành công');
+        } else  {
+            $request->session()->flash('failed', 'Chưa kết thúc năm học hoặc không có kỳ học');
+        }
+        return redirect()->route('admin.student.index');
 
     }
 }

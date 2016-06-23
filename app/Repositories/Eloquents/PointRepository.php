@@ -13,12 +13,12 @@ class PointRepository extends Repository implements PointRepositoryInterface
 
     public $ruleAdd = [
         'semester_subject_level_id' => 'required',
-        'user_id' => 'required'
+        'student_level_id' => 'required'
     ];
 
     public $ruleUpdate = [
         'semester_subject_level_id' => 'required',
-        'user_id' => 'required'
+        'student_level_id' => 'required'
     ];
 
     public function createPoint($data)
@@ -170,7 +170,7 @@ class PointRepository extends Repository implements PointRepositoryInterface
             }
 
             if($semester_subject_levels) {
-                $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_id')->get();
+                $points = $this->model->whereIn('semester_subject_level_id', $semester_subject_levels)->orderBy('student_level_id')->get();
             }
         }
 

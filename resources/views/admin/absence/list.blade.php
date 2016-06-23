@@ -32,6 +32,21 @@
                     <div class="box-body">
                         @if ($semester)
                         <table id="example1" class="table table-bordered table-striped">
+                            @if(session()->has('failed'))
+                                <div class="alert alert-warning alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                                    {!! session('failed') !!}
+                                </div>
+                            @endif
+
+                            @if(session()->has('success'))
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4>Success!</h4>
+                                    {!! session('success') !!}
+                                </div>
+                            @endif
                             @if (count($absences) > 0)
                                 <thead>
                                     <tr>
@@ -48,14 +63,14 @@
                                 <tbody>
                                     @foreach ($absences as $absence)
                                     <tr>
-                                        <td>{{{ $absence->student->student_code }}}</td>
-                                        <td>{!! nl2br($absence->student->name) !!}</td>
-                                        <td>{{{ $absence->student->level->grade->grade_name.'-'.$absence->student->level->level_name }}}</td>
+                                        <td>{{{ $absence->student_level->student->student_code }}}</td>
+                                        <td>{!! nl2br($absence->student_level->student->name) !!}</td>
+                                        <td>{{{ $absence->student_level->level->grade->grade_name.'-'.$absence->student_level->level->level_name }}}</td>
                                         <td>{{{ date('Y-m-d', strtotime($absence->absence_day)) }}}</td>
                                         <td>{{{ $absence->subject->subject_name }}}</td>
                                         <td>{{{ $absence->reason }}}</td>
                                         <td><a href="{!! route('admin.absences.edit', $absence->id) !!}" class="btn btn-primary">Sửa</a></td>
-                                        <td><a href="{{ route('admin.messages.create', ['student' => $absence->student_id]) }}" class="btn btn-success">Gửi tin nhắn</a></td>
+                                        <td><a href="{{ route('admin.messages.create', ['student_level' => $absence->student_level_id]) }}" class="btn btn-success">Gửi tin nhắn</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

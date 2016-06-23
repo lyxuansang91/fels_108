@@ -53,8 +53,8 @@ class YearClassController extends Controller
         } else {
             $levels = $this->levelRepository->all();
             if($selectLevel) {
-                $students = \App\Models\Level::find($selectLevel)->students()->get();
-            } else $students = array(); 
+                $students = \App\Models\Level::find($selectLevel)->students();
+            } else $students = array();
         }
 
         return view('admin.year_class.list')->with(['semester'=>$semester,

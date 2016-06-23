@@ -63,7 +63,7 @@
                                     <td>{{{ $student->address }}}</td>
                                     <td>{{{ $student->phone }}}</td>
                                     <td> @if ($student->student_code) {{{ $student->student_code }}} @endif </td>
-                                    <td>{{{ $student->level->grade->grade_name.'-'.$student->level->level_name }}}</td>
+                                    <td>{{{ $student->level()->grade->grade_name.'-'.$student->level()->level_name }}}</td>
                                     <td><a href="{!! route('admin.students.edit', $student->id) !!}" class="btn btn-primary">Sửa</a></td>
                                     {!! Form::open(['route' => ['admin.students.destroy', $student->id], 'method' => 'delete']) !!}
                                     <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa học sinh này?')"]) !!}</td>

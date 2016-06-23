@@ -38,14 +38,15 @@
                                     @foreach ($conducts as $conduct)
                                     <tr class="conduct_{{ $conduct->id }}">
                                         <td>{{{ $conduct->id }}}</td>
-                                        <td>{{{ $conduct->student->student_code }}}</td>
-                                        <td>{{{ $conduct->student->name }}}</td>
+                                        <td>{{{ $conduct->student_level->student->student_code }}}</td>
+                                        <td>{{{ $conduct->student_level->student->name }}}</td>
                                         <td>
                                             <select name="conduct_name" id="conduct_name" class="form-control" readonly="true">
                                                 <option value="0" @if ($conduct->conduct_name == NULL) selected @endif>Chọn HK</option>
-                                                <option value="1" @if ($conduct->conduct_name == 1) selected @endif>Tốt</option>
-                                                <option value="2" @if ($conduct->conduct_name == 2) selected @endif>Khá</option>
-                                                <option value="3" @if ($conduct->conduct_name == 3) selected @endif>Trung bình</option>
+                                                <option value="{{ \App\Models\Conducts::TOT }}" @if ($conduct->conduct_name == 1) selected @endif>Tốt</option>
+                                                <option value="{{ \App\Models\Conducts::KHA }}" @if ($conduct->conduct_name == 2) selected @endif>Khá</option>
+                                                <option value="{{ \App\Models\Conducts::TRUNGBINH }}" @if ($conduct->conduct_name == 3) selected @endif>Trung bình</option>
+                                                <option value="{{ \App\Models\Conducts::YEU }}" @if ($conduct->conduct_name == 4) selected @endif>Yếu</option>
                                             </select>
                                         </td>
                                         <td><a href="javascript:void(0)" class="btn btn-primary editConduct" id="{{{ $conduct->id }}}">Sửa</a></td>

@@ -20,12 +20,12 @@
                         @endforeach
                     </div>
                     @endif
-                    @if ($student)
+                    @if ($student_level)
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">SĐT</label>
                         <div class="col-sm-10">
-                            {!! Form::hidden('student_id', $student->id,  ['class'=>'form-control disabled']) !!}
-                            <b> {{ $student->phone }} </b>
+                            {!! Form::hidden('student_level_id', $student_level->id,  ['class'=>'form-control disabled']) !!}
+                            <b> {{ $student_level->student->phone }} </b>
                         </div>
                     </div>
                     @endif

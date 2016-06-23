@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::post('students/importExcel', ['as' => 'students.importExcel', 'uses' => 'StudentController@importExcel']);
         Route::get('students/exportExcel', ['as' => 'students.exportExcel', 'uses'=> 'StudentController@exportExcel']);
+        Route::get('students/upgradeStudent', ['as' => 'students.upgradeStudent', 'uses'=> 'StudentController@upgradeStudent']);
 
         Route::resource('/students', 'StudentController');
 

@@ -68,7 +68,7 @@
                                             </td>
                                         @endforeach
                                         <td>
-                                            <?php if($semester) $semester_point = $student->semester_points()->where('semester_id', $semester->id)->first(); ?>
+                                            <?php if($semester) $semester_point = $student->active_student_level()->semester_points()->where('semester_id', $semester->id)->first(); ?>
                                             @if ($semester_point)
                                                 {{ $semester_point->mark }}
                                             @endif

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Absence extends Model
 {
     //
-    protected $fillable = ['student_id', 'subject_id', 'reason', 'semester_id', 'absence_day'];
+    protected $fillable = ['student_level_id', 'subject_id', 'reason', 'semester_id', 'absence_day'];
     protected $table = 'absences';
     public $timestamps = true;
 
-    public function student() {
-        return $this->belongsTo(Student::class);
+    public function student_level() {
+        return $this->belongsTo(StudentLevel::class);
     }
 
     public function subject() {

@@ -91,8 +91,8 @@
                                     @foreach ($points as $key => $point)
                                     <tr class="point_{{ $point->id }}">
                                         <td>{{{$key + 1}}}</td>
-                                        <td>{{{ $point->student->student_code }}}</td>
-                                        <td width="150px">{{{ $point->student->name }}}</td>
+                                        <td>{{{ $point->student_level->student->student_code }}}</td>
+                                        <td width="150px">{{{ $point->student_level->student->name }}}</td>
                                         <td><input type="text" name="mark_m1" id="mark_m1" value="{{{ $point->mark_m1 }}}" size="3" readonly="true"></td>
                                         <td><input type="text" name="mark_m2" id="mark_m2" value="{{{ $point->mark_m2 }}}" size="3" readonly="true"></td>
                                         <td><input type="text" name="mark_m3" id="mark_m3" value="{{{ $point->mark_m3 }}}" size="3" readonly="true"></td>

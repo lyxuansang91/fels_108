@@ -50,24 +50,25 @@ class SemesterClassController extends Controller
         $selectLevel = $request->selectLevel;
         $user = \Auth()->user();
 
-        $teacher = Teacher::where('user_id', $user->id)->first();
+        $teacher = $user->teacher();
         $semester = \App\Models\Semester::all()->last();
         $subjects = $this->subjectRepository->all();
         if($teacher) {
             $levels =  $this->levelRepository->getListLevelByTeacher($teacher->id);
             if($selectLevel) {
-                $students = \App\Models\Level::find($selectLevel)->students()->get();
+                $students = \App\Models\Level::find($selectLevel)->students();
             } else {
                 $students = array();
             }
         } else {
             $levels = $this->levelRepository->all();
             if($selectLevel) {
-                $students = \App\Models\Level::find($selectLevel)->students()->get();
+                $students = \App\Models\Level::find($selectLevel)->students();
             } else {
                 $students = array();
             }
         }
+
 
         return view('admin.semester_class.list')->with(['semester'=>$semester,
                 'students' => $students,
@@ -88,7 +89,7 @@ class SemesterClassController extends Controller
         if($semester) {
             if($selectLevel) {
                 $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::where('level_id', $selectLevel)->select('id')->get();
-                $students = \App\Models\Level::find($selectLevel)->students()->get();
+                $students = \App\Models\Level::find($selectLevel)->students();
             } else {
                 $level_ids = \App\Models\Level::where('teacher_id', $teacher->id)->select('id')->get();
                 $semester_subject_level_ids = \App\Models\SemesterSubjectLevel::whereIn('level_id', $level_ids)->select('id')->get();
@@ -109,7 +110,7 @@ class SemesterClassController extends Controller
                 if($count == count($subjects)) {
                     //tinh diem trung binh hoc ky
                     $semester_point = \App\Models\SemesterPoint::firstOrNew(
-                        ['semester_id' => $semester->id, 'student_id' => $student->id]);
+                        ['semester_id' => $semester->id, 'student_level_id' => $student->active_student_level()->id]);
                     $semester_point->mark = $sum / $count;
                     $semester_point->save();
                 }

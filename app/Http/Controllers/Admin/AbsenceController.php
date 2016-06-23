@@ -137,7 +137,11 @@ class AbsenceController extends Controller
             return redirect()->route('admin.absences.index')->with(['errors' => $errors]);
         }
 
-        $this->absenceRepository->createAbsence($request->all());
+        $valid = $this->absenceRepository->createAbsence($request->all());
+        if($valid)
+            $request->session()->flash('sucsess', 'Tạo nghỉ học thành công');
+        else
+            $request->session()->flash('failed', 'Tạo nghỉ học không thành công');
 
         return redirect()->route('admin.absences.index');
     }

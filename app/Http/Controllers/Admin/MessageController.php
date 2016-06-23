@@ -49,27 +49,28 @@ class MessageController extends Controller
     {
         $current_user = \Auth()->user();
         $semester = \App\Models\Semester::all()->last();
-        $students = array();
+        $student_levels = array();
         if($current_user->role == User::ROLE_TEACHER) {
             $teacher = $current_user->teacher();
             if($semester) {
                 $level_ids = $teacher->semester_subject_levels()
                     ->where('semester_id', $semester->id)
                     ->select('level_id')->get();
-                $students = \App\Models\Student::whereIn('level_id', $level_ids)->get();
+                $student_levels = \App\Models\StudentLevel::whereIn('level_id', $level_ids)
+                    ->where('status', \App\Models\StudentLevel::ACTIVE)->get();
             }
         } else {
-            $students = \App\Models\Student::all();
+            $student_levels = \App\Models\StudentLevel::where('status', \App\Models\StudentLevel::ACTIVE)->get();
         }
 
-        $selectStudent = $request->selectStudent;
-        if($selectStudent) {
-            $messages = \App\Models\Message::where('student_id', $selectStudent)->paginate(10);
+        $selectStudentLevel = $request->selectStudentLevel;
+        if($selectStudentLevel) {
+            $messages = \App\Models\Message::where('student_level_id', $selectStudentLevel)->paginate(10);
         } else $messages = \App\Models\Message::paginate(10);
         return view('admin.message.list')->with([
             'messages' => $messages,
-            'students' => $students,
-            'selectStudent' => $selectStudent
+            'student_levels' => $student_levels,
+            'selectStudentLevel' => $selectStudentLevel
         ]);
     }
 
@@ -80,13 +81,13 @@ class MessageController extends Controller
      */
     public function create(Request $request)
     {
-        $student_id = $request->student;
+        $student_level_id = $request->student_level;
         $level_id = $request->level;
-        $student = \App\Models\Student::find($student_id);
+        $student_level = \App\Models\StudentLevel::find($student_level_id);
         $level = \App\Models\Level::find($level_id);
 
         return view('admin.message.add')->with([
-            'student' => $student,
+            'student_level' => $student_level,
             'level' => $level
         ]);
     }
@@ -108,16 +109,16 @@ class MessageController extends Controller
             return redirect()->route('admin.messages.index')->with(['errors' => $errors]);
         }
 
-        $student_id = $request->student_id;
+        $student_level_id = $request->student_level_id;
         $level_id = $request->level_id;
         $text_message = $request->text_message;
-        if($student_id) {
-            $student = \App\Models\Student::find($student_id);
-            if($student && $student->phone) {
-                $result = MySMS::sendSMS($student->phone, $request->text_message);
+        if($student_level_id) {
+            $student_level = \App\Models\StudentLevel::find($student_level_id);
+            if($student_level && $student_level->student->phone) {
+                $result = MySMS::sendSMS($student_level->student->phone, $request->text_message);
                 if($result == 100) {
                     $message = new \App\Models\Message();
-                    $message->student_id = $student_id;
+                    $message->student_level_id = $student_level_id;
                     $message->text_message = $text_message;
                     if($message->save()) {
                         $request->session()->flash('success', 'Gửi tin nhắn thành công');
@@ -129,11 +130,11 @@ class MessageController extends Controller
         } else if($level_id) {
             $level = \App\Models\Level::find($level_id);
             if($level) {
-                foreach($level->students as $student) {
-                    $result = MySMS::sendSMS($student->phone, $request->text_message);
+                foreach($level->active_student_levels() as $student_level) {
+                    $result = MySMS::sendSMS($student_level->student->phone, $request->text_message);
                     if($result == 100) {
                         $message = new \App\Models\Message();
-                        $message->student_id = $student->id;
+                        $message->student_level_id = $student_level->id;
                         $message->text_message = $text_message;
                         if($message->save()) {
                             $request->session()->flash('success', 'Gửi tin nhắn thành công');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SemesterPoint extends Model
 {
     //
-    protected $fillable = ['student_id', 'semester_id', 'mark'];
+    protected $fillable = ['student_level_id', 'semester_id', 'mark'];
     protected $tables = 'semester_points';
     public $timestamps = true;
 
@@ -15,7 +15,7 @@ class SemesterPoint extends Model
         $this->belongsTo(Semester::class);
     }
 
-    public function student() {
-        $this->belongsTo(Student::class);
+    public function student_level() {
+        $this->belongsTo(StudentLevel::class);
     }
 }

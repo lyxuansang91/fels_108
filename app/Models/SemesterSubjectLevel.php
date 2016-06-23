@@ -43,12 +43,14 @@ class SemesterSubjectLevel extends Model
 
         static::created(function($semester_subject_level){
             $level = $semester_subject_level->level;
-            $students = $level->students; //get student in level
+            $students = $level->students(); //get student in level
             \DB::beginTransaction();
             try {
+
                 foreach($students as $student) {
+                    $student_level = $student->active_student_level();
                     $point = new \App\Models\Point([
-                        'student_id' => $student->id,
+                        'student_level_id' => $student_level->id,
                         'semester_subject_level_id' => $semester_subject_level->id
                     ]);
                     if(!$point->save())

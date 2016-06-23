@@ -34,8 +34,10 @@ class ConductRepository extends Repository implements ConductRepositoryInterface
 
     public function getListConductByLevel($semester_id, $level_id, $teacher_id) {
         if($level_id) {
-            $student_ids = \App\Models\Student::where('level_id', $level_id)->select('id')->get();
-            $conducts = \App\Models\Conduct::whereIn('student_id', $student_ids)
+            $level = \App\Models\Level::find($level_id);
+            $student_level_ids = $level->student_levels()->where(
+                'status', \App\Models\StudentLevel::ACTIVE)->select('id')->get();
+            $conducts = \App\Models\Conduct::whereIn('student_level_id', $student_level_ids)
                 ->where('semester_id', $semester_id)->get();
         } else  {
             $level_ids = \App\Models\Level::where('teacher_id', $teacher_id)->select('id')->get();

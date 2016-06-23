@@ -41,14 +41,17 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
         try {
             $data['semester_code'] = $data['year'].'-'.$data['semester_number'];
             $semester = $this->create($data);
+            if(!$semester)
+                throw new Exception("Error Processing Request", 1);
             // $subjects = Subject::all();
             $levels = Level::all();
             $teachers = Teacher::all();
             //prepare conduct
             $students = \App\Models\Student::all();
             foreach($students as $student)  {
-                $conduct = new \App\Models\Conduct;
-                $conduct->student_id = $student->id;
+                $student_level = $student->active_student_level();
+                $conduct = new \App\Models\Conduct();
+                $conduct->student_level_id = $student_level->id;
                 $conduct->semester_id = $semester->id;
                 if(!$conduct->save()) {
                     throw new \Exception("Error Processing Request", 1);

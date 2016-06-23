@@ -6,10 +6,10 @@
         <form action="" method="GET" role="form" class="col-md-6">
             <legend>Tìm kiếm</legend>
             <div class="form-group col-xs-12 col-sm-4">
-                <select name="selectStudent" id="inputSelectLevel" class="form-control">
+                <select name="selectStudentLevel" id="inputSelectStudentLevel" class="form-control">
                     <option value>Chọn sinh viên</option>
-                    @foreach ($students as $student)
-                        <option value="{{ $student->id }}" @if($student->id == $selectStudent) selected @endif>{{ $student->student_code }}</option>
+                    @foreach ($student_levels as $student_level)
+                        <option value="{{ $student_level->id }}" @if($student_level->id == $selectStudentLevel) selected @endif>{{ $student_level->student->student_code }}</option>
                     @endforeach
                 </select>
             </div>
@@ -54,9 +54,9 @@
                                     @foreach ($messages as $key => $message)
                                     <tr>
                                         <td>{{{$key + 1}}}</td>
-                                        <td>{{{ $message->student->phone }}}</td>
-                                        <td>{{{ $message->student->student_code }}}</td>
-                                        <td>{{{ $message->student->name }}}</td>
+                                        <td>{{{ $message->student_level->student->phone }}}</td>
+                                        <td>{{{ $message->student_level->student->student_code }}}</td>
+                                        <td>{{{ $message->student_level->student->name }}}</td>
                                         <td>{{ $message->text_message }}</td>
                                         <td>{{ Date('d/m/Y', strtotime($message->created_at)) }}</td>
                                     </tr>

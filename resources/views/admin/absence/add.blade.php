@@ -34,6 +34,7 @@
                     </div>
                     @endif
                     <input type="hidden" name="semester_id" value= {{ $semester->id }} />
+                    <input type="hidden" name="level_id" value= {{ $selectLevel }} />
                     <div class="form-group">
                         <label for="inputName3" class="col-sm-2 control-label">Học sinh</label>
                         <div class="col-sm-10">
