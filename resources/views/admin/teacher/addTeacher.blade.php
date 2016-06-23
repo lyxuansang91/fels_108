@@ -9,7 +9,7 @@
                 <h3 class="box-title">Thêm mới giáo viên</h3>
             </div><!-- /.box-header -->
             <!-- form start -->
-            {!! Form::open(['route'=>'admin.teachers.store', 'class'=>'form-horizontal']) !!}
+            {!! Form::open(['route'=>'admin.teachers.store', 'class'=>'form-horizontal', 'files' => true]) !!}
                 <div class="box-body">
                     @if(count($errors) > 0)
                     <div class="alert alert-danger alert-dismissable">
@@ -56,6 +56,20 @@
                         <label for="inputEmail3" class="col-sm-2 control-label">Môn học</label>
                         <div class="col-sm-10">
                             {!! Form::select('subject_id', $subjectArray, NULL, ['class'=>'form-control', 'placeholder'=> 'Chọn môn học']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Ảnh đại diện</label>
+                        <div class="col-sm-10">
+                            {!! Form::file('image', '', ['class'=>'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Trình độ</label>
+                        <div class="col-sm-10">
+                            {!! Form::text('experiences', '', ['class'=>'form-control', 'placeholder' => 'Nhập trình độ']) !!}
                         </div>
                     </div>
 

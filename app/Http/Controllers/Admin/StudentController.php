@@ -216,7 +216,7 @@ class StudentController extends Controller
                 $prev_point  = $student_level->semester_points()->where('semester_id', $prev_semester->id)->first();
                 if($current_point && $prev_point && $prev_point->mark && $current_point->mark) {
                     $mark_avg = ($prev_point->mark + $current_point->mark * 2) / 3.0;
-                    if($conduct->conduct_name < 4 && $mark_avg > 4.5) {
+                    if($conduct->conduct_name && $conduct->conduct_name < 4 && $mark_avg > 4.5) {
                         //duoc len lop
                         $grade = $student_level->level->grade;
                         if($grade->grade_name == 'K12') {
@@ -229,11 +229,13 @@ class StudentController extends Controller
                         } else {
                             if($grade->grade_name == 'K10') $next_grade_name = 'K11';
                             if($grade->grade_name == 'K11') $next_grade_name = 'K12';
-                            $level_name = $student->level->level_name;
+                            $level_name = $student_level->level->level_name;
+                            $group_id = $student_level->level->group->id;
                             $next_grade = \App\Models\Grade::where('grade_name', $next_grade_name)->first();
                             $next_level = \App\Models\Level::firstOrCreate([
                                 'grade_id' => $next_grade->id,
-                                'level_name' => $level_name
+                                'level_name' => $level_name,
+                                'group_id' => $group_id
                             ]);
 
                             if($next_level) {
@@ -261,7 +263,7 @@ class StudentController extends Controller
         } else  {
             $request->session()->flash('failed', 'Chưa kết thúc năm học hoặc không có kỳ học');
         }
-        return redirect()->route('admin.student.index');
+        return redirect()->route('admin.students.index');
 
     }
 }

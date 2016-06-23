@@ -155,7 +155,7 @@
               </a>
               <ul class="treeview-menu">
                 @if (auth()->user()->role != \App\Models\User::ROLE_TEACHER) <li><a href="{!! route('admin.students.index') !!}"><i class="fa fa-circle-o"></i>Thông tin học sinh</a></li> @endif
-                <li><a href="#"><i class="fa fa-circle-o"></i>Học phí</a></li>
+                <li><a href="{{ route('admin.fees') }}"><i class="fa fa-circle-o"></i>Học phí</a></li>
               </ul>
             </li>
 
@@ -182,8 +182,8 @@
                 <span>Báo cáo</span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i>Báo cáo kết quả học tập</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Báo cáo kết quả hạnh kiểm</a></li>
+                <li><a href="{{ route('admin.report.getReport') }}"><i class="fa fa-circle-o"></i>Báo cáo kết quả học tập</a></li>
+                <li><a href="{{ route('admin.report.getConduct') }}"><i class="fa fa-circle-o"></i> Báo cáo kết quả hạnh kiểm</a></li>
                 <li><a href="#"><i class="fa fa-circle-o"></i> Báo cáo chung</a></li>
               </ul>
             </li>

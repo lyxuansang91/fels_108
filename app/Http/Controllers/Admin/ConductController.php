@@ -79,7 +79,7 @@ class ConductController extends Controller
         return view('admin.conduct.add')->with([
             'semesters' => $semesters,
             'users' => $users
-            ]);
+        ]);
     }
 
     /**

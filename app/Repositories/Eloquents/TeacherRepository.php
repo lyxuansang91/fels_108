@@ -57,6 +57,12 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
             $user = $userRepository->create($user_data);
             if($user) {
                 $data['user_id'] = $user->id;
+                if(isset($data['image'])) {
+                    $file = $data['image'];
+                    $name = $file->getClientOriginalName();
+                    $file->move(public_path().'/images/teacher', $name);
+                    $data['image'] = '/images/teacher/' . $name;
+                }
                 $teacher = $this->create($data);
                 if($teacher) {
                     $subject_code = $teacher->subject->subject_code;
@@ -87,6 +93,15 @@ class TeacherRepository extends Repository implements TeacherRepositoryInterface
         $teacher->gender = $data['gender'];
         $teacher->address = $data['address'];
         $teacher->birthday = $data['birthday'];
+
+        if(isset($data['image'])) {
+            $file = $data['image'];
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/images/teacher', $name);
+            $data['image'] = '/images/teacher/' . $name;
+            $teacher->image = $data['image'];
+        }
+        $teacher->experiences = $data['experiences'] ;
         $result = strval($teacher->id);
         $subject_code = $teacher->subject->subject_code;
         while(strlen($result) < 3) $result = '0'.$result;

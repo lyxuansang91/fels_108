@@ -29,9 +29,6 @@
                                         <th>Mã học sinh</th>
                                         <th>Họ và tên</th>
                                         <th>Hạnh kiểm</th>
-                                        <th>Chỉnh sửa</th>
-                                        <th>Lưu thông tin</th>
-                                        <th>Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,19 +38,19 @@
                                         <td>{{{ $conduct->student_level->student->student_code }}}</td>
                                         <td>{{{ $conduct->student_level->student->name }}}</td>
                                         <td>
-                                            <select name="conduct_name" id="conduct_name" class="form-control" readonly="true">
-                                                <option value="0" @if ($conduct->conduct_name == NULL) selected @endif>Chọn HK</option>
-                                                <option value="{{ \App\Models\Conduct::TOT }}" @if ($conduct->conduct_name == 1) selected @endif>Tốt</option>
-                                                <option value="{{ \App\Models\Conduct::KHA }}" @if ($conduct->conduct_name == 2) selected @endif>Khá</option>
-                                                <option value="{{ \App\Models\Conduct::TRUNGBINH }}" @if ($conduct->conduct_name == 3) selected @endif>Trung bình</option>
-                                                <option value="{{ \App\Models\Conduct::YEU }}" @if ($conduct->conduct_name == 4) selected @endif>Yếu</option>
-                                            </select>
+                                            @if($conduct->conduct_name == 1)
+                                            Tốt
+                                            @endif
+                                            @if($conduct->conduct_name == 2)
+                                            Khá
+                                            @endif
+                                            @if($conduct->conduct_name == 3)
+                                            Trung Bình
+                                            @endif
+                                            @if($conduct->conduct_name == 4)
+                                            Yếu
+                                            @endif
                                         </td>
-                                        <td><a href="javascript:void(0)" class="btn btn-primary editConduct" id="{{{ $conduct->id }}}">Sửa</a></td>
-                                        <td><a href="javascript:void(0)" class="btn btn-success saveConduct" id="{{{ $conduct->id }}}" disabled>Lưu</a></td>
-                                        {!! Form::open(['route' => ['admin.conducts.destroy', $conduct->id], 'method' => 'delete']) !!}
-                                        <td>{!! Form::submit('Xóa', ['class'=>'btn btn-danger', 'onclick'=>"return confirm('Bạn có chắc chắn muốn xóa?')"]) !!}</td>
-                                        {!! Form::close() !!}
                                     </tr>
                                     @endforeach
                                 </tbody>

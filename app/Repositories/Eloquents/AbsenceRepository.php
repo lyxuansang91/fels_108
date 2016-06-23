@@ -57,7 +57,7 @@ class AbsenceRepository extends Repository implements AbsenceRepositoryInterface
         // }
         // $category->name = $data['name'];
         // $category->content = $data['content'];
-        $absence->student_level_id = $data['student_level_id'];
+        $absence->student_level_id = $data['student_level_od'];
         $absence->subject_id = $data['subject_id'];
         $absence->reason = $data['reason'];
         $absence->semester_id = $data['semester_id'];

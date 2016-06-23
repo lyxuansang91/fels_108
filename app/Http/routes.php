@@ -54,6 +54,9 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/messages', 'MessageController');
 
+        Route::post('fees/importExcel', ['as' => 'fees.importExcel', 'uses' => 'FeeController@importExcel']);
+        Route::get('/fees', ['as' => 'admin.fees', 'uses' => 'FeeController@index']);
+
 
         Route::post('points/updatePoint', ['as'=>'points.updatePoint', 'uses'=>'PointController@updatePoint']);
         Route::post('conducts/updateConduct', ['as'=>'conducts.updateConduct', 'uses'=>'ConductController@updateConduct']);
@@ -70,6 +73,10 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
         Route::get('/year_classes', ['as' => 'admin.year_classes', 'uses' => 'YearClassController@index']);
 
 
+
+        Route::get('/getReport', ['as' => 'admin.report.getReport', 'uses' => 'ReportsController@getReport']);
+        Route::get('/getConduct', ['as' => 'admin.report.getConduct', 'uses' => 'ReportsController@getConduct']);
+        
         Route::resource('/absences', 'AbsenceController');
 
     });

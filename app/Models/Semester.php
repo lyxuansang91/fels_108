@@ -28,6 +28,7 @@ class Semester extends Model
             $semester->conducts()->delete();
             $semester->semester_points()->delete();
         });
+
     }
 
 
