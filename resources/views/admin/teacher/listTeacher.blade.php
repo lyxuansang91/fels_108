@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach($teachers as $teacher)
                                 <tr>
-                                    <td>{{{ $teacher->teacher_code }}}</td>
+                                    <td><a href="{{ route('admin.teachers.show', $teacher->id) }}">{{ $teacher->teacher_code }}</a></td>
                                     <td>{{{ $teacher->teacher_name }}}</td>
                                     <td>{{{ $teacher->gender == 0 ? 'Nam': 'Nữ' }}}</td>
                                     <td>{{{ Date('Y-m-d', strtotime($teacher->birthday)) }}}</td>

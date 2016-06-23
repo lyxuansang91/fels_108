@@ -38,7 +38,9 @@
                                     @foreach($subjects as $subject)
                                         <th>{{ $subject->subject_name }}</th>
                                     @endforeach
-                                    <th>Phân lịch</th>
+                                    @if (auth()->user()->role == \App\Models\User::ROLE_ADMIN)
+                                        <th>Phân lịch</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,7 +76,10 @@
                                                         </select>
                                                     </td>
                                                 @endforeach
-                                            <td><button type="submit" class="btn btn-primary">Phân lịch</button></td>
+                                            @if (auth()->user()->role == \App\Models\User::ROLE_ADMIN)
+                                                <td><button type="submit" class="btn btn-primary">Phân lịch</button></td>
+                                            @endif
+
                                             </form>
                                         </tr>
                                     @endforeach
@@ -88,11 +93,7 @@
                 </div><!-- /.box -->
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <div class="row">
-            <div class="col-xs-12">
-                <a href="#" class="btn btn-primary">Xuất excel</a>
-            </div>
-        </div>
+
     </section><!-- /.content -->
     <script src="{{ Asset('plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 

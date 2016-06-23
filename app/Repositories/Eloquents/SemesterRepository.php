@@ -55,13 +55,14 @@ class SemesterRepository extends Repository implements SemesterRepositoryInterfa
                     $student->delete();
                 }
 
+                //prepare student_level with status in progress
                 $in_progress_student_levels = \App\Models\StudentLevel::where('status', \App\Models\StudentLevel::IN_PROGRESS)->get();
                 foreach($in_progress_student_levels as $student_level) {
                     $level_id = $student_level->level_id;
                     $student_id = $student_level->student_id;
                     $active_student_level = StudentLevel::where('level_id', $level_id)
                         ->where('student_id', $student_id)
-                        ->where('status', StudentLevel::ACTIVE);
+                        ->where('status', StudentLevel::ACTIVE)->first();
                     $active_student_level->status = StudentLevel::INACTIVE;
                     $active_student_level->save();
                     $student_level->status = \App\Models\StudentLevel::ACTIVE;

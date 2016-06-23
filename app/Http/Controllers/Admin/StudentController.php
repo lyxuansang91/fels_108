@@ -207,13 +207,14 @@ class StudentController extends Controller
         //get all active student level
         $student_levels = \App\Models\StudentLevel::where('status', \App\Models\StudentLevel::ACTIVE)->get();
         $semester = \App\Models\Semester::all()->last();
-        if($semester && $semester->semester_numer == 2) {
+        if($semester && $semester->semester_number == 2) {
             $prev_semester = \App\Models\Semester::where('year', $semester->year)
                 ->where('semester_number', 1)->first();
             foreach($student_levels as $student_level) {
                 $conduct = $student_level->conducts()->where('semester_id', $semester->id)->first();
                 $current_point = $student_level->semester_points()->where('semester_id', $semester->id)->first();
                 $prev_point  = $student_level->semester_points()->where('semester_id', $prev_semester->id)->first();
+
                 if($current_point && $prev_point && $prev_point->mark && $current_point->mark) {
                     $mark_avg = ($prev_point->mark + $current_point->mark * 2) / 3.0;
                     if($conduct->conduct_name && $conduct->conduct_name < 4 && $mark_avg > 4.5) {
@@ -221,7 +222,7 @@ class StudentController extends Controller
                         $grade = $student_level->level->grade;
                         if($grade->grade_name == 'K12') {
                             //neu la lop 12
-                            $next_student_level = \App\Models\StudentLevel::create([
+                            $next_student_level = \App\Models\StudentLevel::firstOrCreate([
                                 'level_id' => $student_level->level_id,
                                 'student_id' => $student_level->student_id,
                                 'status' => \App\Models\StudentLevel::FINISH
@@ -240,12 +241,11 @@ class StudentController extends Controller
 
                             if($next_level) {
                                 $next_student_level = \App\Models\StudentLevel::create([
-                                    'level_id' => $next_level->id
+                                    'level_id' => $next_level->id,
                                     'student_id' => $student_level->student_id,
                                     'status' => \App\Models\StudentLevel::IN_PROGRESS
                                 ]);
                             }
-
                         }
                     } else {
 
@@ -257,13 +257,12 @@ class StudentController extends Controller
                         //khong duoc len lop
                     }
                 }
-
             }
             $request->session()->flash('success', 'Cập nhật lên lớp thành công');
         } else  {
             $request->session()->flash('failed', 'Chưa kết thúc năm học hoặc không có kỳ học');
         }
-        return redirect()->route('admin.students.index');
+        return redirect()->back();
 
     }
 }

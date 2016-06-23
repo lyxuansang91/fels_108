@@ -98,8 +98,8 @@ class UserRepository extends Repository implements UserRepositoryInterface
     public function registerUser($data)
     {
         $data['role'] = User::ROLE_USER;
-        $student_id = $data['student_id'];
-        $student = Student::find($student_id);
+        $student_code = $data['student_code'];
+        $student = Student::where('student_code', $student_code)->first();
         if($student) {
             $user = $this->model->create($data);
             $student->user_id = $user->id;

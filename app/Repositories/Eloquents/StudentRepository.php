@@ -140,7 +140,7 @@ class StudentRepository extends Repository implements StudentRepositoryInterface
     }
 
     public function getListStudentByLevel($level_id) {
-        $students = $this->model->where('level_id', $level_id)->paginate(10);
+        $students = $this->model->whereRaw('id in (select student_id from student_levels where level_id = ? and status = 1)', array($level_id))->paginate(10);
         return $students;
     }
 }

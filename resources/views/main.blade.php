@@ -170,7 +170,7 @@
                 <li><a href="{!! route('admin.semester_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết kỳ</a></li>
                 <li><a href="{!! route('admin.year_classes') !!}"><i class="fa fa-circle-o"></i> Tổng kết năm</a></li>
                 <li><a href="{!! route('admin.absences.index') !!}"><i class="fa fa-circle-o"></i>Chuyên cần</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i>Xét lên lớp</a></li>
+                <li><a href="{!! route('students.upgradeStudent') !!}"><i class="fa fa-circle-o"></i>Xét lên lớp</a></li>
                 <li><a href="{!! route('admin.messages.index') !!}"><i class="fa fa-circle-o"></i>Thông tin tin nhắn HS</a></li>
               </ul>
             </li>

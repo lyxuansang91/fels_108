@@ -53,7 +53,7 @@
             </div>
 
             <div class="form-group has-feedback">
-                {!! Form::select('student_id', $studentArray, NULL, ['class'=>'form-control', 'placeholder'=>'Nhập mã học sinh']) !!}
+                {!! Form::text('student_code', '', ['class'=>'form-control', 'placeholder'=>'Nhập mã học sinh']) !!}
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
             <div class="row">

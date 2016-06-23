@@ -84,6 +84,14 @@ class TeacherController extends Controller
     public function show($id)
     {
         //
+        $teacher = $this->teacherRepository->findOrFail($id);
+        $semester = \App\Models\Semester::all()->last();
+        if($semester)
+            $semester_teacher = \App\Models\SemesterTeacher::where('teacher_id', $id)
+                ->where('semester_id', $semester->id)->first();
+        else
+            $semester_teacher = NULL;
+        return view('admin.teacher.show')->with(['teacher'=> $teacher, 'semester_teacher' => $semester_teacher]);
     }
 
     /**
@@ -208,6 +216,28 @@ class TeacherController extends Controller
         } else {
             $request->session()->flash('success', 'Import dữ liệu không thành công');
         }
+        return redirect()->back();
+    }
+
+    public function updateCalendar(Request $request) {
+        $semester = \App\Models\Semester::all()->last();
+        $semester_teacher = \App\Models\SemesterTeacher::firstOrNew([
+            'semester_id' => $semester->id,
+            'teacher_id' => $request->teacher_id
+        ]);
+
+        if(isset($request->teacher_calendar)) {
+            $file = $request->teacher_calendar;
+            $name = $file->getClientOriginalName();
+            $file->move(public_path().'/images/'.$semester->id.'/'.$request->teacher_id, $name);
+            $semester_teacher->teacher_calendar = '/images/'.$semester->id.'/'.$request->teacher_id.'/' . $name;
+            if($semester_teacher->save()) {
+                $request->session()->flash('success', 'Thêm lịch dạy thành công');
+            } else {
+                $request->session()->flash('failed', 'Thêm lịch dạy không thành công');
+            }
+        }
+
         return redirect()->back();
     }
 }

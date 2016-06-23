@@ -47,6 +47,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::resource('/students', 'StudentController');
 
+        Route::post('teachers/updateCalendar', ['as' => 'admin.teachers.updateCalendar', 'uses'=> 'TeacherController@updateCalendar']);
         Route::post('teachers/importExcel', ['as' => 'teachers.importExcel', 'uses' => 'TeacherController@importExcel']);
         Route::get('teachers/exportExcel', ['as' => 'teachers.exportExcel', 'uses'=> 'TeacherController@exportExcel']);
 
@@ -76,7 +77,7 @@ Route::group(['prefix' => 'admin', 'namespace'=>'Admin'], function () {
 
         Route::get('/getReport', ['as' => 'admin.report.getReport', 'uses' => 'ReportsController@getReport']);
         Route::get('/getConduct', ['as' => 'admin.report.getConduct', 'uses' => 'ReportsController@getConduct']);
-        
+
         Route::resource('/absences', 'AbsenceController');
 
     });

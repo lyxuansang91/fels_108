@@ -12,7 +12,7 @@ use App\Repositories\UserRepositoryInterface as UserRepository;
 class PasswordController extends Controller
 {
 
-    public function __construct( 
+    public function __construct(
         UserRepository $userRepository
     ) {
         $this->userRepository = $userRepository;

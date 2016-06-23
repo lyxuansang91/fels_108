@@ -70,7 +70,7 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                {!! $messages-> render() !!}
+                                {!! $messages->render() !!}
                             @else
                                 Danh sách trống
                             @endif

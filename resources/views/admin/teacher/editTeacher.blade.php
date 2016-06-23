@@ -57,7 +57,9 @@
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">Ảnh đại diện</label>
                         <div class="col-sm-10">
-                            <span> {!! HTML::image($teacher->image, 'Category image', ['style'=>'width: 100%; max-width: 150px; height: 150px;']) !!} </span>
+                            @if ($teacher->image)
+                                <span> {!! HTML::image($teacher->image, 'Category image', ['style'=>'width: 100%; max-width: 150px; height: 150px;']) !!} </span>
+                            @endif
                             {!! Form::file('image', '', ['class'=>'form-control']) !!}
                         </div>
                     </div>
@@ -65,7 +67,7 @@
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">Trình độ</label>
                         <div class="col-sm-10">
-                            {!! Form::text('experiences', $teacher->image, ['class'=>'form-control', 'placeholder' => 'Nhập trình độ']) !!}
+                            {!! Form::text('experiences', $teacher->experiences, ['class'=>'form-control', 'placeholder' => 'Nhập trình độ']) !!}
                         </div>
                     </div>
                 </div><!-- /.box-body -->

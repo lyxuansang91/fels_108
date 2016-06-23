@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\UserRepositoryInterface as UserRepository;
 use App\Repositories\WordRepositoryInterface as WordRepository;
 use App\Repositories\CategoryRepositoryInterface as CategoryRepository;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -33,6 +34,7 @@ class HomeController extends Controller
         $users = $this->userRepository->all();
         $words = $this->wordRepository->all();
         $categories = $this->categoryRepository->all();
+        
 
         return view('admin.home')->with(['users'=>$users, 'words'=>$words, 'categories'=>$categories]);
     }
